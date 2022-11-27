@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-5">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <p class="text-center font-weight-light my-4">
+            Logowanie do aplikacji
+          </p>
+        </div>
+        <div class="card-body">
+          <form
+            name="form"
+            #frm="ngForm"
+            (ngSubmit)="frm.form.valid && onSubmit()"
+            novalidate
+          >
+            <div class="form-group">
+              <label class="small mb-1" for="inputLogin">Login</label
+              ><input
+                id="inputLogin"
+                class="form-control py-2"
+                autoComplete="username"
+                required
+                minlength="4"
+                placeholder="Wpisz swój login"
+                [(ngModel)]="this.username"
+                name="usrnam"
+                #usrnam="ngModel"
+              />
+            </div>
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="usrnam.errors && frm.touched"
+            >
+              <div *ngIf="usrnam.errors['required']">Pole jest wymagane</div>
+              <div *ngIf="usrnam.errors['minlength']">
+                Login musi mieć ponad 3 znaki
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="small mb-1" for="inputPassword">Hasło</label
+              ><input
+                class="form-control py-2"
+                id="inputPassword"
+                type="password"
+                placeholder="Hasło"
+                type="password"
+                name="passwd"
+                [(ngModel)]="this.password"
+                required
+                minlength="6"
+                #passwd="ngModel"
+              />
+            </div>
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="passwd.errors && frm.touched"
+            >
+              <div *ngIf="passwd.errors['required']">Pole jest wymagane</div>
+              <div *ngIf="passwd.errors['minlength']">
+                Hasło musi mieć ponad 6 znaków
+              </div>
+            </div>
+
+            <div
+              class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"
+            >
+              <button class="btn btn-primary aq-div-right" routerLink="/dashboard" 
+              [disabled]="frm.invalid"
+                >Login</button
+              >
+            </div>
+          </form>
+        </div>
+        <!--        <div class="card-footer text-center">
+          <div class="small">
+            <a>Need an account? Sign up!</a>
+          </div>  
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

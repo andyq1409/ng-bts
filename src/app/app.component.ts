@@ -1,7 +1,24 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { sideNavItems, sideNavSections } from '../../src/data';
-import { UserService } from '../services/user.service'
+import { UserService } from '../services/user.service';
+import {
+  faAngleDown,
+  faAngleRight,
+  faArrowLeft,
+  faBars,
+  faBookOpen,
+  faChartArea,
+  faChartBar,
+  faChartPie,
+  faChevronDown,
+  faChevronUp,
+  faColumns,
+  faSearch,
+  faTable,
+  faTachometerAlt,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +29,15 @@ export class AppComponent {
   title = 'ng-bts';
   sideNavItems = sideNavItems;
   sideNavSections = sideNavSections;
-  _sideNavVisible$ = new BehaviorSubject(true);
+  sideNavVisible = true;
+  sideNavClass = "xx";
   expanded = false;
   isActive!: true;
 
 
   constructor(public userService: UserService) {}
 
-  toggleSideNav(visibility?: boolean) {
-      if (typeof visibility !== 'undefined') {
-          this._sideNavVisible$.next(visibility);
-      } else {
-          this._sideNavVisible$.next(!this._sideNavVisible$.value);
-      }
+  toggleSideNav() {
+      this.sideNavVisible = !this.sideNavVisible;
   }
 }

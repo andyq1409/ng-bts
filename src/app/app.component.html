@@ -1,4 +1,4 @@
-<span class="sb-nav-fixed">
+<span class="sb-nav-fixed" [ngClass]="{'sb-sidenav-toggled': !sideNavVisible}">
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand" routerLink="/dashboard">Start Bootstrap</a>
     <button
@@ -10,21 +10,9 @@
       <fa-icon [icon]="['fas', 'bars']"></fa-icon></button
     ><!-- Navbar Search-->
     <form
-      class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+      class="d-none d-md-inline-block form-inline ms-auto mr-0 mr-md-3 my-2 my-md-0"
     >
       <div class="input-group">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Search for..."
-          aria-label="Search"
-          aria-describedby="basic-addon2"
-        />
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="button">
-            <fa-icon [icon]="['fas', 'search']"></fa-icon>
-          </button>
-        </div>
       </div>
     </form>
     <!-- Navbar-->
@@ -76,13 +64,13 @@
       <nav
         class="sb-sidenav accordion"
         id="sidenavAccordion"
-        class="sidenavStyle"
+        class="sb-sidenav accordion sb-sidenav-dark"
       >
-        <div class="sb-sidenav-menu">
-          <div class="nav">
-            <ng-container *ngFor="let section of sideNavSections">
+        <div class="sb-sidenav-menu" >
+          <div class="nav" *ngIf="false">
+            <ng-container *ngFor="let section of sideNavSections" >
               <div class="sb-sidenav-menu-heading" *ngIf="section.text">
-                {{ section.text }}>
+                {{ section.text }}
               </div>
               <ng-container *ngFor="let item of section.items">
                 <sb-side-nav-item
@@ -103,7 +91,7 @@
     <div id="layoutSidenav_content">
       <main>
         <div class="container-fluid">
-          <ng-content> </ng-content>
+          <app-login></app-login>
         </div>
       </main>
       <footer class="py-4 bg-light mt-auto">
@@ -114,5 +102,6 @@
         </div>
       </footer>
     </div>
-  </div></span
->
+  </div>
+  
+</span>
