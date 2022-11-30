@@ -76,6 +76,14 @@
                 Login
               </button>
             </div>
+
+            <div
+              class="alert alert-wr-danger mt-4"
+              role="alert"
+              *ngIf="loginError != ''"
+            >
+              {{ loginError }}
+            </div>
           </form>
         </div>
         <!--        <div class="card-footer text-center">

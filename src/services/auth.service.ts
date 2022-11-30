@@ -7,8 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { User } from 'src/models';
-import { UserService } from './user.service';
+import { Err, User } from 'src/models';
 import { BehaviorSubject } from 'rxjs';
 
 const AUTH_API = 'http://localhost:8080/api/auth';
@@ -27,6 +26,14 @@ export class AuthService {
     lastName: 'Kowalski',
     email: 'andy@warski.pl',
   };
+
+  err: Err = {
+    error: 'Unathorized',
+    message: 'http://localhost:8080/api/auth/signin',
+    path: 'http://localhost:8080/api/auth/signin',
+    status: 401
+  }
+
   xheaders = new HttpHeaders()
     .set('X-Authorization', 'sdfhgsthzfbfhaszfdbzsafdhazdfadbbg')
     .set('Access-Control-Allow-Origin', '*');
@@ -72,19 +79,19 @@ export class AuthService {
       return new BehaviorSubject<HttpResponse<User>>(this.response);
     }
     else {
-      return new BehaviorSubject<HttpResponse<User>>(this.responseErr);}
+      return new BehaviorSubject<HttpResponse<any>>(this.responseErr);}
   }
 
-  responseErr: HttpResponse<User> = {
-    body: null,
-    headers: this.xheadersErr,
-    status: 400,
-    statusText: '',
-    url: null,
+  responseErr: HttpResponse<Err> = {
+    body: this.err,
+    headers: new HttpHeaders(),
+    status: 401,
+    statusText: 'OK',
+    url: 'http://localhost:8080/api/auth/signin',
     type: HttpEventType.Response,
-    clone: function (): HttpResponse<User> {
-      throw new Error('Function not implemented.');
-    },
     ok: false,
+    clone: function (): HttpResponse<Err> {
+      throw new Error('Function not implemented.');
+    }
   };
 }

@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   username: String = '';
   password: String = '';
+  loginError: string = '';
 
   constructor(
     private authService: AuthService,
@@ -33,17 +34,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log('on Submit call');
-    this.authService.login3(this.username, this.password).subscribe({
+    this.authService.login2(this.username, this.password).subscribe({
       next: (data) => {
         console.log(data);
         if (data.status == 200) {
           console.log('Authorization' + data.headers.get('X-Authorization'));
           this.tokenStorage.saveToken(data.headers.get('X-Authorization') as string);
-          this.tokenStorage.saveUser(this.username);
-          this.tokenStorage.saveUserName(
+          this.tokenStorage.saveUser(data);
+      /*    this.tokenStorage.saveUserName(
             data.body?.firstName + ' ' + data.body?.lastName
-          );
-          //this.roles = data.body.roles;
+          );  */
+      //    this.roles = data.body.roles;
           this.router.navigate(['']);
         }
         if (data.status == 400) {
@@ -53,14 +54,18 @@ export class LoginComponent implements OnInit {
       error: (err) => {
         console.log('error');
         console.log(err);
-        console.log(err.name);
-        console.log(err.message);
         if (
           err.status == 401 &&
           err.error.message.includes('account expired')
         ) {
           console.log('account expired');
           this.router.navigate(['passwdChg']);
+        }
+        if (
+          err.status == 401 &&
+          err.error.message.includes('Nie ma')
+        ) {
+          this.loginError = err.error.message;
         }
       },
     }); 

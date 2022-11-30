@@ -5,3 +5,10 @@ export interface User {
     lastName: string;
     email: string;
 }
+
+export interface Err {
+    error: string;
+    message: string;
+    path: string;
+    status: Number;
+}

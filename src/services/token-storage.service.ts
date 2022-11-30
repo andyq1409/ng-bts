@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { User } from 'src/models';
+import { UserService } from './user.service';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 const USER_NAME = 'auth-username';
+const USER_MAIL = 'auth-mail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenStorageService {
+  user: User | null = null;
+
+  
+  subjectUser = new BehaviorSubject<any>(this.user);
 
   constructor() { }
   signOut(): void {  
@@ -24,9 +32,13 @@ export class TokenStorageService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  public saveUser(user: any): void {
+  public saveUser(data: any): void {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.user = data.body;
+    this.subjectUser.next(this.user);
+  //  window.sessionStorage.setItem(USER_KEY, JSON.stringify(data.body.username));
+  //  window.sessionStorage.removeItem(USER_MAIL);
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(data.body));
   }
 
   public saveUserName(username: any): void {
@@ -48,7 +60,6 @@ export class TokenStorageService {
     if (user) {
       return JSON.parse(user);
     }
-
     return {};
   }
 

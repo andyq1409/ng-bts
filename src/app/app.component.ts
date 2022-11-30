@@ -41,8 +41,11 @@ export class AppComponent {
     public userService: UserService,
     public authService: AuthService,
     public tokenStorage: TokenStorageService,
-    private router: Router
+    private router: Router    
   ) {}
+
+  
+  tokenStorage.subjectUser.subscribe(x => console.log('BehaviorSubject: ', x));
 
   toggleSideNav() {
     this.sideNavVisible = !this.sideNavVisible;
