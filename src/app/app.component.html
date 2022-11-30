@@ -1,6 +1,9 @@
 <span class="sb-nav-fixed" [ngClass]="{'sb-sidenav-toggled': !sideNavVisible}">
-  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark wr-dark">
+    <a  routerLink="">
     <img src="assets/brand/aquarius_full.png" class="aq-brand-img" width="200" height="40" alt="aquarius">
+    </a>
+    <!--<img src="assets/brand/WARTA LOGO RGB KON.png" class="aq-brand-img" width="140" height="53" alt="warta">-->
     <button
       class="btn btn-link btn-sm order-1 order-lg-0"
       id="sidebarToggle"
@@ -49,10 +52,9 @@
             </div>
           </h6>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="/dashboard">Settings</a
-          ><a class="dropdown-item" routerLink="/dashboard">Activity Log</a>
+          <a class="dropdown-item" routerLink="passwdChg">Zmiana hasła</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="/dashboard">Logout</a>
+          <button class="dropdown-item" (click)="logout()">Wyloguj się</button>
         </div>
       </li>
       <!--^^^^^^^^^^^^^^^^^  <sb-top-nav-user></sb-top-nav-user>  ^^^^^^^^^^^^^^^^-->
@@ -64,10 +66,10 @@
       <nav
         class="sb-sidenav accordion"
         id="sidenavAccordion"
-        class="sb-sidenav accordion sb-sidenav-dark"
+        class="sb-sidenav accordion sb-sidenav-dark wr-sidenav-dark"
       >
         <div class="sb-sidenav-menu" >
-          <div class="nav" *ngIf="false">
+          <div class="nav" *ngIf="tokenStorage.isLoggedIn()">
             <ng-container *ngFor="let section of sideNavSections" >
               <div class="sb-sidenav-menu-heading" *ngIf="section.text">
                 {{ section.text }}
@@ -88,10 +90,10 @@
         </div>
       </nav>
     </div>
-    <div id="layoutSidenav_content">
+    <div id="layoutSidenav_content" class="wr-bg-gray">
       <main>
-        <div class="container-fluid">
-          <app-login></app-login>
+        <div class="container-fluid wr-bg-gray">
+          <router-outlet></router-outlet>
         </div>
       </main>
       <footer class="py-4 bg-light mt-auto">

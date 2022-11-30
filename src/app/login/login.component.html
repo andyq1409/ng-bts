@@ -3,7 +3,7 @@
     <div class="col-lg-5">
       <div class="card shadow-lg border-0 rounded-lg mt-5">
         <div class="card-header">
-          <p class="text-center font-weight-light my-4">
+          <p class="text-center font-weight-light my-4 aq-login-title">
             Logowanie do aplikacji
           </p>
         </div>
@@ -29,7 +29,7 @@
               />
             </div>
             <div
-              class="alert alert-danger"
+              class="alert alert-wr-danger"
               role="alert"
               *ngIf="usrnam.errors && frm.touched"
             >
@@ -55,7 +55,7 @@
               />
             </div>
             <div
-              class="alert alert-danger"
+              class="alert alert-wr-danger"
               role="alert"
               *ngIf="passwd.errors && frm.touched"
             >
@@ -70,8 +70,8 @@
             >
               <button
                 class="btn btn-primary aq-div-right"
-                routerLink="/dashboard"
                 [disabled]="frm.invalid"
+                type="submit"
               >
                 Login
               </button>
