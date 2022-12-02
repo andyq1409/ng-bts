@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log('on Submit call');
-    this.authService.login2(this.username, this.password).subscribe({
+    this.authService.login3(this.username, this.password).subscribe({
       next: (data) => {
         console.log(data);
         if (data.status == 200) {

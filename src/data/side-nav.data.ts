@@ -3,11 +3,11 @@ import { SideNavItems, SideNavSection } from '../models';
 export const sideNavSections: SideNavSection[] = [
     {
         text: 'ROBOCZE',
-        items: ['dashboard'],
+        items: ['dashboard', 'pages'],
     },
     {
         text: 'SŁOWNIKI',
-        items: ['layouts', 'pages'],
+        items: ['layouts'],
     },
     {
         text: 'ADMINISTRACJA',
@@ -20,6 +20,7 @@ export const sideNavItems: SideNavItems = {
         icon: 'tachometer-alt',
         text: 'Dashboard',
         link: '/dashboard',
+        roles: ["ROLE_ADMIN"]
     },
     layouts: {
         icon: 'columns',
@@ -28,12 +29,15 @@ export const sideNavItems: SideNavItems = {
             {
                 text: 'Static Navigation',
                 link: '/dashboard/static',
+                roles: ["ROLE_ADMIN"]
             },
             {
                 text: 'Light Sidenav',
                 link: '/dashboard/light',
+                roles: ["ROLE_AWRT"]
             },
         ],
+        roles: ["XXX"]
     },
     pages: {
         icon: 'book-open',
@@ -45,16 +49,20 @@ export const sideNavItems: SideNavItems = {
                     {
                         text: 'Login',
                         link: '/auth/login',
+                        roles: ["ROLE_ADMIN"]
                     },
                     {
                         text: 'Register',
                         link: '/auth/register',
+                        roles: ["ROLE_WRT"]
                     },
                     {
                         text: 'Forgot Password',
                         link: '/auth/forgot-password',
+                        roles: ["ROLE_ADMIN"]
                     },
                 ],
+                roles: ["XXX"]
             },
             {
                 text: 'Error',
@@ -62,27 +70,34 @@ export const sideNavItems: SideNavItems = {
                     {
                         text: '401 Page',
                         link: '/error/401',
+                        roles: ["ROLE_ADMIN"]
                     },
                     {
                         text: '404 Page',
                         link: '/error/404',
+                        roles: ["ROLE_VIEW"]
                     },
                     {
                         text: '500 Page',
                         link: '/error/500',
+                        roles: ["ROLE_ADMIN"]
                     },
                 ],
+                roles: ["XXX"]
             },
         ],
+        roles: ["XXX"]
     },
     charts: {
         icon: 'chart-area',
         text: 'Charts',
         link: '/charts',
+        roles: ["ROLE_ADMIN"]
     },
     tables: {
         icon: 'table',
         text: 'Tables',
         link: '/tables',
+        roles: ["ROLE_WRT"]
     },
 };

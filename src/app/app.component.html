@@ -1,7 +1,16 @@
-<span class="sb-nav-fixed" [ngClass]="{'sb-sidenav-toggled': !sideNavVisible}">
+<span
+  class="sb-nav-fixed"
+  [ngClass]="{ 'sb-sidenav-toggled': !sideNavVisible }"
+>
   <nav class="sb-topnav navbar navbar-expand navbar-dark wr-dark">
-    <a  routerLink="">
-    <img src="assets/brand/aquarius_full.png" class="aq-brand-img" width="200" height="40" alt="aquarius">
+    <a routerLink="">
+      <img
+        src="assets/brand/aquarius_full.png"
+        class="aq-brand-img"
+        width="200"
+        height="40"
+        alt="aquarius"
+      />
     </a>
     <!--<img src="assets/brand/WARTA LOGO RGB KON.png" class="aq-brand-img" width="140" height="53" alt="warta">-->
     <button
@@ -15,50 +24,55 @@
     <form
       class="d-none d-md-inline-block form-inline ms-auto mr-0 mr-md-3 my-2 my-md-0"
     >
-      <div class="input-group">
-      </div>
+      <div class="input-group"></div>
     </form>
     <!-- Navbar-->
-    <ul class="navbar-nav ml-auto ml-md-0">
-      <li
-        class="nav-item dropdown dropdown-user no-caret"
-        *ngIf="userService.user$ | async as user"
-        ngbDropdown
-        placement="bottom-right"
-        display="dynamic"
-      >
-        <a
-          class="nav-link dropdown-toggle"
-          id="userDropdown"
-          ngbDropdownToggle
-          data-cy="userMenu"
-          role="button"
-          aria-haspopup="true"
-          aria-expanded="false"
+    <ng-container *ngIf="this.tokenStorage.isLoggedIn()">
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li
+          class="nav-item dropdown dropdown-user no-caret"
+          ngbDropdown
+          placement="bottom-right"
+          display="dynamic"
         >
-          <fa-icon [icon]="['fas', 'user']"></fa-icon>
-        </a>
-        <div
-          class="dropdown-menu dropdown-menu-right"
-          ngbDropdownMenu
-          aria-labelledby="dropdownUser"
-        >
-          <h6 class="dropdown-header">
-            <div class="dropdown-user-details">
-              <div class="dropdown-user-details-name">
-                {{ user.firstName }} {{ user.lastName }}
+          <a
+            class="nav-link dropdown-toggle"
+            id="userDropdown"
+            ngbDropdownToggle
+            data-cy="userMenu"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <fa-icon [icon]="['fas', 'user']"></fa-icon>
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            ngbDropdownMenu
+            aria-labelledby="dropdownUser"
+          >
+            <h6 class="dropdown-header">
+              <div class="dropdown-user-details">
+                <div class="dropdown-user-details-name">
+                  {{ this.tokenStorage.user.firstName }}
+                  {{ this.tokenStorage.user.lastName }}
+                </div>
+                <div class="dropdown-user-details-email">
+                  {{ this.tokenStorage.user.email }}
+                </div>
               </div>
-              <div class="dropdown-user-details-email">{{ user.email }}</div>
-            </div>
-          </h6>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="passwdChg">Zmiana hasła</a>
-          <div class="dropdown-divider"></div>
-          <button class="dropdown-item" (click)="logout()">Wyloguj się</button>
-        </div>
-      </li>
-      <!--^^^^^^^^^^^^^^^^^  <sb-top-nav-user></sb-top-nav-user>  ^^^^^^^^^^^^^^^^-->
-    </ul>
+            </h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="passwdChg">Zmiana hasła</a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item" (click)="logout()">
+              Wyloguj się
+            </button>
+          </div>
+        </li>
+        <!--^^^^^^^^^^^^^^^^^  <sb-top-nav-user></sb-top-nav-user>  ^^^^^^^^^^^^^^^^-->
+      </ul>
+    </ng-container>
   </nav>
   <!--^^^^^^^^^^^^^^^^^  <sb-top-nav></sb-top-nav>  ^^^^^^^^^^^^^^^^-->
   <div id="layoutSidenav">
@@ -68,9 +82,9 @@
         id="sidenavAccordion"
         class="sb-sidenav accordion sb-sidenav-dark wr-sidenav-dark"
       >
-        <div class="sb-sidenav-menu" >
+        <div class="sb-sidenav-menu">
           <div class="nav" *ngIf="tokenStorage.isLoggedIn()">
-            <ng-container *ngFor="let section of sideNavSections" >
+            <ng-container *ngFor="let section of sideNavSections">
               <div class="sb-sidenav-menu-heading" *ngIf="section.text">
                 {{ section.text }}
               </div>
@@ -82,10 +96,11 @@
             </ng-container>
           </div>
         </div>
-        <div class="sb-sidenav-footer">
+        <div class="sb-sidenav-footer" *ngIf="this.tokenStorage.isLoggedIn()">
           <div class="small">Logged in as:</div>
           <span *ngIf="userService.user$ | async as user"
-            >{{ user.firstName }} {{ user.lastName }}</span
+            >{{ this.tokenStorage.user.firstName }}
+            {{ this.tokenStorage.user.lastName }}</span
           >
         </div>
       </nav>
@@ -105,5 +120,4 @@
       </footer>
     </div>
   </div>
-  
 </span>

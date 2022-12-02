@@ -14,6 +14,7 @@ export class UserService {
             firstName: 'Jan',
             lastName: 'Kowalski',
             email: 'jan.kowalski@poczta.pl',
+            roles: []
         };
     }
 

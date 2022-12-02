@@ -21,6 +21,7 @@ export interface SideNavItem {
     text: string;
     link?: string;
     submenu?: SideNavItem[];
+    roles: string[];
 }
 
 export interface SideNavSection {

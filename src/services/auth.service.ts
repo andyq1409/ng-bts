@@ -22,9 +22,10 @@ export class AuthService {
   user: User = {
     id: '2',
     username: 'andy',
-    firstName: 'Janusz',
-    lastName: 'Kowalski',
-    email: 'andy@warski.pl',
+    firstName: 'Zenon',
+    lastName: 'Płaszczak',
+    email: 'zenonp@sip.pl',
+    roles: ["ROLE_ADMIN","ROLE_VIEW"]
   };
 
   err: Err = {

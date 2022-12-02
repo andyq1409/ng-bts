@@ -1,5 +1,6 @@
 <a
-  class="nav-link" 
+  class="nav-link"  
+  [routerLink]="sideNavItem.link" 
   (click)="expanded = !expanded"
   [ngClass]="{ active: isActive, collapsed: !expanded }"
 >

@@ -12,15 +12,22 @@ const USER_MAIL = 'auth-mail';
   providedIn: 'root'
 })
 export class TokenStorageService {
-  user: User | null = null;
+  userNn: User = {
+    id: '0',
+    username: 'nn',
+    firstName: 'nn',
+    lastName: 'nn',
+    email: 'nn',
+    roles: []
+  };
 
-  
-  subjectUser = new BehaviorSubject<any>(this.user);
-
+  user: User = this.userNn;
+  //========================================================================================
   constructor() { }
   signOut(): void {  
     console.log('window.sessionStorage.clear()');
     window.sessionStorage.clear();
+    this.user = this.userNn;
   }
 
   public saveToken(token: string): void {
@@ -35,7 +42,7 @@ export class TokenStorageService {
   public saveUser(data: any): void {
     window.sessionStorage.removeItem(USER_KEY);
     this.user = data.body;
-    this.subjectUser.next(this.user);
+    console.log(this.user);
   //  window.sessionStorage.setItem(USER_KEY, JSON.stringify(data.body.username));
   //  window.sessionStorage.removeItem(USER_MAIL);
     window.sessionStorage.setItem(USER_KEY, JSON.stringify(data.body));
