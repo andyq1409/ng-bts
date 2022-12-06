@@ -19,4 +19,15 @@ export class SideNavItemComponent implements OnInit {
         public tokenStorage: TokenStorageService) {}
 
     ngOnInit() {}
+
+    isAccess(roles: string[], mreq: string[]): boolean {
+      for (let x of mreq) {
+        for (let y of roles) {
+          if (x == y) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
 }

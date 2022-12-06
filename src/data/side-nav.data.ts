@@ -2,16 +2,24 @@ import { SideNavItems, SideNavSection } from '../models';
 
 export const sideNavSections: SideNavSection[] = [
     {
-        text: 'ROBOCZE',
-        items: ['dashboard', 'pages'],
+        text: 'PRZEGLĄDANIE',
+        items: ['tables'],
+        roles: ["ROLE_WRT"]
     },
     {
-        text: 'SŁOWNIKI',
+        text: 'OPERACJE',
+        items: ['dashboard', 'pages'],
+        roles: ["ROLE_ADMIN","ROLE_VIEW","ROLE_WRT"]
+    },
+    {
+        text: 'RAPOTY',
         items: ['layouts'],
+        roles: ["ROLE_ADMIN","ROLE_WRT"]
     },
     {
         text: 'ADMINISTRACJA',
-        items: ['charts', 'tables'],
+        items: ['editUser'],
+        roles: ["ROLE_ADMIN"]
     },
 ];
 
@@ -34,10 +42,10 @@ export const sideNavItems: SideNavItems = {
             {
                 text: 'Light Sidenav',
                 link: '/dashboard/light',
-                roles: ["ROLE_AWRT"]
+                roles: ["ROLE_WRT"]
             },
         ],
-        roles: ["XXX"]
+        roles: ["ROLE_ADMIN","ROLE_WRT"]
     },
     pages: {
         icon: 'book-open',
@@ -62,7 +70,7 @@ export const sideNavItems: SideNavItems = {
                         roles: ["ROLE_ADMIN"]
                     },
                 ],
-                roles: ["XXX"]
+                roles: ["ROLE_ADMIN","ROLE_WRT"]
             },
             {
                 text: 'Error',
@@ -83,15 +91,15 @@ export const sideNavItems: SideNavItems = {
                         roles: ["ROLE_ADMIN"]
                     },
                 ],
-                roles: ["XXX"]
+                roles: ["ROLE_ADMIN","ROLE_VIEW"]
             },
         ],
-        roles: ["XXX"]
+        roles: ["ROLE_ADMIN","ROLE_VIEW","ROLE_WRT"]
     },
-    charts: {
-        icon: 'chart-area',
-        text: 'Charts',
-        link: '/charts',
+    editUser: {
+        icon: 'user',
+        text: 'Uzytkownik - edycja',
+        link: 'editUser',
         roles: ["ROLE_ADMIN"]
     },
     tables: {

@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PasswdChgComponent } from './passwd-chg/passwd-chg.component';
 import { TokenStorageService } from 'src/services/token-storage.service';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { TokenStorageService } from 'src/services/token-storage.service';
     SideNavItemComponent,
     LoginComponent,
     HomeComponent,
-    PasswdChgComponent,    
+    PasswdChgComponent,
+    UserComponent,    
   ],
   imports: [
     BrowserModule,

@@ -25,25 +25,49 @@ export class AuthService {
     firstName: 'Zenon',
     lastName: 'Płaszczak',
     email: 'zenonp@sip.pl',
-    roles: ["ROLE_ADMIN","ROLE_VIEW"]
+    roles: ['ROLE_VIEW', 'ROLE_WRT', 'ROLE_ADMIN'],
+  };
+  user2: User = {
+    id: '3',
+    username: 'steve',
+    firstName: 'Stefan',
+    lastName: 'Kojonek',
+    email: 'stefank@sip.pl',
+    roles: ['ROLE_WRT'],
   };
 
   err: Err = {
     error: 'Unathorized',
     message: 'http://localhost:8080/api/auth/signin',
     path: 'http://localhost:8080/api/auth/signin',
-    status: 401
-  }
+    status: 401,
+  };
 
   xheaders = new HttpHeaders()
     .set('X-Authorization', 'sdfhgsthzfbfhaszfdbzsafdhazdfadbbg')
     .set('Access-Control-Allow-Origin', '*');
 
-  xheadersErr = new HttpHeaders()
-    .set('Access-Control-Allow-Origin', '*');
+  xheadersErr = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
 
   response: HttpResponse<User> = {
     body: this.user,
+    headers: this.xheaders,
+    status: 200,
+    statusText: '',
+
+
+
+    
+    url: null,
+    type: HttpEventType.Response,
+    clone: function (): HttpResponse<User> {
+      throw new Error('Function not implemented.');
+    },
+    ok: true,
+  };
+
+  response2: HttpResponse<User> = {
+    body: this.user2,
     headers: this.xheaders,
     status: 200,
     statusText: '',
@@ -76,11 +100,15 @@ export class AuthService {
   }
 
   login3(username: String, password: String): Observable<HttpResponse<User>> {
-    if (username == this.user.username && password == "warszawa") {
+    if (username == this.user.username && password == 'warszawa') {
       return new BehaviorSubject<HttpResponse<User>>(this.response);
+    } else {
+      if (username == this.user2.username && password == 'katowice') {
+        return new BehaviorSubject<HttpResponse<User>>(this.response2);
+      } else {
+        return new BehaviorSubject<HttpResponse<any>>(this.responseErr);
+      }
     }
-    else {
-      return new BehaviorSubject<HttpResponse<any>>(this.responseErr);}
   }
 
   responseErr: HttpResponse<Err> = {
@@ -93,6 +121,6 @@ export class AuthService {
     ok: false,
     clone: function (): HttpResponse<Err> {
       throw new Error('Function not implemented.');
-    }
+    },
   };
 }

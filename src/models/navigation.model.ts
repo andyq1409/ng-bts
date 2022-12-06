@@ -27,4 +27,5 @@ export interface SideNavItem {
 export interface SideNavSection {
     text?: string;
     items: string[];
+    roles: string[];
 }

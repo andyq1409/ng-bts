@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PasswdChgComponent } from './passwd-chg/passwd-chg.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'passwdChg',    
     component: PasswdChgComponent,
+  },
+  {
+    path: 'editUser',    
+    component: UserComponent,
   }
 ];
 
