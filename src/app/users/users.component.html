@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <p class="text-center font-weight-light my-4 aq-login-title">
+            Użytkownicy aplikacji
+          </p>
+        </div>
+        <div class="card-body">
+          <form>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Login</th>
+                  <th scope="col">Nazwisko i imię</th>
+                  <th scope="col">Zablokowany</th>
+                  <th scope="col">Ważne od</th>
+                  <th scope="col">do</th>
+                  <th scope="col">Data zmiany hasła</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let cuser of users">
+                  <th scope="row">{{ cuser.id }}</th>
+                  <td><a [routerLink]="['/editUser', cuser.id]">{{ cuser.username }}</a></td>
+                  <td>{{ cuser.nazwisko }} {{ cuser.imie }}</td>
+                  <td><fa-icon [icon]="['fas', 'check']" *ngIf="cuser.locked == 1"></fa-icon></td>
+                  <td>{{ cuser.data_od }}</td>
+                  <td>{{ cuser.data_do }}</td>
+                  <td>{{ cuser.data_hasla }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- TODO linkowanie do strony użytkownika - udemy lekcja 178 -->
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination
+                [collectionSize]="this.total"
+                [(page)]="this.page"
+                [pageSize]="this.pageSize"
+              ></ngb-pagination>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

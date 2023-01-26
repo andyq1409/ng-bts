@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpEventType,
-  HttpHeaders,
-  HttpParams,
-  HttpResponse,
+
 } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { Err, User } from 'src/models';
-import { BehaviorSubject } from 'rxjs';
 
-const AUTH_API = 'http://localhost:8080/api/auth';
-const AUTH_API2 = 'http://localhost:8080/api/auth/signin';
+const AUTH_API = 'http://localhost:8080/api/auth/signin';
 
 const headers = { 'content-type': 'application/json' };
 
@@ -19,78 +13,12 @@ const headers = { 'content-type': 'application/json' };
   providedIn: 'root',
 })
 export class AuthService {
-  user: User = {
-    id: '2',
-    username: 'andy',
-    firstName: 'Zenon',
-    lastName: 'Płaszczak',
-    email: 'zenonp@sip.pl',
-    roles: ['ROLE_VIEW', 'ROLE_WRT', 'ROLE_ADMIN'],
-  };
-  user2: User = {
-    id: '3',
-    username: 'steve',
-    firstName: 'Stefan',
-    lastName: 'Kojonek',
-    email: 'stefank@sip.pl',
-    roles: ['ROLE_WRT'],
-  };
-
-  err: Err = {
-    error: 'Unathorized',
-    message: 'http://localhost:8080/api/auth/signin',
-    path: 'http://localhost:8080/api/auth/signin',
-    status: 401,
-  };
-
-  xheaders = new HttpHeaders()
-    .set('X-Authorization', 'sdfhgsthzfbfhaszfdbzsafdhazdfadbbg')
-    .set('Access-Control-Allow-Origin', '*');
-
-  xheadersErr = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
-
-  response: HttpResponse<User> = {
-    body: this.user,
-    headers: this.xheaders,
-    status: 200,
-    statusText: '',
-
-
-
-    
-    url: null,
-    type: HttpEventType.Response,
-    clone: function (): HttpResponse<User> {
-      throw new Error('Function not implemented.');
-    },
-    ok: true,
-  };
-
-  response2: HttpResponse<User> = {
-    body: this.user2,
-    headers: this.xheaders,
-    status: 200,
-    statusText: '',
-    url: null,
-    type: HttpEventType.Response,
-    clone: function (): HttpResponse<User> {
-      throw new Error('Function not implemented.');
-    },
-    ok: true,
-  };
-
-  principal: any = {
-    username: null,
-    password: null,
-  };
-  isLoggedIn = false;
-  isLoginFailed = false;
 
   constructor(private http: HttpClient) {}
 
-  login2(username: String, password: String): Observable<any> {
+  login(username: String, password: String): Observable<any> {
     return this.http.post(
-      AUTH_API2,
+      AUTH_API,
       {
         username,
         password,
@@ -98,29 +26,4 @@ export class AuthService {
       { headers, observe: 'response' }
     );
   }
-
-  login3(username: String, password: String): Observable<HttpResponse<User>> {
-    if (username == this.user.username && password == 'warszawa') {
-      return new BehaviorSubject<HttpResponse<User>>(this.response);
-    } else {
-      if (username == this.user2.username && password == 'katowice') {
-        return new BehaviorSubject<HttpResponse<User>>(this.response2);
-      } else {
-        return new BehaviorSubject<HttpResponse<any>>(this.responseErr);
-      }
-    }
-  }
-
-  responseErr: HttpResponse<Err> = {
-    body: this.err,
-    headers: new HttpHeaders(),
-    status: 401,
-    statusText: 'OK',
-    url: 'http://localhost:8080/api/auth/signin',
-    type: HttpEventType.Response,
-    ok: false,
-    clone: function (): HttpResponse<Err> {
-      throw new Error('Function not implemented.');
-    },
-  };
 }

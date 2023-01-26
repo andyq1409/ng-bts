@@ -18,7 +18,7 @@ export const sideNavSections: SideNavSection[] = [
     },
     {
         text: 'ADMINISTRACJA',
-        items: ['editUser'],
+        items: ['editUser','tabUser'],
         roles: ["ROLE_ADMIN"]
     },
 ];
@@ -98,8 +98,14 @@ export const sideNavItems: SideNavItems = {
     },
     editUser: {
         icon: 'user',
-        text: 'Uzytkownik - edycja',
-        link: 'editUser',
+        text: 'Nowy uzytkownik',
+        link: 'editUser/0',
+        roles: ["ROLE_ADMIN"]
+    },
+    tabUser: {
+        icon: 'user',
+        text: 'Uzytkownicy',
+        link: 'tabUser',
         roles: ["ROLE_ADMIN"]
     },
     tables: {

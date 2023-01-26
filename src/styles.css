@@ -338,5 +338,23 @@ body {
   --bs-alert-bg: var(--wr-alert);
   --bs-alert-border-color: var(--wr-c4);
 }
+.form-label {
+  color: var(--wr-c4);
+  font-style: italic;
+}
+.d-contents {
+  display: contents !important;
+}
+.d-flex-right {
+  display: flex;
+  justify-content: right;
+}
 
-  
+@media (min-width: 1700px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1600px;
+  }
+}
+.min-vh-main {
+  min-height: calc(100vh - 125px);
+}

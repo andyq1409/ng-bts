@@ -9,12 +9,15 @@ import { IconsModule } from 'src/icons/icons.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/services/auth.service';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { PasswdChgComponent } from './passwd-chg/passwd-chg.component';
 import { TokenStorageService } from 'src/services/token-storage.service';
 import { UserComponent } from './user/user.component';
+import { UsersComponent } from './users/users.component';
+import { NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { authInterceptorProviders } from "./interceptors/auth.interceptors";
 
 @NgModule({
   declarations: [
@@ -23,14 +26,15 @@ import { UserComponent } from './user/user.component';
     LoginComponent,
     HomeComponent,
     PasswdChgComponent,
-    UserComponent,    
+    UserComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
     NgbModule, HttpClientModule, AppRoutingModule,
-    IconsModule,FormsModule, ReactiveFormsModule
+    IconsModule,FormsModule, ReactiveFormsModule,NgbPaginationModule, NgbTypeaheadModule
   ],
-  providers: [ UserService, AuthService,TokenStorageService ],
+  providers: [ UserService, AuthService,TokenStorageService,authInterceptorProviders ],
   bootstrap: [AppComponent],
   exports: [IconsModule]
 })

@@ -5,23 +5,28 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PasswdChgComponent } from './passwd-chg/passwd-chg.component';
 import { UserComponent } from './user/user.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
-    path: '',    
+    path: '',
     component: HomeComponent,
   },
   {
-    path: 'login',    
+    path: 'login',
     component: LoginComponent,
   },
   {
-    path: 'passwdChg',    
+    path: 'passwdChg',
     component: PasswdChgComponent,
   },
   {
-    path: 'editUser',    
+    path: 'editUser/:id',
     component: UserComponent,
+  },
+  {
+    path: 'tabUser',
+    component: UsersComponent,
   }
 ];
 
