@@ -10,7 +10,7 @@ import { UsersComponent } from './users/users.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: UserComponent,
   },
   {
     path: 'login',

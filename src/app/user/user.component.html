@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-10">
-      <form name="form" #frm="ngForm" (ngSubmit)="frm.form.valid && onSubmit()" novalidate>
+      <form name="form" #frm="ngForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="card shadow-lg border-0 rounded-lg mt-5">
           <div class="card-header">
             <p class="text-center font-weight-light aq-login-title">
@@ -10,92 +10,104 @@
           </div>
           <div class="card-body">
             <div class="row mb-3">
-              <div class="col-md-4">
+              <div class="col-md-4">  <!-- ----------------------------------------------------------- -->
                 <label for="inputUsername" class="form-label">Login</label>
                 <input type="text" class="form-control" id="inputUsername" required minlength="6"
-                       [(ngModel)]="this.user.username" name="usrnam" #usrnam="ngModel"/>
-                <div class="alert alert-wr-danger" role="alert" *ngIf="usrnam.errors && frm.touched">
-                  <div *ngIf="usrnam.errors['required']">Pole jest wymagane</div>
-                  <div *ngIf="usrnam.errors['minlength']">Login musi mieć ponad 5 znaków</div>
+                       [(ngModel)]="user.username" name="username" #username="ngModel"                       
+                        (input)="printModel(data_od)"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="username.errors">
+                  <div *ngIf="username.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="username.errors['minlength']">Login musi mieć ponad 5 znaków</div>
                 </div>
-              </div>
+              </div> <!-- ----------------------------------------------------------- -->
               <div class="col-md-4">
                 <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4"
-                       [(ngModel)]="this.user.email" name="usrmail" #usrmail="ngModel"/>
-              </div>
+                <input type="text" class="form-control" id="inputEmail4" email
+                       [(ngModel)]="user.email" name="usrmail" #usrmail="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="usrmail.errors">
+                  Niepoprawny adres mailowy
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
               <div class="col-md-4">
                 <label for="inputPassword4" class="form-label">Password</label>
                 <input
-                  type="password"
-                  class="form-control"
-                  id="inputPassword4"
-                />
-              </div>
+                  type="password" class="form-control" id="inputPassword4" minlength="8"
+                  [(ngModel)]="user.password" name="password" #password="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="password.errors">
+                  <div *ngIf="password.errors['minlength']">Hasło musi mieć ponad 7 znaków</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
             </div>
             <div class="row mb-3">
               <div class="col-6">
                 <label for="inputFirstname" class="form-label">Imię</label>
-                <input type="text" class="form-control" id="inputFirstname"/>
-              </div>
+                <input type="text" class="form-control" id="inputFirstname" required minlength="3"
+                        [(ngModel)]="user.imie" name="imie" #imie="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="imie.errors">
+                  <div *ngIf="imie.errors['minlength']">Imię musi mieć ponad 2 znaki</div>
+                  <div *ngIf="imie.errors['required']">Pole jest wymagane</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
               <div class="col-6">
                 <label for="inputLastname" class="form-label">Nazwisko</label>
-                <input type="text" class="form-control" id="inputLastname"/>
+                <input type="text" class="form-control" id="inputLastname" required minlength="3"
+                        [(ngModel)]="user.nazwisko" name="nazwisko" #nazwisko="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="nazwisko.errors">
+                  <div *ngIf="nazwisko.errors['minlength']">Imię musi mieć ponad 2 znaki</div>
+                  <div *ngIf="nazwisko.errors['required']">Pole jest wymagane</div>
+                </div>
               </div>
-            </div>
+            </div> <!-- ----------------------------------------------------------- -->
             <div class="row">
               <div class="col-3">
                 <label for="inputDateFrom" class="form-label">Data od</label>
                 <div class="input-group">
                   <input
-                    class="form-control"
-                    id="inputDateFrom"
-                    placeholder="yyyy-mm-dd"
-                    name="dataod"
-                    ngbDatepicker
-                    #d="ngbDatepicker"
-                  />
+                    class="form-control" id="inputDateFrom" placeholder="yyyy-mm-dd" required ngbDatepicker
+                    [(ngModel)]="dtpDateOd" name="data_od" #data_od="ngModel" #dp1="ngbDatepicker"                    
+                    />
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    (click)="d.toggle()"
-                  >
+                    (click)="dp1.toggle()">
                     <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
                   </button>
+                </div>                
+                <pre>Model: {{ dtpDateOd | json }}</pre>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="data_od.errors">
+                  <div *ngIf="data_od.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="data_od.errors['ngbDate']">Niepoprawna data</div>
                 </div>
-              </div>
+              </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-3">
                 <label for="inputDateTo" class="form-label">Data do</label>
                 <div class="input-group">
                   <input
-                    class="form-control"
-                    id="inputDateTo"
-                    placeholder="yyyy-mm-dd"
-                    name="dataod"
-                    ngbDatepicker
-                    #e="ngbDatepicker"
-                  />
+                    class="form-control" id="inputDateTo" placeholder="yyyy-mm-dd" name="dataod" ngbDatepicker
+                    [(ngModel)]="user.data_do" name="data_do" #data_do="ngModel" #dp2="ngbDatepicker"                    
+                    (input)="printModel(data_do)" />
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    (click)="e.toggle()"
-                  >
+                    (click)="dp2.toggle()">
                     <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
                   </button>
                 </div>
-              </div>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="data_do.errors">
+                  <div *ngIf="data_do.errors['ngbDate']">Niepoprawna data</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-1">
                 <label class="form-label" for="gridCheck"> Blokada </label>
                 <div class="input-group">
                   <input
-                    class="form-check-input mt-2 offset-3"
-                    type="checkbox"
-                    id="gridCheck"
+                    class="form-check-input mt-2 offset-3" type="checkbox" id="gridCheck"
+                    (change)="changeBlok($event)" [checked]="user.locked == 1"
                   />
                 </div>
-              </div>
+              </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-3">
                 <label for="inputDatePasswd" class="form-label"
@@ -118,18 +130,21 @@
                     <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
                   </button>
                 </div>
-              </div>
+              </div> <!-- ----------------------------------------------------------- -->
             </div>
           </div>
           <div class="card-footer">
             <div class="row">
-              <div class="col-2">
+              <div class="col-2"> <!-- ----------------------------------------------------------- -->
                 <button type="submit" class="btn btn-light">Zaniechaj</button>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-8">
+                
+                <pre>User: {{ user | json }}</pre>
               </div>
-              <div class="col-8"></div>
               <div class="col-2 d-flex-right">
-                <button type="submit" class="btn btn-primary">Zapisz</button>
-              </div>
+                <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">Zapisz</button>
+              </div> <!-- ----------------------------------------------------------- -->
             </div>
           </div>
         </div>
