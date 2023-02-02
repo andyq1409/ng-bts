@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { TokenStorageService } from 'src/services/token-storage.service';
 import { SideNavItem } from '../../models'
 

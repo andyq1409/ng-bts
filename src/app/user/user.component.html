@@ -13,7 +13,7 @@
               <div class="col-md-4">  <!-- ----------------------------------------------------------- -->
                 <label for="inputUsername" class="form-label">Login</label>
                 <input type="text" class="form-control" id="inputUsername" required minlength="6"
-                       [(ngModel)]="user.username" name="username" #username="ngModel"                       
+                       [(ngModel)]="user.username" name="username" #username="ngModel"
                         (input)="printModel(data_od)"/>
                 <div class="alert alert-wr-danger" role="alert" *ngIf="username.errors">
                   <div *ngIf="username.errors['required']">Pole jest wymagane</div>
@@ -64,7 +64,7 @@
                 <div class="input-group">
                   <input
                     class="form-control" id="inputDateFrom" placeholder="yyyy-mm-dd" required ngbDatepicker
-                    [(ngModel)]="dtpDateOd" name="data_od" #data_od="ngModel" #dp1="ngbDatepicker"                    
+                    [(ngModel)]="dtpDateOd" name="data_od" #data_od="ngModel" #dp1="ngbDatepicker"
                     />
                   <button
                     class="btn btn-outline-secondary"
@@ -72,7 +72,7 @@
                     (click)="dp1.toggle()">
                     <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
                   </button>
-                </div>                
+                </div>
                 <pre>Model: {{ dtpDateOd | json }}</pre>
                 <div class="alert alert-wr-danger" role="alert" *ngIf="data_od.errors">
                   <div *ngIf="data_od.errors['required']">Pole jest wymagane</div>
@@ -81,22 +81,8 @@
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-3">
-                <label for="inputDateTo" class="form-label">Data do</label>
-                <div class="input-group">
-                  <input
-                    class="form-control" id="inputDateTo" placeholder="yyyy-mm-dd" name="dataod" ngbDatepicker
-                    [(ngModel)]="user.data_do" name="data_do" #data_do="ngModel" #dp2="ngbDatepicker"                    
-                    (input)="printModel(data_do)" />
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    (click)="dp2.toggle()">
-                    <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
-                  </button>
-                </div>
-                <div class="alert alert-wr-danger" role="alert" *ngIf="data_do.errors">
-                  <div *ngIf="data_do.errors['ngbDate']">Niepoprawna data</div>
-                </div>
+                <label class="form-label">Data do</label>
+                <app-date-time-picker [(ngModel)]="dtpDateDo"  ></app-date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-1">
@@ -115,20 +101,21 @@
                 >
                 <div class="input-group">
                   <input
-                    class="form-control"
-                    id="inputDatePasswd"
-                    placeholder="yyyy-mm-dd"
-                    name="datapasswd"
-                    ngbDatepicker
-                    #p="ngbDatepicker"
+                    class="form-control" id="inputDatePasswd" placeholder="yyyy-mm-dd" name="datapasswd"
+                    ngbDatepicker [(ngModel)]="dtpDatePasswd" #datapasswd="ngModel" #dp3="ngbDatepicker"
+                    required
                   />
                   <button
                     class="btn btn-outline-secondary"
                     type="button"
-                    (click)="p.toggle()"
+                    (click)="dp3.toggle()"
                   >
                     <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
                   </button>
+                  <div class="alert alert-wr-danger" role="alert" *ngIf="datapasswd.errors">
+                    <div *ngIf="datapasswd.errors['ngbDate']">Niepoprawna data</div>
+                    <div *ngIf="datapasswd.errors['required']">Pole jest wymagane</div>
+                  </div>
                 </div>
               </div> <!-- ----------------------------------------------------------- -->
             </div>
@@ -139,7 +126,7 @@
                 <button type="submit" class="btn btn-light">Zaniechaj</button>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-8">
-                
+
                 <pre>User: {{ user | json }}</pre>
               </div>
               <div class="col-2 d-flex-right">

@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn = this.tokenStorage.isLoggedIn();
     if (this.isLoggedIn) {
       console.log('page login redirect to home');
-      this.router.navigate(['/aqua']);
+      this.router.navigate(['']);
     }
     //this.operation = this.route.snapshot.data['oper'];
     console.log(this.route.snapshot);

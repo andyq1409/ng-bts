@@ -27,9 +27,9 @@
                   <td><a [routerLink]="['/editUser', cuser.id]">{{ cuser.username }}</a></td>
                   <td>{{ cuser.nazwisko }} {{ cuser.imie }}</td>
                   <td><fa-icon [icon]="['fas', 'check']" *ngIf="cuser.locked == 1"></fa-icon></td>
-                  <td>{{ cuser.data_od }}</td>
-                  <td>{{ cuser.data_do }}</td>
-                  <td>{{ cuser.data_hasla }}</td>
+                  <td>{{ cuser.data_od | date:'yyyy-MM-dd' }}</td>
+                  <td>{{ cuser.data_do | date:'yyyy-MM-dd HH-mm-ss' }}</td>
+                  <td>{{ cuser.data_hasla | date:'yyyy-MM-dd' }}</td>
                 </tr>
               </tbody>
             </table>

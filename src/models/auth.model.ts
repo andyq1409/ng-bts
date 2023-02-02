@@ -6,9 +6,9 @@ export interface DbUser {
     nazwisko: string;
     email?: string;
     locked: number;
-    data_od: string;
-    data_do?: string | null;
-    data_hasla: string;
+    data_od: Date;
+    data_do?: Date | null;
+    data_hasla: Date;
     roles?: string[];
 }
 

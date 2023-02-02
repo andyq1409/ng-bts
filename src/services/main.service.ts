@@ -14,25 +14,8 @@ export class MainService {
   }
 
   getUsers(param: string): Observable<DbUser[]> {
-
-    /***** multiple params ***************
-    let params = new HttpParams();
-    params.append('param1','text1');
-    params.append('param2','text2');    */
-
     const options =
       param ? {params: new HttpParams().set('filtrStr', param)} : {};
-
     return this.http.get<DbUser[]>(AUTH_API, options);
   }
 }
-
-/*
-.post(
-  AUTH_API2,
-  {
-    username,
-    password,
-  },
-  { headers, observe: 'response' }
-);  */

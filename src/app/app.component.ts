@@ -1,45 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { sideNavItems, sideNavSections } from '../../src/data';
+import {Component, DoCheck, OnInit} from '@angular/core';
+import { sideNavItems, sideNavSections } from '../data';
 import { UserService } from '../services/user.service';
-import {
-  faAngleDown,
-  faAngleRight,
-  faArrowLeft,
-  faBars,
-  faBookOpen,
-  faChartArea,
-  faChartBar,
-  faChartPie,
-  faChevronDown,
-  faChevronUp,
-  faColumns,
-  faSearch,
-  faTable,
-  faTachometerAlt,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/services/auth.service';
 import { TokenStorageService } from 'src/services/token-storage.service';
 import { Router } from '@angular/router';
-import { SideNavItem, SideNavItems, SideNavSection } from 'src/models';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, DoCheck  {
   title = 'ng-bts';
   sideNavItems = sideNavItems;
   sideNavSections = sideNavSections;
   sideNavVisible = true;
-  sideNavClass = 'xx';
+//  sideNavClass = 'xx';
   expanded = false;
-  isActive!: true;
-
-  sideNavSectionsRob: SideNavSection[] = [];
-  sideNavItemsRob: SideNavItems = {};
+//  isActive!: true;
+//  sideNavSectionsRob: SideNavSection[] = [];
+//  sideNavItemsRob: SideNavItems = {};
   //====================================================================================
   constructor(
     public userService: UserService,
@@ -49,12 +30,17 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log("app.component ready");
+  }
+
+  ngDoCheck() {
+    //console.log("app.component ngDoCheck run");
   }
 
   toggleSideNav() {
     this.sideNavVisible = !this.sideNavVisible;
     console.log(this.tokenStorage.user.roles);
-    var xx = this.isAccess(this.tokenStorage.user.roles, [
+    this.isAccess(this.tokenStorage.user.roles, [
       'ROLE_VIEW',
       'ROLE_WRT',
     ]);

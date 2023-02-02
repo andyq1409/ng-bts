@@ -18,6 +18,7 @@ import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users/users.component';
 import { NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { authInterceptorProviders } from "./interceptors/auth.interceptors";
+import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { authInterceptorProviders } from "./interceptors/auth.interceptors";
     PasswdChgComponent,
     UserComponent,
     UsersComponent,
+    DateTimePickerComponent,
   ],
   imports: [
     BrowserModule,

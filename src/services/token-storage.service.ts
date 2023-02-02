@@ -24,7 +24,8 @@ export class TokenStorageService {
   user: User = this.userNn;
   //========================================================================================
   constructor() { }
-  signOut(): void {  
+
+  signOut(): void {
     console.log('window.sessionStorage.clear()');
     window.sessionStorage.clear();
     this.user = this.userNn;
@@ -71,10 +72,13 @@ export class TokenStorageService {
   }
 
   public isLoggedIn(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) {
+    const vuser = window.sessionStorage.getItem(USER_KEY);
+    // console.log("vuser:",vuser);
+    if (this.user.username != "nn" ) {
+      //console.log(user +vuser.username <> " zalogowany");
       return true;
     }
+    //console.log("User nie zalogowany");
     return false;
   }
 }
