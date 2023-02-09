@@ -80,9 +80,10 @@
                 </div>
               </div> <!-- ----------------------------------------------------------- -->
 
-              <div class="col-3">
+              <div class="col-4">
                 <label class="form-label">Data do</label>
-                <app-date-time-picker [(ngModel)]="dtpDateDo"  ></app-date-time-picker>
+                <date-time-picker [dateString]="dtpDateDo" (outDate)="getDatetime($event)"
+                                  [enableTime]="true"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-1">
@@ -126,7 +127,6 @@
                 <button type="submit" class="btn btn-light">Zaniechaj</button>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-8">
-
                 <pre>User: {{ user | json }}</pre>
               </div>
               <div class="col-2 d-flex-right">

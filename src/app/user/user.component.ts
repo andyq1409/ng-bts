@@ -5,7 +5,6 @@ import {ActivatedRoute} from "@angular/router";
 import {DbUser} from "../../models";
 import {NgModel} from '@angular/forms';
 import {MainService} from "../../services/main.service";
-import {DateTimeModel} from "../date-time.model";
 
 @Component({
   selector: 'app-user',
@@ -14,9 +13,9 @@ import {DateTimeModel} from "../date-time.model";
   providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
 })
 export class UserComponent implements OnInit, DoCheck {
-  dtpDateOd!: NgbDateStruct | undefined;
-  dtpDateDo!: Date | undefined;
-  dtpDatePasswd!: NgbDateStruct | undefined;
+  dtpDateOd!: NgbDateStruct;
+  dtpDateDo!: string;
+  dtpDatePasswd!: NgbDateStruct;
   user: Partial<DbUser> = {
     "id": 0, "username": "nieznany", "locked": 1, "data_od": new Date(),
     "data_hasla": new Date()
@@ -50,7 +49,6 @@ export class UserComponent implements OnInit, DoCheck {
       next: (data) => {
         console.log("id user (str):", data.get('id'));
         if (data.get('id') == '0') {
-
           let date = new Date();
           this.dtpDateOd = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
         } else {
@@ -62,13 +60,12 @@ export class UserComponent implements OnInit, DoCheck {
               data.forEach(element => {
                 (element.id == idx ) ? this.user1 = element : null ;
               });
-              //this.user1 = data.find(item => item.id = idx);
               console.log("user1",this.user1);
               this.dtpDateOd = UserComponent.settingDtps(this.user1.data_od);
               console.log(this.dtpDateOd);
               if (this.user1.data_do !== null) {
                 // @ts-ignore
-                this.dtpDateDo = new Date(this.user1.data_do);
+                this.dtpDateDo = new Date(this.user1.data_do).toString();
                 console.log(this.dtpDateDo);
               }
               console.log(this.dtpDateDo);
@@ -76,7 +73,7 @@ export class UserComponent implements OnInit, DoCheck {
               console.log(this.dtpDatePasswd);
               this.user = this.user1;
               this.user.password = "";
-              console.log("user",this.user);
+              console.log("user",this.user); //<<<======== obiekt user =================================
             },
           });
         }
@@ -105,7 +102,9 @@ export class UserComponent implements OnInit, DoCheck {
     //return ;
   }
 
-
+  getDatetime($event: string) {
+    this.user.data_do = new Date($event);
+;  }
 
   onSubmit() {
     return false;
