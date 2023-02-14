@@ -2,7 +2,7 @@ import {Component, DoCheck, OnInit} from '@angular/core';
 import {NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {CustomDatepickerI18n, I18n} from 'src/language/pl';
 import {ActivatedRoute} from "@angular/router";
-import {DbUser} from "../../models";
+import {NetUser} from "../../models";
 import {NgModel} from '@angular/forms';
 import {MainService} from "../../services/main.service";
 
@@ -10,112 +10,164 @@ import {MainService} from "../../services/main.service";
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
-  providers: [I18n, {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}]
-})
+  providers: [
+    I18n,
+    { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
+  ],
+}) //===================================================================================================================
+//=======================================================================================================================
 export class UserComponent implements OnInit, DoCheck {
   dtpDateOd!: NgbDateStruct;
-  dtpDateDo!: string;
+  usrDateDo!: string;
   dtpDatePasswd!: NgbDateStruct;
-  user: Partial<DbUser> = {
-    "id": 0, "username": "nieznany", "locked": 1, "data_od": new Date(),
-    "data_hasla": new Date()
+  user: NetUser = {
+    id: 0,
+    username: '???',
+    password: '???',
+    nazwisko: '???',
+    imie: '???',
+    email: '???',
+    locked: 0,
+    data_od: new Date().toISOString().replace('T', ' ').substring(0, 10),
+    data_do: null,
+    data_hasla: new Date().toISOString().replace('T', ' ').substring(0, 10),
+    roles: [],
   };
-  user1: DbUser = {
-    "id": 0, "username": "???", "password": "???", "nazwisko": "???", "imie": "???",
-    "email": "???", "locked": 0, "data_od": new Date(), "data_do": null,
-    "data_hasla": new Date(), "roles": []
+  user1: NetUser = {
+    id: 0,
+    username: '???',
+    password: '???',
+    nazwisko: '???',
+    imie: '???',
+    email: '???',
+    locked: 0,
+    data_od: new Date().toISOString().replace('T', ' ').substring(0, 10),
+    data_do: null,
+    data_hasla: new Date().toISOString().replace('T', ' ').substring(0, 10),
+    roles: [],
   };
-  emptyUser2: DbUser = {
-    "id": 0, "username": "jankow", "password": "???", "nazwisko": "Kowalski", "imie": "???",
-    "email": "???", "locked": 0, "data_od": new Date(), "data_do": null,
-    "data_hasla": new Date(), "roles": []
-  };
-  idx: number = 0;
+  usrOK: boolean = true;
+  errMsg: string = "";
 
-
-  constructor(private _i18n: I18n, private route: ActivatedRoute, public service: MainService) {
-    this._i18n.language = "pl";
+  constructor(
+    private _i18n: I18n,
+    private route: ActivatedRoute,
+    public service: MainService
+  ) {
+    this._i18n.language = 'pl';
   }
 
   ngDoCheck(): void {
-    console.log("user.component.doCheck", this.dtpDateDo);
-    //this.user.data_od = new Date(this.dtpDateOd.year, this.dtpDateOd.month - 1, this.dtpDateOd.day);
-    //this.user.data_hasla = new Date(this.dtpDatePasswd.year, this.dtpDatePasswd.month - 1, this.dtpDatePasswd.day);
-    //this.user.data_do = this.dtpDateDo;
+    // console.log("user.component.doCheck dtpDatePasswd:", this.dtpDatePasswd);
+    this.user.data_hasla =
+      this.dtpDatePasswd.year.toString().padStart(4, '0') +
+      '-' +
+      this.dtpDatePasswd.month.toString().padStart(2, '0') +
+      '-' +
+      this.dtpDatePasswd.day.toString().padStart(2, '0') +
+      ' 00:00:00';
+    console.log("user.component.doCheck user:", this.user);
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe({
       next: (data) => {
-        console.log("id user (str):", data.get('id'));
+        // console.log("UserComponent id user (str):", data.get('id'));
         if (data.get('id') == '0') {
           let date = new Date();
-          this.dtpDateOd = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()};
+          this.user = this.user1;
+          this.dtpDateOd = {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate(),
+          };
         } else {
           let idx = Number(data.get('id'));
-          console.log("id user (int):", idx);
-          this.service.getUsers("all").subscribe({
+          // console.log("UserComponent id user (int):", idx);
+          this.service.getUsers('all').subscribe({
             next: (data) => {
-              console.log(data);
-              data.forEach(element => {
-                (element.id == idx ) ? this.user1 = element : null ;
+              // console.log("UserComponent ngOnInit data:",data);
+              data.forEach((element) => {
+                element.id == idx ? (this.user = element) : null;
               });
-              console.log("user1",this.user1);
-              this.dtpDateOd = UserComponent.settingDtps(this.user1.data_od);
-              console.log(this.dtpDateOd);
-              if (this.user1.data_do !== null) {
-                // @ts-ignore
-                this.dtpDateDo = new Date(this.user1.data_do).toString();
-                console.log(this.dtpDateDo);
+              this.dtpDateOd = UserComponent.settingDtps(this.user.data_od);
+              // console.log("UserComponent ngOnInit dtpDateOd:",this.dtpDateOd);
+              if (this.user.data_do !== null) {
+                this.usrDateDo = this.user.data_do!;
               }
-              console.log(this.dtpDateDo);
-              this.dtpDatePasswd = UserComponent.settingDtps(this.user1.data_hasla);
-              console.log(this.dtpDatePasswd);
-              this.user = this.user1;
-              this.user.password = "";
-              console.log("user",this.user); //<<<======== obiekt user =================================
+              // console.log("UserComponent ngOnInit usrDateDo:",this.usrDateDo);
+              this.dtpDatePasswd = UserComponent.settingDtps(
+                this.user.data_hasla
+              );
+              // console.log("UserComponent ngOnInit dtpDatePasswd:",this.dtpDatePasswd);
+              //this.user = this.user1;
+              this.user.password = '';
+              // console.log("UserComponent ngOnInit user:",this.user); //<<<======== obiekt user =================================
             },
           });
         }
-      }
-
-
-    })
+      },
+    });
   }
 
-  private static settingDtps(dt: Date): NgbDateStruct {
-    let retVal: NgbDateStruct = {year: 1900, month: 1, day: 1};
+  private static settingDtps(dt: string): NgbDateStruct {
+    let retVal: NgbDateStruct = { year: 1700, month: 1, day: 1 };
     //if (dt !== null) {
-      console.log("--------------",dt);
-      let dt1: Date = new Date(dt);
-      console.log(dt1);
-      console.log(dt1.getFullYear());
-      // @ts-ignore
-      retVal.year = dt1.getFullYear();
-      // @ts-ignore
-      retVal.month = dt1.getMonth()+1;
-      // @ts-ignore
-      retVal.day = dt1.getDate();
-      // @ts-ignore
-      return retVal;
+    // console.log("--------------",dt);
+    let dt1: Date = new Date(dt);
+    // console.log(dt1);
+    // console.log(dt1.getFullYear());
+    // @ts-ignore
+    retVal.year = dt1.getFullYear();
+    // @ts-ignore
+    retVal.month = dt1.getMonth() + 1;
+    // @ts-ignore
+    retVal.day = dt1.getDate();
+    // @ts-ignore
+    return retVal;
     //}
     //return ;
   }
 
-  getDatetime($event: string) {
-    this.user.data_do = new Date($event);
-;  }
+  getDateDo($event: string) {
+    // console.log("usrcomp getDateDo $event", $event);
+    ( $event === "") ? this.user.data_do = null : this.user.data_do = $event;
+    // console.log("usrcomp getDateDo user.data_do", this.user.data_do);
+    // console.log("usrcomp getDateDo user", this.user);
+    this.validateUser();
+  }
+
+  getDateOd($event: string) {    
+    // console.log("usrcomp getDateOd $event", $event);
+    this.user.data_od = $event;
+    // console.log("usrcomp getDateOd user", this.user);
+    this.validateUser();
+  }
 
   onSubmit() {
     return false;
   }
 
   changeBlok(event: any) {
-    (event.target.checked) ? this.user.locked = 1 : this.user.locked = 0;
+    event.target.checked ? (this.user.locked = 1) : (this.user.locked = 0);
   }
+  
+  validateUser() {
+    // console.log("usrcomp validateUser usrOK", this.usrOK);
+    setTimeout(  () =>    {
+      this.usrOK = true;
+      this.errMsg = "";
+      if (this.user.data_do !== null) {
+        if (this.user.data_od > this.user.data_do) {
+          this.usrOK = false;
+          this.errMsg = "Data od nie może być późniejsza niż data do. ";
+        }
+      }
+      // console.log("usrcomp validateUser errMsg", this.errMsg);
+      // console.log("usrcomp validateUser usrOK", this.usrOK);
+      }, 100
+    )
 
-  printModel(title: NgModel) {
-    console.log(title);
   }
 }
 

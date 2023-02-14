@@ -8,13 +8,13 @@ import {
 } from "@angular/core";
 import {
   NgbTimeStruct,
-  NgbDateStruct,
+  NgbDateStruct, NgbCalendar,
   NgbPopoverConfig,
   NgbPopover,
   NgbDatepicker
 } from "@ng-bootstrap/ng-bootstrap";
 import { DatePipe } from "@angular/common";
-import { DateTimeModel } from "./date-time.model"
+import { DateTimeModel } from "./date-time.model";
 import { noop } from "rxjs";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor} from "@angular/forms";
 
@@ -40,7 +40,7 @@ export class DateTimePickerComponent
   outDate: EventEmitter<string> = new EventEmitter();
 
   @Input()
-  dateString!: string;
+  dateString!: string | null;
 
   @Input()
   inputDatetimeFormat: string = "yyyy-MM-dd HH:mm:ss";
@@ -52,44 +52,55 @@ export class DateTimePickerComponent
   secondStep = 30;
   @Input()
   seconds = true;
-
+  @Input()
+  required = true;
 
   @Input()
   enableTime = false;
 
   public showTimePickerToggle = false;
+  public autClose: string = "outside";
 
   public datetime: DateTimeModel = new DateTimeModel();
   private firstTimeAssign = true;
   public dtStr: string = "";
   public lenInput: number = 19;
+  public dtpDate: NgbDateStruct = {year: 1700, month: 1, day: 1};
 
-  // @ViewChild(NgbDatepicker, { static: true })
-  // private dp: NgbDatepicker;
+  @ViewChild("dp")
+  private dp!: NgbDatepicker;
 
   @ViewChild(NgbPopover, { static: true })
   private popover!: NgbPopover;
+
 
   private onTouched: () => void = noop;
   private onChange: (_: any) => void = noop;
 
   //public ngControl!: NgControl;
 
-  constructor(private config: NgbPopoverConfig, private inj: Injector) {
-    config.autoClose = "outside";
-    config.placement = "top-right bottom-right";
+  constructor(private config: NgbPopoverConfig, 
+    private inj: Injector, private calendar: NgbCalendar) {
+    config.placement = "bottom-right top-right";
   }
 
   ngOnInit(): void {
-    // console.log("ngOnInit dateString", this.dateString);
-    this.dtStr = this.dateString.substring(0,19).replace("T"," ").trim();
+    // console.log("dtp ngOnInit dateString", this.dateString);
+    if ( this.required && this.dateString === null) {
+      this.dateString = new Date().toISOString().substring(0,19).replace("T"," ");
+    }
+    this.dtStr = this.dateString!.substring(0,19).replace("T"," ").trim();
+    // console.log("dtp ngOnInit dtStr", this.dtStr);
     if (!this.enableTime) {
-      this.dtStr = this.dateString.substring(0, 10).replace("T", " ").trim();
+      this.dtStr = this.dateString!.substring(0, 10).replace("T", " ").trim();
       this.lenInput = 10;
+      this.autClose = "inside";
     }
     this.datetime = Object.assign(
       this.datetime,
-      DateTimeModel.fromLocalString(this.dateString));
+      DateTimeModel.fromLocalString(this.dateString!)); 
+    
+    // console.log("dtp ngOnInit datetime", this.datetime);
   }
 
   ngAfterViewInit(): void {
@@ -100,7 +111,25 @@ export class DateTimePickerComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log("ngOnChanges SimpleChanges:", changes);
+    // console.log("dtp ngOnChanges SimpleChanges:", changes);
+    // console.log("dtp ngOnChanges dateString:", this.dateString);
+    //this.dateString = changes["dateString"].currentValue;
+    this.dtStr = this.dateString!.substring(0,19).replace("T"," ").trim();
+    if (!this.enableTime) {
+      this.dtStr = this.dateString!.substring(0, 10).replace("T", " ").trim();
+      this.lenInput = 10;
+    }
+    // console.log("dtp ngOnChanges dtStr:", this.dtStr);
+    this.datetime = Object.assign(
+      this.datetime,
+      DateTimeModel.fromLocalString(this.dateString!));
+    // console.log("dtp ngOnChanges datetime:", this.datetime);
+    //// console.log("dtp ngOnChanges dp:", this.dp);
+    //this.dp.startDate = this.datetime;
+    this.dtpDate.day = this.datetime.day;
+    this.dtpDate.month = this.datetime.month;
+    this.dtpDate.year = this.datetime.year;
+    // console.log("dtp ngOnChanges dtpDate:", this.dtpDate);
   }
 
   ngDoCheck() {
@@ -142,6 +171,17 @@ export class DateTimePickerComponent
     //this.disabled = isDisabled;
   }
 
+  setToday() {
+    let dz = new Date();
+    this.dtpDate = { year: dz.getFullYear(), month: dz.getMonth()+1, day: dz.getDate()};
+    // console.log("dtp setToday dtpDate", this.dtpDate);
+    this.datetime = new DateTimeModel(this.dtpDate);
+    this.setDateStringModel();
+    // console.log("dtp setToday dateString", this.dateString);
+    // console.log("dtp setToday dtStr", this.dtStr);
+    // console.log("dtp setToday datetime", this.datetime);
+  }
+
   onInputChange($event: any) {
     let value = $event.target.value;
     // console.log("onInputChange $event",  $event);
@@ -155,6 +195,20 @@ export class DateTimePickerComponent
         this.datetime.minute = 0;
         this.datetime.second = 0;
       }
+    if (this.required && this.datetime.year === 1700 && 
+      this.datetime.month === 1 && this.datetime.day ===1) {
+        let date = new Date();
+        this.datetime = new DateTimeModel({
+          year: date.getFullYear(),
+          month: date.getMonth()+1,
+          day: date.getDate(),
+          hour: date.getHours(),
+          minute: date.getMinutes(),
+          second: date.getSeconds(),
+          timeZoneOffset: date.getTimezoneOffset()});
+      }
+ 
+
       // console.log("onInputChange 1",  dt);
       this.setDateStringModel();
     } else if (value.trim() === "") {
@@ -166,9 +220,13 @@ export class DateTimePickerComponent
       // console.log("onInputChange 3",  value);
       this.onChange(value);
     }
+    this.dtpDate.day = this.datetime.day;
+    this.dtpDate.month = this.datetime.month;
+    this.dtpDate.year = this.datetime.year;
+    // console.log("dtp onInputChange dtpDate:", this.dtpDate);
   }
 
-  onDateChange($event: string | NgbDateStruct, dp: NgbDatepicker) {
+  onDateChange($event: any) {
     const date = new DateTimeModel($event);
     // console.log("onDateChange dateString: ", this.dateString );
     // console.log("onDateChange date: ", date);
@@ -190,6 +248,7 @@ export class DateTimePickerComponent
     if (this.datetime.timeZoneOffset !== adjustedDate.getTimezoneOffset()) {
       this.datetime.timeZoneOffset = adjustedDate.getTimezoneOffset();
     }
+    // console.log("dtp onDateChange datetime:", this.datetime);
 
     this.setDateStringModel();
   }
@@ -205,15 +264,21 @@ export class DateTimePickerComponent
 
   setDateStringModel() {
     this.dateString = this.datetime.toString();
-    this.dtStr = this.dateString!.substring(0,19).replace("T"," ").trim();
+
+    let dtStrx = this.dateString!.substring(0,19).replace("T"," ").trim();
     if (!this.enableTime) {
-      this.dtStr = this.dateString.substring(0, 10).replace("T", " ").trim();
+      dtStrx = this.dateString.substring(0, 10).replace("T", " ").trim();
     }
-    if (this.datetime.year == 1800) {
+
+    if ( this.datetime.year === 1700 && this.datetime.month === 1 && this.datetime.day ===1 ) {
       this.dateString = "";
-      this.dtStr = "";
+      dtStrx = "";
     }
-    this.outDate.emit(this.dateString);
+    // console.log("dtp setDateStringModel dtStr:", dtStrx);
+    //setTimeout(() => {
+      this.dtStr = dtStrx;
+      this.outDate.emit(this.dateString!.substring(0,19).replace("T"," ").trim());
+    //}, 40);
   }
 
   inputBlur($event: any) {

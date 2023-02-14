@@ -11,10 +11,9 @@
           <div class="card-body">
             <div class="row mb-3">
               <div class="col-md-4">  <!-- ----------------------------------------------------------- -->
-                <label for="inputUsername" class="form-label">Login</label>
+                <label for="inputUsername" class="form-label">Login *</label>
                 <input type="text" class="form-control" id="inputUsername" required minlength="6"
-                       [(ngModel)]="user.username" name="username" #username="ngModel"
-                        (input)="printModel(data_od)"/>
+                       [(ngModel)]="user.username" name="username" #username="ngModel"/>
                 <div class="alert alert-wr-danger" role="alert" *ngIf="username.errors">
                   <div *ngIf="username.errors['required']">Pole jest wymagane</div>
                   <div *ngIf="username.errors['minlength']">Login musi mieć ponad 5 znaków</div>
@@ -40,7 +39,7 @@
             </div>
             <div class="row mb-3">
               <div class="col-6">
-                <label for="inputFirstname" class="form-label">Imię</label>
+                <label for="inputFirstname" class="form-label">Imię *</label>
                 <input type="text" class="form-control" id="inputFirstname" required minlength="3"
                         [(ngModel)]="user.imie" name="imie" #imie="ngModel"/>
                 <div class="alert alert-wr-danger" role="alert" *ngIf="imie.errors">
@@ -49,7 +48,7 @@
                 </div>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-6">
-                <label for="inputLastname" class="form-label">Nazwisko</label>
+                <label for="inputLastname" class="form-label">Nazwisko *</label>
                 <input type="text" class="form-control" id="inputLastname" required minlength="3"
                         [(ngModel)]="user.nazwisko" name="nazwisko" #nazwisko="ngModel"/>
                 <div class="alert alert-wr-danger" role="alert" *ngIf="nazwisko.errors">
@@ -60,30 +59,19 @@
             </div> <!-- ----------------------------------------------------------- -->
             <div class="row">
               <div class="col-3">
-                <label for="inputDateFrom" class="form-label">Data od</label>
-                <div class="input-group">
-                  <input
-                    class="form-control" id="inputDateFrom" placeholder="yyyy-mm-dd" required ngbDatepicker
-                    [(ngModel)]="dtpDateOd" name="data_od" #data_od="ngModel" #dp1="ngbDatepicker"
-                    />
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    (click)="dp1.toggle()">
-                    <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
-                  </button>
-                </div>
-                <pre>Model: {{ dtpDateOd | json }}</pre>
-                <div class="alert alert-wr-danger" role="alert" *ngIf="data_od.errors">
+                <label for="inputDateFrom" class="form-label">Data od *</label>
+                <date-time-picker [dateString]="user.data_od" (outDate)="getDateOd($event)"
+                                  [enableTime]="false"></date-time-picker>
+           <!--      <div class="alert alert-wr-danger" role="alert" *ngIf="data_od.errors">
                   <div *ngIf="data_od.errors['required']">Pole jest wymagane</div>
                   <div *ngIf="data_od.errors['ngbDate']">Niepoprawna data</div>
-                </div>
+                </div> -->
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-4">
                 <label class="form-label">Data do</label>
-                <date-time-picker [dateString]="dtpDateDo" (outDate)="getDatetime($event)"
-                                  [enableTime]="true"></date-time-picker>
+                <date-time-picker [dateString]="user.data_do" (outDate)="getDateDo($event)"
+                                  [enableTime]="true" [required]="false"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-1">
@@ -98,7 +86,7 @@
 
               <div class="col-3">
                 <label for="inputDatePasswd" class="form-label"
-                >Ważność hasła do</label
+                >Ważność hasła do *</label
                 >
                 <div class="input-group">
                   <input
@@ -122,12 +110,14 @@
             </div>
           </div>
           <div class="card-footer">
+            <div class="row" class="alert alert-wr-danger mb-3" role="alert" *ngIf="errMsg !== ''">
+              <p>{{errMsg}}</p>
+            </div>
             <div class="row">
               <div class="col-2"> <!-- ----------------------------------------------------------- -->
                 <button type="submit" class="btn btn-light">Zaniechaj</button>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-8">
-                <pre>User: {{ user | json }}</pre>
               </div>
               <div class="col-2 d-flex-right">
                 <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">Zapisz</button>

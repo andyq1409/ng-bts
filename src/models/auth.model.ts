@@ -1,31 +1,30 @@
-export interface DbUser {
+/* export interface DbUser {
     id: number;
     username: string;
-    password?: string;
+    password: string;
     imie: string;
     nazwisko: string;
-    email?: string;
+    email: string | null;
     locked: number;
     data_od: Date;
-    data_do?: Date | null;
+    data_do: Date | null;
     data_hasla: Date;
-    roles?: string[];
+    roles: string[];
+} */
+
+export interface NetUser {
+    id: number;
+    username: string;
+    password: string;
+    imie: string;
+    nazwisko: string;
+    email: string | null;
+    locked: number;
+    data_od: string;
+    data_do: string | null;
+    data_hasla: string;
+    roles: string[];
 }
-
-
-/*  private Long id;
-    private String username;
-    private String password;
-    private String nazwisko;
-    private String imie;
-    private String email;
-    private Date data_od;
-    private Date data_do;
-    private Date data_hasla;
-    private Set<String> roles = new HashSet<>();
-*/
-
-
 
 export interface User {
     id: string;

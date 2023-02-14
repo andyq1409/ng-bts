@@ -17,12 +17,12 @@ export class DateTimeModel {
     const isValidDate = !isNaN(date.valueOf());
 
     if (!dateString || !isValidDate) {
-      date = new Date(0);
+      date = new Date(1700,0,1,0,0,0);
     }
 
     return new DateTimeModel({
       year: date.getFullYear(),
-      month: date.getMonth() + 1,
+      month: date.getMonth()+1,
       day: date.getDate(),
       hour: date.getHours(),
       minute: date.getMinutes(),

@@ -49,7 +49,7 @@ const I18N_VALUES: LocaleSet = {
     weekdays: ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'Sb', 'Nd'],
     months: [
       'Sty',
-      'Luy',
+      'Lut',
       'Mar',
       'Kwi',
       'Maj',

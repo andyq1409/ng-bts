@@ -6,6 +6,7 @@
     maxLength={{lenInput}}
     type="text"
     placeholder="{{inputDatetimeFormat}}"
+    #ip
   />
 
   <div class="input-group-append">
@@ -13,6 +14,7 @@
       class="btn btn-outline-secondary"
       [ngbPopover]="calendarContent"
       type="button"
+			[autoClose]="autClose"
     >
       <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
     </button>
@@ -22,20 +24,29 @@
 <ng-template #calendarContent>
   <div *ngIf="!showTimePickerToggle">
     <ngb-datepicker
-      id="dp"
+      style="display: block;"
       #dp
       name="datepicker"
-      [ngModel]="datetime"
-      (ngModelChange)="onDateChange($event, dp)"
+      [(ngModel)]="dtpDate"
+      [startDate]="dtpDate"
+      (dateSelect)="onDateChange($event)"
+      #d="ngbDatepicker"
     ></ngb-datepicker>
     <button *ngIf="enableTime"
-            style="width: 97%"
+            style="width: 50%"
             class="btn btn-block btn-outline-secondary"
             [ngbPopover]="calendarContent"
             type="button"
             (click)="toggleDateTimeState($event)"
     >
       <fa-icon [icon]="['fas', 'clock']"></fa-icon>
+    </button>
+    <button style="width: 50%"
+            class="btn btn-block btn-outline-secondary"
+            type="button"
+            (click)="setToday()"
+    >
+      Dzisiaj
     </button>
   </div>
   <div *ngIf="showTimePickerToggle">
@@ -50,6 +61,7 @@
     </button>
     <div class="mt-auto">
       <ngb-timepicker
+        #tp
         name="timepicker"
         [ngModel]="datetime"
         (ngModelChange)="onTimeChange($event)"

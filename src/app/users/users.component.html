@@ -15,6 +15,7 @@
                   <th scope="col">Id</th>
                   <th scope="col">Login</th>
                   <th scope="col">Nazwisko i imię</th>
+                  <th scope="col">Email</th>
                   <th scope="col">Zablokowany</th>
                   <th scope="col">Ważne od</th>
                   <th scope="col">do</th>
@@ -26,6 +27,7 @@
                   <th scope="row">{{ cuser.id }}</th>
                   <td><a [routerLink]="['/editUser', cuser.id]">{{ cuser.username }}</a></td>
                   <td>{{ cuser.nazwisko }} {{ cuser.imie }}</td>
+                  <td>{{ cuser.email }}</td>
                   <td><fa-icon [icon]="['fas', 'check']" *ngIf="cuser.locked == 1"></fa-icon></td>
                   <td>{{ cuser.data_od | date:'yyyy-MM-dd' }}</td>
                   <td>{{ cuser.data_do | date:'yyyy-MM-dd HH-mm-ss' }}</td>
