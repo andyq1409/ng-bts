@@ -1,12 +1,11 @@
 <div class="input-group mr-2">
   <input
     class="form-control"
-    [(ngModel)]="dtStr"
+    [(ngModel)]="ptStr"
     (change)="onInputChange($event)"
     maxLength={{lenInput}}
     type="text"
     placeholder="{{inputDatetimeFormat}}"
-    #ip
   />
 
   <div class="input-group-append">
@@ -27,10 +26,9 @@
       style="display: block;"
       #dp
       name="datepicker"
-      [(ngModel)]="dtpDate"
-      [startDate]="dtpDate"
       (dateSelect)="onDateChange($event)"
-      #d="ngbDatepicker"
+      [(ngModel)]="ptDate"
+      [startDate]="ptDate"
     ></ngb-datepicker>
     <button *ngIf="enableTime"
             style="width: 50%"
@@ -61,10 +59,8 @@
     </button>
     <div class="mt-auto">
       <ngb-timepicker
-        #tp
         name="timepicker"
-        [ngModel]="datetime"
-        (ngModelChange)="onTimeChange($event)"
+        [(ngModel)]="ptTime"
         [seconds]="seconds"
         [hourStep]="hourStep"
         [minuteStep]="minuteStep"

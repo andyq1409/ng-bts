@@ -3,7 +3,7 @@ import {NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {CustomDatepickerI18n, I18n} from 'src/language/pl';
 import {ActivatedRoute} from "@angular/router";
 import {NetUser} from "../../models";
-import {NgModel} from '@angular/forms';
+//import {NgModel} from '@angular/forms';
 import {MainService} from "../../services/main.service";
 
 @Component({
@@ -18,7 +18,7 @@ import {MainService} from "../../services/main.service";
 //=======================================================================================================================
 export class UserComponent implements OnInit, DoCheck {
   dtpDateOd!: NgbDateStruct;
-  usrDateDo!: string;
+  //usrDateDo!: string;
   dtpDatePasswd!: NgbDateStruct;
   user: NetUser = {
     id: 0,
@@ -49,7 +49,7 @@ export class UserComponent implements OnInit, DoCheck {
   usrOK: boolean = true;
   errMsg: string = "";
 
-  constructor(
+  constructor(  // ==========================================================
     private _i18n: I18n,
     private route: ActivatedRoute,
     public service: MainService
@@ -59,14 +59,14 @@ export class UserComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     // console.log("user.component.doCheck dtpDatePasswd:", this.dtpDatePasswd);
-    this.user.data_hasla =
-      this.dtpDatePasswd.year.toString().padStart(4, '0') +
-      '-' +
-      this.dtpDatePasswd.month.toString().padStart(2, '0') +
-      '-' +
-      this.dtpDatePasswd.day.toString().padStart(2, '0') +
-      ' 00:00:00';
-    console.log("user.component.doCheck user:", this.user);
+    // this.user.data_hasla =
+    //   this.dtpDatePasswd.year.toString().padStart(4, '0') +
+    //   '-' +
+    //   this.dtpDatePasswd.month.toString().padStart(2, '0') +
+    //   '-' +onDateChange
+    //   this.dtpDatePasswd.day.toString().padStart(2, '0') +
+    //   ' 00:00:00';
+    console.log("user.component.doCheck user:", this.user.data_hasla);
   }
 
   ngOnInit(): void {
@@ -74,35 +74,32 @@ export class UserComponent implements OnInit, DoCheck {
       next: (data) => {
         // console.log("UserComponent id user (str):", data.get('id'));
         if (data.get('id') == '0') {
-          let date = new Date();
+          //let date = new Date();
           this.user = this.user1;
-          this.dtpDateOd = {
-            year: date.getFullYear(),
-            month: date.getMonth() + 1,
-            day: date.getDate(),
-          };
+          console.log("UserComponent ngOnInit user0:",this.user);
         } else {
           let idx = Number(data.get('id'));
           // console.log("UserComponent id user (int):", idx);
           this.service.getUsers('all').subscribe({
             next: (data) => {
-              // console.log("UserComponent ngOnInit data:",data);
+              console.log("UserComponent ngOnInit data:",data);
               data.forEach((element) => {
                 element.id == idx ? (this.user = element) : null;
               });
-              this.dtpDateOd = UserComponent.settingDtps(this.user.data_od);
+              //this.dtpDateOd = UserComponent.settingDtps(this.user.data_od);
               // console.log("UserComponent ngOnInit dtpDateOd:",this.dtpDateOd);
-              if (this.user.data_do !== null) {
-                this.usrDateDo = this.user.data_do!;
-              }
+              //if (this.user.data_do !== null) {
+              //  this.usrDateDo = this.user.data_do!;
+              //}
               // console.log("UserComponent ngOnInit usrDateDo:",this.usrDateDo);
-              this.dtpDatePasswd = UserComponent.settingDtps(
-                this.user.data_hasla
-              );
+              //let dx = new Date(this.user.data_hasla);
+              //this.dtpDatePasswd = { year: dx.getFullYear(), month: dx.getMonth()+1, day: dx.getDay()};
+              //  this.user.data_hasla
+              //);
               // console.log("UserComponent ngOnInit dtpDatePasswd:",this.dtpDatePasswd);
               //this.user = this.user1;
               this.user.password = '';
-              // console.log("UserComponent ngOnInit user:",this.user); //<<<======== obiekt user =================================
+              console.log("UserComponent ngOnInit user:",this.user); //<<<======== obiekt user =================================
             },
           });
         }
@@ -137,11 +134,16 @@ export class UserComponent implements OnInit, DoCheck {
     this.validateUser();
   }
 
-  getDateOd($event: string) {    
+  getDateOd($event: string) {
     // console.log("usrcomp getDateOd $event", $event);
     this.user.data_od = $event;
     // console.log("usrcomp getDateOd user", this.user);
     this.validateUser();
+  }
+
+  getDateHasla($event: string) {
+    this.user.data_hasla = $event;
+    console.log("usrcomp getDateHasla user", this.user);
   }
 
   onSubmit() {
@@ -151,7 +153,7 @@ export class UserComponent implements OnInit, DoCheck {
   changeBlok(event: any) {
     event.target.checked ? (this.user.locked = 1) : (this.user.locked = 0);
   }
-  
+
   validateUser() {
     // console.log("usrcomp validateUser usrOK", this.usrOK);
     setTimeout(  () =>    {

@@ -59,19 +59,13 @@
             </div> <!-- ----------------------------------------------------------- -->
             <div class="row">
               <div class="col-3">
-                <label for="inputDateFrom" class="form-label">Data od *</label>
-                <date-time-picker [dateString]="user.data_od" (outDate)="getDateOd($event)"
-                                  [enableTime]="false"></date-time-picker>
-           <!--      <div class="alert alert-wr-danger" role="alert" *ngIf="data_od.errors">
-                  <div *ngIf="data_od.errors['required']">Pole jest wymagane</div>
-                  <div *ngIf="data_od.errors['ngbDate']">Niepoprawna data</div>
-                </div> -->
+                <label class="form-label">Data od *</label>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-4">
                 <label class="form-label">Data do</label>
                 <date-time-picker [dateString]="user.data_do" (outDate)="getDateDo($event)"
-                                  [enableTime]="true" [required]="false"></date-time-picker>
+                                  [enableTime]="true" [required]="true"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-1">
@@ -85,27 +79,8 @@
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-3">
-                <label for="inputDatePasswd" class="form-label"
-                >Ważność hasła do *</label
-                >
-                <div class="input-group">
-                  <input
-                    class="form-control" id="inputDatePasswd" placeholder="yyyy-mm-dd" name="datapasswd"
-                    ngbDatepicker [(ngModel)]="dtpDatePasswd" #datapasswd="ngModel" #dp3="ngbDatepicker"
-                    required
-                  />
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    (click)="dp3.toggle()"
-                  >
-                    <fa-icon [icon]="['fas', 'calendar-day']"></fa-icon>
-                  </button>
-                  <div class="alert alert-wr-danger" role="alert" *ngIf="datapasswd.errors">
-                    <div *ngIf="datapasswd.errors['ngbDate']">Niepoprawna data</div>
-                    <div *ngIf="datapasswd.errors['required']">Pole jest wymagane</div>
-                  </div>
-                </div>
+                <label class="form-label"
+                >Ważność hasła do *</label>
               </div> <!-- ----------------------------------------------------------- -->
             </div>
           </div>
