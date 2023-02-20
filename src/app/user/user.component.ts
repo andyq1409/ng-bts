@@ -1,10 +1,10 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
-import {NgbDatepickerI18n, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import {CustomDatepickerI18n, I18n} from 'src/language/pl';
-import {ActivatedRoute} from "@angular/router";
-import {NetUser} from "../../models";
+import { Component, DoCheck, ElementRef, OnInit, ViewChild, ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
+import { NgbDatepickerI18n, NgbDateStruct, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
+import { CustomDatepickerI18n, I18n } from 'src/language/pl';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NetUser } from '../../models';
 //import {NgModel} from '@angular/forms';
-import {MainService} from "../../services/main.service";
+import { MainService } from '../../services/main.service';
 
 @Component({
   selector: 'app-user',
@@ -14,9 +14,10 @@ import {MainService} from "../../services/main.service";
     I18n,
     { provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n },
   ],
+	encapsulation: ViewEncapsulation.None
 }) //===================================================================================================================
 //=======================================================================================================================
-export class UserComponent implements OnInit, DoCheck {
+export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
   dtpDateOd!: NgbDateStruct;
   //usrDateDo!: string;
   dtpDatePasswd!: NgbDateStruct;
@@ -47,26 +48,32 @@ export class UserComponent implements OnInit, DoCheck {
     roles: [],
   };
   usrOK: boolean = true;
-  errMsg: string = "";
+  errMsg: string = '';
+  tittle: string = 'Edycja danych użytkownika';
+  msg: string = '';
 
-  constructor(  // ==========================================================
+  constructor(
+    // ==========================================================
     private _i18n: I18n,
     private route: ActivatedRoute,
-    public service: MainService
+    private router: Router,
+    public service: MainService,
+    private modalService: NgbModal
   ) {
     this._i18n.language = 'pl';
   }
 
+  @ViewChild('content',{read: TemplateRef }) 
+  modMsgX!: TemplateRef<any> ;
+
+
+
+  ngAfterViewInit() {
+    console.log("usrcomp ngAfterViewInit modMsg", this.modMsgX);
+  }
+
   ngDoCheck(): void {
-    // console.log("user.component.doCheck dtpDatePasswd:", this.dtpDatePasswd);
-    // this.user.data_hasla =
-    //   this.dtpDatePasswd.year.toString().padStart(4, '0') +
-    //   '-' +
-    //   this.dtpDatePasswd.month.toString().padStart(2, '0') +
-    //   '-' +onDateChange
-    //   this.dtpDatePasswd.day.toString().padStart(2, '0') +
-    //   ' 00:00:00';
-    console.log("user.component.doCheck user:", this.user.data_hasla);
+    // console.log("user.component.doCheck user:", this.user.data_hasla);
   }
 
   ngOnInit(): void {
@@ -76,30 +83,19 @@ export class UserComponent implements OnInit, DoCheck {
         if (data.get('id') == '0') {
           //let date = new Date();
           this.user = this.user1;
-          console.log("UserComponent ngOnInit user0:",this.user);
+          this.tittle = 'Nowy użytkownik';
+          console.log('UserComponent ngOnInit user0:', this.user);
         } else {
           let idx = Number(data.get('id'));
           // console.log("UserComponent id user (int):", idx);
           this.service.getUsers('all').subscribe({
             next: (data) => {
-              console.log("UserComponent ngOnInit data:",data);
+              console.log('UserComponent ngOnInit data:', data);
               data.forEach((element) => {
                 element.id == idx ? (this.user = element) : null;
               });
-              //this.dtpDateOd = UserComponent.settingDtps(this.user.data_od);
-              // console.log("UserComponent ngOnInit dtpDateOd:",this.dtpDateOd);
-              //if (this.user.data_do !== null) {
-              //  this.usrDateDo = this.user.data_do!;
-              //}
-              // console.log("UserComponent ngOnInit usrDateDo:",this.usrDateDo);
-              //let dx = new Date(this.user.data_hasla);
-              //this.dtpDatePasswd = { year: dx.getFullYear(), month: dx.getMonth()+1, day: dx.getDay()};
-              //  this.user.data_hasla
-              //);
-              // console.log("UserComponent ngOnInit dtpDatePasswd:",this.dtpDatePasswd);
-              //this.user = this.user1;
               this.user.password = '';
-              console.log("UserComponent ngOnInit user:",this.user); //<<<======== obiekt user =================================
+              console.log('UserComponent ngOnInit user:', this.user); //<<<======== obiekt user =================================
             },
           });
         }
@@ -107,28 +103,9 @@ export class UserComponent implements OnInit, DoCheck {
     });
   }
 
-  private static settingDtps(dt: string): NgbDateStruct {
-    let retVal: NgbDateStruct = { year: 1700, month: 1, day: 1 };
-    //if (dt !== null) {
-    // console.log("--------------",dt);
-    let dt1: Date = new Date(dt);
-    // console.log(dt1);
-    // console.log(dt1.getFullYear());
-    // @ts-ignore
-    retVal.year = dt1.getFullYear();
-    // @ts-ignore
-    retVal.month = dt1.getMonth() + 1;
-    // @ts-ignore
-    retVal.day = dt1.getDate();
-    // @ts-ignore
-    return retVal;
-    //}
-    //return ;
-  }
-
   getDateDo($event: string) {
     // console.log("usrcomp getDateDo $event", $event);
-    ( $event === "") ? this.user.data_do = null : this.user.data_do = $event;
+    $event === '' ? (this.user.data_do = null) : (this.user.data_do = $event);
     // console.log("usrcomp getDateDo user.data_do", this.user.data_do);
     // console.log("usrcomp getDateDo user", this.user);
     this.validateUser();
@@ -143,11 +120,28 @@ export class UserComponent implements OnInit, DoCheck {
 
   getDateHasla($event: string) {
     this.user.data_hasla = $event;
-    console.log("usrcomp getDateHasla user", this.user);
+    console.log('usrcomp getDateHasla user', this.user);
   }
 
   onSubmit() {
-    return false;
+    this.service.saveUser(this.user).subscribe({
+      next: (data) => {
+        console.log('usrcomp onSubmit data:', data);
+        this.msg = data;
+        console.log("usrcomp onSubmit modMsg", this.modMsgX);
+        this.modalService.open( this.modMsgX, { centered: true } ).result.then(
+          (result) => {
+            this.router.navigate(['tabUser']);
+          },
+          (reason) => {
+            null;
+          },
+        );
+      },
+      error: (err) => {
+        console.log('usrcomp onSubmit error:', err);
+      }
+    });
   }
 
   changeBlok(event: any) {
@@ -156,32 +150,25 @@ export class UserComponent implements OnInit, DoCheck {
 
   validateUser() {
     // console.log("usrcomp validateUser usrOK", this.usrOK);
-    setTimeout(  () =>    {
+    setTimeout(() => {
       this.usrOK = true;
-      this.errMsg = "";
+      this.errMsg = '';
       if (this.user.data_do !== null) {
         if (this.user.data_od > this.user.data_do) {
           this.usrOK = false;
-          this.errMsg = "Data od nie może być późniejsza niż data do. ";
+          this.errMsg = 'Data od nie może być późniejsza niż data do. ';
         }
       }
       // console.log("usrcomp validateUser errMsg", this.errMsg);
       // console.log("usrcomp validateUser usrOK", this.usrOK);
-      }, 100
-    )
-
+    }, 100);
   }
+
+  // openVerticallyCentered(content: any) {
+  //   console.log("usrcomp openVerticallyCentered content", content);
+	// 	this.modalService.open(content, { centered: true });
+	// }
+
+  
+
 }
-
-
-/*
-    // @ts-ignore
-    this.dtpDateOd.year = this.user.data_od?.getFullYear();
-    // @ts-ignore
-    this.dtpDateOd.month = this.user.data_od?.getMonth();
-    // @ts-ignore
-    this.dtpDateOd.day = this.user.data_od?.getDay();
-
-
-
-    */

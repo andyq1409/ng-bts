@@ -61,6 +61,7 @@
       <ngb-timepicker
         name="timepicker"
         [(ngModel)]="ptTime"
+        (ngModelChange)="onTimeChange($event)"
         [seconds]="seconds"
         [hourStep]="hourStep"
         [minuteStep]="minuteStep"
