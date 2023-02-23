@@ -1,12 +1,23 @@
+import {ModalInfoComponent} from "../app/modal-info/modal-info.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap/modal/modal-ref";
+
+export function msgBox( modalService: NgbModal, message: string, msgType: string, closeBtn: boolean ): NgbModalRef {
+  const modalRef = modalService.open(ModalInfoComponent, {centered: true});
+  modalRef.componentInstance.msg = message;
+  modalRef.componentInstance.msgType = msgType;
+  modalRef.componentInstance.closeBtn = closeBtn;
+  return modalRef;
+}
 
 
-  export function formatDate(dt: Date): string {
-    var year = dt.toLocaleString("default", { year: "numeric" });
-    var month = dt.toLocaleString("default", { month: "2-digit" });
-    var day = dt.toLocaleString("default", { day: "2-digit" });
-    var formattedDate = year + "-" + month + "-" + day;
-    return formattedDate;
-  }
+  // export function formatDate(dt: Date): string {
+  //   var year = dt.toLocaleString("default", { year: "numeric" });
+  //   var month = dt.toLocaleString("default", { month: "2-digit" });
+  //   var day = dt.toLocaleString("default", { day: "2-digit" });
+  //   var formattedDate = year + "-" + month + "-" + day;
+  //   return formattedDate;
+  // }
 
 /*   export function net2dbUser(dt: NetUser): DbUser {
     return {

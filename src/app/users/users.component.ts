@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit, DoCheck {
       error: (err) => {
         console.log('error');
         console.log(err);
+        // (err.status === 0 ) ? this.msg = "Connection refused" : this.msg = "Error code: " + err.status.toString() ;
         this.users1 = this.usr;
         this.total = this.users1.length;
         this.users = this.users1.slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);

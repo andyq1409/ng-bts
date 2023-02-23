@@ -60,13 +60,13 @@
             <div class="row">
               <div class="col-3">
                 <label class="form-label">Data od *</label>
-                <date-time-picker [dateString]="user.data_od" (outDate)="getDateOd($event)"
+                <date-time-picker [dateString]="user.data_od" (outDate)="getDateOd($event)"[nazwa]="'dtp1'"
                                   [enableTime]="false" [required]="true"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
               <div class="col-4">
                 <label class="form-label">Data do</label>
-                <date-time-picker [dateString]="user.data_do" (outDate)="getDateDo($event)"
+                <date-time-picker [dateString]="user.data_do" (outDate)="getDateDo($event)"[nazwa]="'dtp2'"
                                   [enableTime]="true" [required]="false"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
 
@@ -83,7 +83,7 @@
               <div class="col-3">
                 <label class="form-label"
                 >Ważność hasła do *</label>
-                <date-time-picker [dateString]="user.data_hasla" (outDate)="getDateHasla($event)"
+                <date-time-picker [dateString]="user.data_hasla" (outDate)="getDateHasla($event)" [nazwa]="'dtp3'"
                                   [enableTime]="false" [required]="true"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
             </div>
@@ -114,9 +114,11 @@
 		<h4 class="modal-title">Komunikat</h4>
 	</div>
 	<div class="modal-body">
-		<p>Zapisano</p>
+    <div class="alert alert-success" role="alert" *ngIf="msgType === 'S'">{{msg}}</div>
+    <div class="alert alert-info" role="alert" *ngIf="msgType === 'I'">{{msg}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="msgType === 'E'">{{msg}}</div>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+		<button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Ok</button>
 	</div>
 </ng-template>

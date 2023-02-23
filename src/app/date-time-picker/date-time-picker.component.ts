@@ -58,6 +58,8 @@ export class DateTimePickerComponent
   seconds = true;
   @Input()
   required = true;
+  @Input()
+  nazwa = "dtp";
 
   @Input()
   enableTime = false;
@@ -78,7 +80,7 @@ export class DateTimePickerComponent
 
   private onTouched: () => void = noop;
   private onChange: (_: any) => void = noop;
-  private diffTz: number = new Date().getTimezoneOffset() / 60;
+  private diffTz: number = Math.abs(new Date().getTimezoneOffset() / 60);
 
   //public ngControl!: NgControl;
 
@@ -87,7 +89,12 @@ export class DateTimePickerComponent
   }
 
   ngOnInit(): void {
-    console.log('dtp ngOnInit dateString', this.dateString);
+    console.log(this.nazwa +' ngOnInit dateString', this.dateString);
+    if (!this.enableTime) {
+      this.dateString = this.dateString!.substring(0,10) + " 00:00:00+0" + this.diffTz.toString() + "00";
+      console.log(this.nazwa +' ngOnInit corected dateString', this.dateString);
+    }
+
     if (this.dateString === null) {
       let dx = new Date();
       (!this.required)  ? dx = new Date(1700,0,1,1,0,0) : null ;
@@ -108,15 +115,16 @@ export class DateTimePickerComponent
         minute: dx.getMinutes(),
         second: dx.getSeconds(),
       });
+      (!this.enableTime) ? this.lenInput = 19 : null;
       this.ptDate = {
         year: dx.getFullYear(),
         month: dx.getMonth() - 1,
         day: dx.getDate(),
-      }; 
-    }     
-    console.log('dtp ngOnInit ptDate:', this.ptDate);
-    console.log('dtp ngOnInit ptTime:', this.ptTime);
-    console.log('dtp ngOnInit ptStr:', this.ptStr);
+      };
+    }
+    console.log(this.nazwa +' ngOnInit ptDate:', this.ptDate);
+    console.log(this.nazwa +' ngOnInit ptTime:', this.ptTime);
+    console.log(this.nazwa +' ngOnInit ptStr:', this.ptStr);
   }
   ngAfterViewInit(): void {
     this.popover.hidden.subscribe(($event) => {
@@ -126,38 +134,43 @@ export class DateTimePickerComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('dtp ngOnChanges SimpleChanges:', changes);
+    console.log(this.nazwa +' ngOnChanges SimpleChanges:', changes);
 
     if (changes['dateString']) {
-      console.log('dtp ngOnChanges dateString:', this.dateString);
+      console.log(this.nazwa +' ngOnChanges dateString:', this.dateString);
+      if (!this.enableTime) {
+        this.dateString = this.dateString!.substring(0,10) + " 00:00:00+0" + this.diffTz.toString() + "00";
+        console.log(this.nazwa +' ngOnChanges corected dateString', this.dateString);
+      }
       //this.dateString = changes["dateString"].currentValue;
       if (this.dateString === null) {
         this.ptStr = '';
         this.ptTime = { hour: 0, minute: 0, second: 0 };
-        this.ptDate = { year: 1700, month: 1, day: 1 };
+        this.ptDate = { year: 1700, month: 1 ,day: 1 };
       } else {
         let dx = new Date(this.dateString);
         this.ptStr = this.dateString!.substring(0, 19).replace('T', ' ').trim();
-        if (!this.enableTime) {
-          this.ptStr = this.dateString!.substring(0, 10)
-            .replace('T', ' ')
-            .trim();
-          this.lenInput = 10;
-        }
         this.ptTime = Object.assign(this.ptTime, {
           hour: dx.getHours(),
           minute: dx.getMinutes(),
           second: dx.getSeconds(),
         });
+        if (!this.enableTime) {
+          this.ptStr = this.dateString!.substring(0, 10)
+            .replace('T', ' ')
+            .trim();
+          this.lenInput = 10;
+          this.ptTime = { hour: 0, minute: 0, second: 0 }
+        }
         this.ptDate = {
           year: dx.getFullYear(),
           month: dx.getMonth() + 1,
           day: dx.getDate(),
         };
       }
-      console.log('dtp ngOnChanges ptTime:', this.ptTime);
-      console.log('dtp ngOnChanges ptStr:', this.ptStr);
-      console.log('dtp ngOnChanges ptDate:', this.ptDate);
+      console.log(this.nazwa +' ngOnChanges ptTime:', this.ptTime);
+      console.log(this.nazwa +' ngOnChanges ptStr:', this.ptStr);
+      console.log(this.nazwa +' ngOnChanges ptDate:', this.ptDate);
     }
   }
 
@@ -219,15 +232,15 @@ export class DateTimePickerComponent
 
   onInputChange($event: any) {
     let value = $event.target.value;
-    console.log('dtp onInputChange value:', value);
+    console.log(this.nazwa +' onInputChange value:', value);
     let dt = new Date(value);
 
     if (value === '') {
       dt = new Date(1700, 0, 1, 0, 0, 0);
     }
-    console.log('dtp onInputChange dt:', dt);
-    console.log('dtp onInputChange dt.month:', dt.getMonth());
-    console.log('dtp onInputChange dt.day:', dt.getDate());
+    console.log(this.nazwa +' onInputChange dt:', dt);
+    console.log(this.nazwa +' onInputChange dt.month:', dt.getMonth());
+    console.log(this.nazwa +' onInputChange dt.day:', dt.getDate());
 
     if (dt) {
       this.ptTime = {
@@ -266,40 +279,22 @@ export class DateTimePickerComponent
       this.onChange(value);
     }
     //this.ptDate = {year: 1700, month: 1, day: 1};
-    console.log('dtp onInputChange ptDate:', this.ptDate);
+    console.log(this.nazwa +' onInputChange ptDate:', this.ptDate);
     this.setDateStringModel();
   }
 
   onDateChange($event: NgbDateStruct) {
-    //const date = new ptTimeModel($event);
     // console.log("onDateChange dateString: ", this.dateString );
     console.log('onDateChange event: ', $event);
     this.ptDate = $event;
-
-    // if (!date) {
-    //   this.dateString = this.dateString;
-    //   return;
-    // }
-    //
      if ( isNaN(this.ptTime.hour) && !isNaN(this.ptDate.year) ) {
        this.ptTime = {hour: 0, minute: 0, second: 0};
      }
-    //
-    // this.ptTime.year = date.year;
-    // this.ptTime.month = date.month;
-    // this.ptTime.day = date.day;
-    //
-    // const adjustedDate = new Date(this.ptTime.toString());
-    // if (this.ptTime.timeZoneOffset !== adjustedDate.getTimezoneOffset()) {
-    //   this.ptTime.timeZoneOffset = adjustedDate.getTimezoneOffset();
-    // }
-    // console.log("dtp onDateChange ptTime:", this.ptTime);
-
     this.setDateStringModel();
   }
 
   onTimeChange($event: NgbTimeStruct) {
-    console.log('dtp onTimeChange event:', $event);
+    console.log(this.nazwa +' onTimeChange event:', $event);
     this.ptTime.hour = $event.hour;
     this.ptTime.minute = $event.minute;
     this.ptTime.second = $event.second;
@@ -307,66 +302,31 @@ export class DateTimePickerComponent
     this.setDateStringModel();
   }
 
-  // this.dateString = this.ptTime.toString();
-  //
-  // let ptStrx = this.dateString!.substring(0,19).replace("T"," ").trim();
-  // if (!this.enableTime) {
-  //   ptStrx = this.dateString.substring(0, 10).replace("T", " ").trim();
-  // }
-  //
-  // if ( this.ptTime.year === 1700 && this.ptTime.month === 1 && this.ptTime.day ===1 ) {
-  //   this.dateString = "";
-  //   ptStrx = "";
-  // }
-  // console.log("dtp setDateStringModel ptStr:", ptStrx);
-  //setTimeout(() => {
-
   setDateStringModel() {
-    console.log('dtp setDateStringModel ptDate:', this.ptDate);
-    console.log('dtp setDateStringModel ptTime:', this.ptTime);
+    console.log(this.nazwa +' setDateStringModel ptDate:', this.ptDate);
+    console.log(this.nazwa +' setDateStringModel ptTime:', this.ptTime);
+    (!this.enableTime) ? this.ptTime = {hour: 0, minute: 0, second: 0} : null;
     let valOut: string = '';
     let valOut2: string = '';
-    if (
-      this.ptDate.year === 1700 &&
-      this.ptDate.month === 1 &&
-      this.ptDate.day === 1
-    ) {
-      this.ptStr = '';
-      valOut = '';
+    if ( this.ptDate.year === 1700 && this.ptDate.month === 1 && this.ptDate.day === 1) {
+      this.ptStr = ''; valOut = ''
     } else {
-      let dx = new Date(
-        this.ptDate.year,
-        this.ptDate.month - 1,
-        this.ptDate.day,
-        this.ptTime.hour - this.diffTz,
-        this.ptTime.minute,
-        this.ptTime.second
+      let dx = new Date(this.ptDate.year, this.ptDate.month - 1, this.ptDate.day,
+        this.ptTime.hour, this.ptTime.minute, this.ptTime.second
       );
-      valOut = dx.toISOString().substring(0, 19).replace('T', ' ');
-      valOut2 = dx.toTimeString().substring(12, 17);
-      valOut = valOut + valOut2;
-      // console.log("dtp setDateStringModel dx.toISOString:" + dx.toTimeString().substring(0,19) + ".");
-      // console.log("dtp setDateStringModel dx.toTimeString:" + dx.toTimeString().substring(12,17) + ".");
-      // console.log("dtp setDateStringModel dx:", dx);
-      // console.log("dtp setDateStringModel str dx:", dx.toISOString());
-      this.ptStr = dx.toISOString().substring(0, 19).replace('T', ' ').trim();
+      valOut = [this.ptDate.year, this.ptDate.month.toString().padStart(2, '0'), this.ptDate.day.toString().padStart(2,"0")].join("-") + " " +
+               [this.ptTime.hour.toString().padStart(2,"0"), this.ptTime.minute.toString().padStart(2,"0"), this.ptTime.second.toString().padStart(2,"0") ].join(":") +
+                dx.toTimeString().substring(12, 17);
+      this.ptStr = valOut.substring(0, 19).trim();
       if (!this.enableTime) {
-        this.ptStr = dx.toISOString().substring(0, 10).replace('T', ' ').trim();
+        this.ptStr = valOut.substring(0, 10).trim();
       }
     }
-    console.log('dtp setDateStringModel ptStr:', this.ptStr);
-    console.log('dtp setDateStringModel emit outDate:', valOut);
+    console.log(this.nazwa +' setDateStringModel emit outDate:', valOut);
+    console.log(this.nazwa +' setDateStringModel ptStr:', this.ptStr);
     this.outDate.emit(valOut.replace('T', ' '));
     //}, 40);
   }
-
-  /*
- const event = new Date('2022-12-31T01:27:45+0100');
-console.log(event.toISOString());
-console.log(event.getTimezoneOffset());
-let xx = new Date(event.getTime() - event.getTimezoneOffset() * 60 * 1000);
-console.log(xx.toISOString()); console.log(xx.toTimeString().substr(12,5));
-console.log(xx.toISOString().substr(0,19)+xx.toTimeString().substr(12,5));   */
 
   inputBlur($event: any) {
     this.onTouched();

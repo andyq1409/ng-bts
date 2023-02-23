@@ -11,8 +11,8 @@ import { TokenStorageService } from 'src/services/token-storage.service';
 })
 export class LoginComponent implements OnInit {
   isLoggedIn = false;
-  username: String = 'andy';
-  password: String = 'warszawa';
+  username: String = 'ewapit';
+  password: String = 'szczecin';
   loginError: string = '';
 
   constructor(

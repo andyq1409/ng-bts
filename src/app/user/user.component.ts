@@ -1,9 +1,8 @@
-import { Component, DoCheck, ElementRef, OnInit, ViewChild, ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild, ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
 import { NgbDatepickerI18n, NgbDateStruct, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDatepickerI18n, I18n } from 'src/language/pl';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NetUser } from '../../models';
-//import {NgModel} from '@angular/forms';
+import { msgBox, NetUser} from '../../models';
 import { MainService } from '../../services/main.service';
 
 @Component({
@@ -51,6 +50,7 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
   errMsg: string = '';
   tittle: string = 'Edycja danych użytkownika';
   msg: string = '';
+  msgType: string = "I"  // I-info  E-error S-success
 
   constructor(
     // ==========================================================
@@ -63,7 +63,7 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
     this._i18n.language = 'pl';
   }
 
-  @ViewChild('content',{read: TemplateRef }) 
+  @ViewChild('content',{read: TemplateRef })
   modMsgX!: TemplateRef<any> ;
 
 
@@ -82,20 +82,21 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
         // console.log("UserComponent id user (str):", data.get('id'));
         if (data.get('id') == '0') {
           //let date = new Date();
-          this.user = this.user1;
+          this.user = Object.assign(this.user, this.user1);
           this.tittle = 'Nowy użytkownik';
-          console.log('UserComponent ngOnInit user0:', this.user);
+          console.log('usrcomp ngOnInit user0:', this.user);
         } else {
           let idx = Number(data.get('id'));
           // console.log("UserComponent id user (int):", idx);
           this.service.getUsers('all').subscribe({
             next: (data) => {
-              console.log('UserComponent ngOnInit data:', data);
+              console.log('usrcomp ngOnInit data:', data);
               data.forEach((element) => {
                 element.id == idx ? (this.user = element) : null;
               });
               this.user.password = '';
-              console.log('UserComponent ngOnInit user:', this.user); //<<<======== obiekt user =================================
+              this.user1 = Object.assign(this.user1, this.user);
+              console.log('usrcomp ngOnInit user:', this.user); //<<<======== obiekt user =================================
             },
           });
         }
@@ -121,27 +122,55 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
   getDateHasla($event: string) {
     this.user.data_hasla = $event;
     console.log('usrcomp getDateHasla user', this.user);
+    console.log('usrcomp getDateHasla prev user:', this.user1);
   }
 
   onSubmit() {
-    this.service.saveUser(this.user).subscribe({
-      next: (data) => {
-        console.log('usrcomp onSubmit data:', data);
-        this.msg = data;
-        console.log("usrcomp onSubmit modMsg", this.modMsgX);
-        this.modalService.open( this.modMsgX, { centered: true } ).result.then(
-          (result) => {
-            this.router.navigate(['tabUser']);
-          },
-          (reason) => {
-            null;
-          },
-        );
-      },
-      error: (err) => {
-        console.log('usrcomp onSubmit error:', err);
-      }
-    });
+    console.log('usrcomp onSubmit user:', this.user);
+    console.log('usrcomp onSubmit prev user:', this.user1);
+    if (JSON.stringify(this.user) !== JSON.stringify(this.user1)) {
+      this.service.saveUser(this.user).subscribe({
+        next: (data) => {
+          console.log('usrcomp onSubmit data:', data);
+          this.msg = data;
+          console.log("usrcomp onSubmit modMsg", this.modMsgX);
+          this.msgType = "S";
+          // this.modalService.open(this.modMsgX, {centered: true}).result.then(
+          //   (result) => {
+          //     this.router.navigate(['tabUser']);
+          //   }
+          // );
+          msgBox(this.modalService, data, "S", false).result.then(
+             (result) => {
+               this.router.navigate(['tabUser']);
+             }
+           );
+        },
+        error: (err) => {
+          console.log('usrcomp onSubmit error:', err);
+          (err.status === 0 ) ? this.msg = "Connection refused" : this.msg = "Error code: " + err.status.toString() ;
+          this.msgType = "E";
+
+          msgBox(this.modalService, this.msg, "E", false).result.then(
+            (result) => {
+              null;
+            }
+          );
+        }
+      });
+    } else {
+      this.msg = "Brak zmian do zapisania.";
+      this.msgType = "S";
+      this.modalService.open(this.modMsgX, {centered: true}).result.then(
+        (result) => {
+          this.router.navigate(['tabUser']);
+        },
+        (reason) => {
+          null;
+        },
+      );
+
+    }
   }
 
   changeBlok(event: any) {
@@ -169,6 +198,6 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
 	// 	this.modalService.open(content, { centered: true });
 	// }
 
-  
+
 
 }
