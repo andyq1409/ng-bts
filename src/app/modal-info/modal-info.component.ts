@@ -12,7 +12,6 @@ export class ModalInfoComponent {
   msg: string = "Treść komunikatu";
   @Input()
   closeBtn: boolean = true;
-
   @Input()
   msgType: string = "I"  // I-info  E-error S-success
 
