@@ -16,8 +16,8 @@ import {
   NgbDateStruct,
   NgbPopoverConfig,
   NgbPopover,
-  NgbDatepicker,
-  NgbDate,
+  NgbDatepicker
+
 } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe } from '@angular/common';
 import { noop } from 'rxjs';
@@ -118,7 +118,7 @@ export class DateTimePickerComponent
       (!this.enableTime) ? this.lenInput = 19 : null;
       this.ptDate = {
         year: dx.getFullYear(),
-        month: dx.getMonth() - 1,
+        month: dx.getMonth() + 1,
         day: dx.getDate(),
       };
     }

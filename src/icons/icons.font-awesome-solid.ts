@@ -3,12 +3,12 @@
 import {
   faAngleDown,  faAngleRight,  faArrowLeft,  faBars,  faBookOpen,  faChartArea,
   faChartBar,  faChartPie,  faChevronDown,  faChevronUp,  faColumns,  faSearch,
-  faTable,  faTachometerAlt,  faUser,  faCalendarDay,  faCheck,  faMinus, faClock,
+  faTable,  faTachometerAlt,  faUser,  faCalendarDay,  faCheck,  faMinus, faClock, faPenSquare
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeSolidIcons = {
     faAngleDown,    faAngleRight,    faArrowLeft,    faBars,    faBookOpen,    faChartArea,
     faChartBar,    faChartPie,    faChevronDown,    faChevronUp,    faColumns,    faSearch,
-    faTable,    faTachometerAlt,    faUser,    faCalendarDay,    faCheck,    faMinus,    faClock
+    faTable,    faTachometerAlt,    faUser,    faCalendarDay,    faCheck,    faMinus,    faClock , faPenSquare
 
 };

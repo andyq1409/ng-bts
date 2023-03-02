@@ -1,16 +1,13 @@
-/* export interface DbUser {
-    id: number;
-    username: string;
-    password: string;
-    imie: string;
-    nazwisko: string;
-    email: string | null;
-    locked: number;
-    data_od: Date;
-    data_do: Date | null;
-    data_hasla: Date;
-    roles: string[];
-} */
+export interface NetRole {
+
+  id: string;
+  id_user: string;
+  id_role: string;
+  code_role: string;
+  descr: string;
+  date_from: string;
+  date_to: string | null ;
+}
 
 export interface NetUser {
     id: number;

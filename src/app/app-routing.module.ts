@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { PasswdChgComponent } from './passwd-chg/passwd-chg.component';
 import { UserComponent } from './user/user.component';
 import { UsersComponent } from './users/users.component';
+import {RolesComponent} from "./roles/roles.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'tabUser',
     component: UsersComponent,
+  },
+  {
+    path: 'editRoles/:id',
+    component: RolesComponent,
   }
 ];
 

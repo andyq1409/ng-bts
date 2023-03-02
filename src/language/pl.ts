@@ -1,6 +1,4 @@
-import { TranslationWidth } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 interface LocaleSet {

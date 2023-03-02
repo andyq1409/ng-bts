@@ -1,4 +1,5 @@
-import { Component, DoCheck, OnInit, ViewChild, ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild,
+         ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
 import { NgbDatepickerI18n, NgbDateStruct, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDatepickerI18n, I18n } from 'src/language/pl';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -135,11 +136,6 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
           this.msg = data;
           console.log("usrcomp onSubmit modMsg", this.modMsgX);
           this.msgType = "S";
-          // this.modalService.open(this.modMsgX, {centered: true}).result.then(
-          //   (result) => {
-          //     this.router.navigate(['tabUser']);
-          //   }
-          // );
           msgBox(this.modalService, data, "S", false).result.then(
              (result) => {
                this.router.navigate(['tabUser']);

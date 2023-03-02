@@ -20,6 +20,7 @@ import { NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootst
 import { authInterceptorProviders } from "./interceptors/auth.interceptors";
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { ModalInfoComponent } from "./modal-info/modal-info.component";
+import { RolesComponent } from './roles/roles.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ModalInfoComponent } from "./modal-info/modal-info.component";
     UserComponent,
     UsersComponent,
     DateTimePickerComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    RolesComponent
   ],
   imports: [
     BrowserModule,
