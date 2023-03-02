@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <form (ngSubmit)="onSubmit()">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+          <div class="card-header">
+            <p class="text-center font-weight-light my-4 aq-login-title">
+              Uprawnienia użytkownika: {{username}}
+            </p>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Rola</th>
+                <th scope="col">Ważna od</th>
+                <th scope="col">do</th>
+                <th scope="col">Edycja</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let cuser of usrRoles; let i = index" [class.bg-info]="cuser.id === usrRole.id">
+                <td>{{ cuser.descr }}</td>
+                <td>{{ cuser.date_from | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                <td>{{ cuser.date_to | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+                <td>
+                    <fa-icon class="cursor-pointer" [icon]="['far', 'edit']"  (click)="clickedRow(i)"></fa-icon>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+            <!-- TODO linkowanie do strony użytkownika - udemy lekcja 178 -->
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination
+                [collectionSize]="this.total"
+                [(page)]="this.page"
+                [pageSize]="this.pageSize"
+              ></ngb-pagination>
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <div class="row"  *ngIf="usrRole.id_user !== '0'">
+              <div class="col-4">
+                <label class="form-label">Rola    user: {{usrRole.id_user}}</label>
+                <select class="form-select" [(ngModel)]="usrRole.id_role" name="rola" >
+                  <option value="1">Administrator</option>
+                  <option value="2">Przeglądanie</option>
+                  <option value="3">Operator</option>
+                </select>
+              </div>
+              <div class="col-4">
+                <label class="form-label">Ważna od</label>
+                <date-time-picker [dateString]="usrRole!.date_from" (outDate)="getDateFrom($event)" [nazwa]="'dtp1'"
+                                  [enableTime]="true" [required]="true"></date-time-picker>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-4">
+                <label class="form-label">do</label>
+                <date-time-picker [dateString]="usrRole!.date_to" (outDate)="getDateTo($event)" [nazwa]="'dtp2'"
+                                  [enableTime]="true" [required]="false"></date-time-picker>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+            <div class="row mt-4">
+              <div class="col-2"> <!-- ----------------------------------------------------------- -->
+                <button type="button" class="btn btn-outline-secondary" (click)="canceling()">Zaniechaj</button>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-6">
+              </div>
+              <div class="col-2 d-flex-right">
+                <button type="button" class="btn btn-success" (click)="newRole()">Nowe</button>
+              </div>
+              <div class="col-2 d-flex-right"  *ngIf="usrRole.id_user !== '0'">
+                <button type="submit" class="btn btn-primary">Zapisz</button>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Komunikat</h4>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-success" role="alert" *ngIf="msgType === 'S'">{{msg}}</div>
+    <div class="alert alert-info" role="alert" *ngIf="msgType === 'I'">{{msg}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="msgType === 'E'">{{msg}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Ok</button>
+  </div>
+</ng-template>
+

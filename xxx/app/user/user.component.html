@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <form name="form" #frm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+          <div class="card-header">
+            <p class="text-center font-weight-light aq-login-title">
+              {{tittle}}
+            </p>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-4">  <!-- ----------------------------------------------------------- -->
+                <label for="inputUsername" class="form-label">Login *</label>
+                <input type="text" class="form-control" id="inputUsername" required minlength="6"
+                       [(ngModel)]="user.username" name="username" #username="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="username.errors">
+                  <div *ngIf="username.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="username.errors['minlength']">Login musi mieć ponad 5 znaków</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-md-4">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="text" class="form-control" id="inputEmail4" email
+                       [(ngModel)]="user.email" name="usrmail" #usrmail="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="usrmail.errors">
+                  Niepoprawny adres mailowy
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-md-4">
+                <label for="inputPassword4" class="form-label">Password</label>
+                <input
+                  type="password" class="form-control" id="inputPassword4" minlength="8"
+                  [(ngModel)]="user.password" name="password" #password="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="password.errors">
+                  <div *ngIf="password.errors['minlength']">Hasło musi mieć ponad 7 znaków</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label for="inputFirstname" class="form-label">Imię *</label>
+                <input type="text" class="form-control" id="inputFirstname" required minlength="3"
+                        [(ngModel)]="user.imie" name="imie" #imie="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="imie.errors">
+                  <div *ngIf="imie.errors['minlength']">Imię musi mieć ponad 2 znaki</div>
+                  <div *ngIf="imie.errors['required']">Pole jest wymagane</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-6">
+                <label for="inputLastname" class="form-label">Nazwisko *</label>
+                <input type="text" class="form-control" id="inputLastname" required minlength="3"
+                        [(ngModel)]="user.nazwisko" name="nazwisko" #nazwisko="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="nazwisko.errors">
+                  <div *ngIf="nazwisko.errors['minlength']">Imię musi mieć ponad 2 znaki</div>
+                  <div *ngIf="nazwisko.errors['required']">Pole jest wymagane</div>
+                </div>
+              </div>
+            </div> <!-- ----------------------------------------------------------- -->
+            <div class="row">
+              <div class="col-3">
+                <label class="form-label">Data od *</label>
+                <date-time-picker [dateString]="user.data_od" (outDate)="getDateOd($event)"[nazwa]="'dtp1'"
+                                  [enableTime]="false" [required]="true"></date-time-picker>
+              </div> <!-- ----------------------------------------------------------- -->
+
+              <div class="col-4">
+                <label class="form-label">Data do</label>
+                <date-time-picker [dateString]="user.data_do" (outDate)="getDateDo($event)"[nazwa]="'dtp2'"
+                                  [enableTime]="true" [required]="false"></date-time-picker>
+              </div> <!-- ----------------------------------------------------------- -->
+
+              <div class="col-1">
+                <label class="form-label" for="gridCheck"> Blokada </label>
+                <div class="input-group">
+                  <input
+                    class="form-check-input mt-2 offset-3" type="checkbox" id="gridCheck"
+                    (change)="changeBlok($event)" [checked]="user.locked == 1"
+                  />
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+
+              <div class="col-3">
+                <label class="form-label"
+                >Ważność hasła do *</label>
+                <date-time-picker [dateString]="user.data_hasla" (outDate)="getDateHasla($event)" [nazwa]="'dtp3'"
+                                  [enableTime]="false" [required]="true"></date-time-picker>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row" class="alert alert-wr-danger mb-3" role="alert" *ngIf="errMsg !== ''">
+              <p>{{errMsg}}</p>
+            </div>
+            <div class="row">
+              <div class="col-2"> <!-- ----------------------------------------------------------- -->
+                <button type="button" class="btn btn-light" [routerLink]="['/tabUser']">Zaniechaj</button>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-8">
+              </div>
+              <div class="col-2 d-flex-right">
+                <button type="submit" class="btn btn-primary" [disabled]="frm.invalid || !usrOK">Zapisz</button>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Komunikat</h4>
+	</div>
+	<div class="modal-body">
+    <div class="alert alert-success" role="alert" *ngIf="msgType === 'S'">{{msg}}</div>
+    <div class="alert alert-info" role="alert" *ngIf="msgType === 'I'">{{msg}}</div>
+    <div class="alert alert-danger" role="alert" *ngIf="msgType === 'E'">{{msg}}</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Ok</button>
+	</div>
+</ng-template>

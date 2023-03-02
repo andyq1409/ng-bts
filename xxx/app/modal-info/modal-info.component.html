@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h4 class="modal-title">Komunikat</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"
+          *ngIf="closeBtn"></button>
+</div>
+<div class="modal-body">
+  <div class="alert alert-success" role="alert" *ngIf="msgType === 'S'">{{msg}}</div>
+  <div class="alert alert-info" role="alert" *ngIf="msgType === 'I'">{{msg}}</div>
+  <div class="alert alert-danger" role="alert" *ngIf="msgType === 'E'">{{msg}}</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-primary" (click)="activeModal.close('ok')">Ok</button>
+</div>
+
