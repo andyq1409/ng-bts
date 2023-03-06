@@ -10,6 +10,17 @@ export function msgBox( modalService: NgbModal, message: string, msgType: string
   return modalRef;
 }
 
+export function msgLoadOpen(modalService: NgbModal) : void {
+  const modalRef = modalService.open(ModalInfoComponent, {centered: true});
+  modalRef.componentInstance.msg = "vvvvvvvvvvvvvvvvv";
+  modalRef.componentInstance.msgType = "L";
+  modalRef.componentInstance.closeBtn = false;
+}
+
+export function msgLoadClose(modalService: NgbModal) : void {
+  modalService.dismissAll();
+}
+
 
   // export function formatDate(dt: Date): string {
   //   var year = dt.toLocaleString("default", { year: "numeric" });

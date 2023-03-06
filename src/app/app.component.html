@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="sb-sidenav-footer" *ngIf="this.tokenStorage.isLoggedIn()">
-          <div class="small">Logged in as:</div>
+          <div class="small">Zalogowany:</div>
           <span *ngIf="userService.user$ | async as user"
             >{{ this.tokenStorage.user.firstName }}
             {{ this.tokenStorage.user.lastName }}</span

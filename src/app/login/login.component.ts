@@ -11,9 +11,10 @@ import { TokenStorageService } from 'src/services/token-storage.service';
 })
 export class LoginComponent implements OnInit {
   isLoggedIn = false;
-  username: String = 'ewapit';
-  password: String = 'szczecin';
+  username: String = 'andy24';
+  password: String = 'warszawa';
   loginError: string = '';
+  bodyElement = document.body;
 
   constructor(
     private authService: AuthService,
@@ -34,17 +35,19 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log('on Submit call');
+    if (this.bodyElement) {
+      this.bodyElement.classList.add("loading");
+    }
     this.authService.login(this.username, this.password).subscribe({
       next: (data) => {
+        if (this.bodyElement) {
+          this.bodyElement.classList.remove("loading");
+        }
         console.log(data);
         if (data.status == 200) {
           console.log('Authorization' + data.headers.get('X-Authorization'));
           this.tokenStorage.saveToken(data.headers.get('X-Authorization') as string);
           this.tokenStorage.saveUser(data);
-      /*    this.tokenStorage.saveUserName(
-            data.body?.firstName + ' ' + data.body?.lastName
-          );  */
-      //    this.roles = data.body.roles;
           this.router.navigate(['']);
         }
         if (data.status == 400) {
@@ -52,6 +55,9 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (err) => {
+        if (this.bodyElement) {
+          this.bodyElement.classList.remove("loading");
+        }
         console.log('error');
         console.log(err);
         if (

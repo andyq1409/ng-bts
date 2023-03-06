@@ -44,7 +44,7 @@
           <div class="card-footer">
             <div class="row"  *ngIf="usrRole.id_user !== '0'">
               <div class="col-4">
-                <label class="form-label">Rola    user: {{usrRole.id_user}}</label>
+                <label class="form-label">Rola    role: {{usrRole.id_role}}</label>
                 <select class="form-select" [(ngModel)]="usrRole.id_role" name="rola" >
                   <option value="1">Administrator</option>
                   <option value="2">Przeglądanie</option>
@@ -62,9 +62,16 @@
                                   [enableTime]="true" [required]="false"></date-time-picker>
               </div> <!-- ----------------------------------------------------------- -->
             </div>
+            <div class="row mt-4" *ngIf="msg">
+              <div class="col-2">
+              </div>
+              <div class="col-8">
+                <ngb-alert class="text-center" #selfClosingAlert [type]="alertType" (closed)="clearMsg()">{{ msg }}</ngb-alert>
+              </div>
+            </div>
             <div class="row mt-4">
               <div class="col-2"> <!-- ----------------------------------------------------------- -->
-                <button type="button" class="btn btn-outline-secondary" (click)="canceling()">Zaniechaj</button>
+                <button type="button" class="btn btn-secondary" (click)="canceling()">Zaniechaj</button>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-6">
               </div>
@@ -81,18 +88,4 @@
     </div>
   </div>
 </div>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Komunikat</h4>
-  </div>
-  <div class="modal-body">
-    <div class="alert alert-success" role="alert" *ngIf="msgType === 'S'">{{msg}}</div>
-    <div class="alert alert-info" role="alert" *ngIf="msgType === 'I'">{{msg}}</div>
-    <div class="alert alert-danger" role="alert" *ngIf="msgType === 'E'">{{msg}}</div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Ok</button>
-  </div>
-</ng-template>
 

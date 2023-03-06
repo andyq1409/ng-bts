@@ -1,10 +1,11 @@
 import { Component, DoCheck, OnInit, ViewChild,
-         ViewEncapsulation, AfterViewInit, TemplateRef } from '@angular/core';
-import { NgbDatepickerI18n, NgbDateStruct, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
+         ViewEncapsulation } from '@angular/core';
+import { NgbAlert, NgbDatepickerI18n, NgbDateStruct, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
 import { CustomDatepickerI18n, I18n } from 'src/language/pl';
 import { ActivatedRoute, Router } from '@angular/router';
-import { msgBox, NetUser} from '../../models';
+import { NetUser} from '../../models';
 import { MainService } from '../../services/main.service';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -17,7 +18,7 @@ import { MainService } from '../../services/main.service';
 	encapsulation: ViewEncapsulation.None
 }) //===================================================================================================================
 //=======================================================================================================================
-export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
+export class UserComponent implements OnInit, DoCheck {
   dtpDateOd!: NgbDateStruct;
   //usrDateDo!: string;
   dtpDatePasswd!: NgbDateStruct;
@@ -52,6 +53,10 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
   tittle: string = 'Edycja danych użytkownika';
   msg: string = '';
   msgType: string = "I"  // I-info  E-error S-success
+  bodyElement = document.body;
+
+	private _success = new Subject<string>();
+  alertType = "success";
 
   constructor(
     // ==========================================================
@@ -64,33 +69,42 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
     this._i18n.language = 'pl';
   }
 
-  @ViewChild('content',{read: TemplateRef })
-  modMsgX!: TemplateRef<any> ;
+	@ViewChild('selfClosingAlert', { static: false }) 
+  selfClosingAlert!: NgbAlert;
 
-
-
-  ngAfterViewInit() {
-    console.log("usrcomp ngAfterViewInit modMsg", this.modMsgX);
+  clearMsg() {
+    this.msg = "";
   }
-
+  
   ngDoCheck(): void {
     // console.log("user.component.doCheck user:", this.user.data_hasla);
   }
 
   ngOnInit(): void {
+		this._success.subscribe((message) => (this.msg = message));
+		this._success.pipe(debounceTime(10000)).subscribe(() => {
+			if (this.selfClosingAlert) {
+				this.selfClosingAlert.close();
+			}
+		});
+
+    (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;   
     this.route.paramMap.subscribe({
       next: (data) => {
+        (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;   
         // console.log("UserComponent id user (str):", data.get('id'));
         if (data.get('id') == '0') {
           //let date = new Date();
           this.user = Object.assign(this.user, this.user1);
           this.tittle = 'Nowy użytkownik';
           console.log('usrcomp ngOnInit user0:', this.user);
-        } else {
+        } else {      
           let idx = Number(data.get('id'));
           // console.log("UserComponent id user (int):", idx);
+          (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;   
           this.service.getUsers('all').subscribe({
             next: (data) => {
+              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;   
               console.log('usrcomp ngOnInit data:', data);
               data.forEach((element) => {
                 element.id == idx ? (this.user = element) : null;
@@ -99,6 +113,10 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
               this.user1 = Object.assign(this.user1, this.user);
               console.log('usrcomp ngOnInit user:', this.user); //<<<======== obiekt user =================================
             },
+            error: (err) => {
+              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;  
+              console.log('usrcomp onSubmit error:', err);
+            }
           });
         }
       },
@@ -130,42 +148,30 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
     console.log('usrcomp onSubmit user:', this.user);
     console.log('usrcomp onSubmit prev user:', this.user1);
     if (JSON.stringify(this.user) !== JSON.stringify(this.user1)) {
+      (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;   
       this.service.saveUser(this.user).subscribe({
         next: (data) => {
+          (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;   
           console.log('usrcomp onSubmit data:', data);
+          this.user1 = Object.assign(this.user1, this.user) ;    
           this.msg = data;
-          console.log("usrcomp onSubmit modMsg", this.modMsgX);
           this.msgType = "S";
-          msgBox(this.modalService, data, "S", false).result.then(
-             (result) => {
-               this.router.navigate(['tabUser']);
-             }
-           );
+          this.alertType = "success";          
+          this._success.next(this.msg);
         },
         error: (err) => {
+          (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;   
           console.log('usrcomp onSubmit error:', err);
           (err.status === 0 ) ? this.msg = "Connection refused" : this.msg = "Error code: " + err.status.toString() ;
           this.msgType = "E";
-
-          msgBox(this.modalService, this.msg, "E", false).result.then(
-            (result) => {
-              null;
-            }
-          );
+          this.alertType = "success";          
+          this._success.next(this.msg);
         }
       });
     } else {
       this.msg = "Brak zmian do zapisania.";
-      this.msgType = "S";
-      this.modalService.open(this.modMsgX, {centered: true}).result.then(
-        (result) => {
-          this.router.navigate(['tabUser']);
-        },
-        (reason) => {
-          null;
-        },
-      );
-
+      this.alertType = "warning";  
+      this._success.next(this.msg);  
     }
   }
 
@@ -181,7 +187,9 @@ export class UserComponent implements OnInit, DoCheck, AfterViewInit  {
       if (this.user.data_do !== null) {
         if (this.user.data_od > this.user.data_do) {
           this.usrOK = false;
-          this.errMsg = 'Data od nie może być późniejsza niż data do. ';
+          this.msg = 'Data od nie może być późniejsza niż data do. ';
+          this.alertType = "danger";       
+          this._success.next(this.msg);  
         }
       }
       // console.log("usrcomp validateUser errMsg", this.errMsg);
