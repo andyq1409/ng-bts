@@ -1,0 +1,45 @@
+//****************************************************************************
+//******************  NgbAlert  **********************************************
+//****************************************************************************
+//*********** deklaracje  ****************************************************
+
+msg: string = "";
+private _success = new Subject<string>();
+alertType = "success";
+
+//*********** po constructorze  **********************************************
+
+  @ViewChild('selfClosingAlert', { static: false })
+  selfClosingAlert!: NgbAlert;
+
+//*********** w ngOnInit na początku  ****************************************
+
+    this._success.subscribe((message) => (this.msg = message));
+    this._success.pipe(debounceTime(10000)).subscribe(() => {
+      if (this.selfClosingAlert) {
+        this.selfClosingAlert.close();
+      }
+    });
+
+//*********** metoda na końcu  *************************************************
+
+  clearMsg() {
+    this.msg = "";
+  }
+
+//*********** inicjacja alertu  *************************************************
+
+   this._success.next(this.msg);
+
+//***********   HTML    *******************************************************
+
+  <div class="row mt-4" *ngIf="msg">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+      <ngb-alert class="text-center" #selfClosingAlert [type]="alertType"
+                 (closed)="clearMsg()">{{ msg }}</ngb-alert>
+    </div>
+  </div>
+  <div class="row mt-4">
+

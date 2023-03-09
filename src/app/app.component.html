@@ -63,7 +63,7 @@
               </div>
             </h6>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" routerLink="passwdChg">Zmiana hasła</a>
+            <a class="dropdown-item" [routerLink]="['passwdChg']"  [queryParams]="{ tittle: 'Zmiana hasła'}"  >Zmiana hasła</a>
             <div class="dropdown-divider"></div>
             <button class="dropdown-item" (click)="logout()">
               Wyloguj się

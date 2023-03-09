@@ -31,8 +31,8 @@ export class RolesComponent implements OnInit, DoCheck {
   idUsr: string = "1";
   username: string = "";
   user: NetUser | undefined ;
-  msg: string = "";
 
+  msg: string = "";
 	private _success = new Subject<string>();
   alertType = "success";
 
@@ -43,7 +43,7 @@ export class RolesComponent implements OnInit, DoCheck {
     this._i18n.language = 'pl';
   }
 
-	@ViewChild('selfClosingAlert', { static: false }) 
+	@ViewChild('selfClosingAlert', { static: false })
   selfClosingAlert!: NgbAlert;
 
   ngOnInit(): void {
@@ -55,7 +55,7 @@ export class RolesComponent implements OnInit, DoCheck {
 			}
 		});
 
-    (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;   
+    (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;
     this.route.paramMap.subscribe({
       next: (data) => {
           console.log("rolescomp id user:", data.get('id'));
@@ -67,7 +67,7 @@ export class RolesComponent implements OnInit, DoCheck {
               this.username = data.imie + " " + data.nazwisko + " (" + data.username +")"
               this.service.getRoles(this.idUsr).subscribe({
                 next: (data) => {
-                  (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;   
+                  (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
                   console.log("rolescomp ngOnInit data:",data);
                   this.usrRolesAll = data;
                   this.total = this.usrRolesAll.length;
@@ -75,18 +75,18 @@ export class RolesComponent implements OnInit, DoCheck {
                   console.log("rolescomp ngOnInit usrRoles:",this.usrRoles);
                 },
                 error: (err) => {
-                  (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;  
+                  (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
                   console.log('error');
                   console.log(err);
                 },
               });
             },
             error: (err) => {
-              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;  
+              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
               console.log('error');
               console.log(err);
             },
-          });     
+          });
         }
     });
   }
@@ -143,14 +143,14 @@ export class RolesComponent implements OnInit, DoCheck {
     console.log('rolescomp onSubmit prev role' , JSON.stringify(this.usrPrevRole));
     console.log('rolescomp onSubmit curr role' , JSON.stringify(this.usrRole));
     if (JSON.stringify(this.usrRole) !== JSON.stringify(this.usrPrevRole)) {
-      (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;      
+      (this.bodyElement) ? this.bodyElement.classList.add("loading") : null;
       this.service.saveRole(this.usrRole).subscribe({
         next: (data) => {
           console.log('rolescomp onSubmit data:', data);
           this.msg = data;
           this.service.getRoles(this.idUsr).subscribe({
             next: (data) => {
-              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;      
+              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
               console.log("rolescomp ngOnInit data:",data);
               this.usrRolesAll = data;
               this.total = this.usrRolesAll.length;
@@ -158,11 +158,11 @@ export class RolesComponent implements OnInit, DoCheck {
               console.log("rolescomp ngOnInit usrRoles:",this.usrRoles);
               this.usrRole = {"id":"0","id_user":"0","id_role":"0","code_role":"????","descr":"????",
                               "date_from":"1901-01-01 07:23:33+0100","date_to":"1900-01-01 12:35:00+0100"};
-              this.alertType = "success";          
+              this.alertType = "success";
               this._success.next(this.msg);
             },
             error: (err) => {
-              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;      
+              (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
               console.log('error');
               console.log(err);
               // (err.status === 0 ) ? this.msg = "Connection refused" : this.msg = "Error code: " + err.status.toString() ;
@@ -170,7 +170,7 @@ export class RolesComponent implements OnInit, DoCheck {
           });
         },
         error: (err) => {
-          (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;      
+          (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
           console.log('rolescomp onSubmit error:', err);
           (err.status === 0 ) ? this.msg = "Connection refused" : this.msg = "Error code: " + err.status.toString() ;
           // this.msgType = "E";
@@ -183,7 +183,7 @@ export class RolesComponent implements OnInit, DoCheck {
       });
     } else {
       this.msg = "Brak zmian do zapisania.";
-      this.alertType = "warning";          
+      this.alertType = "warning";
       this._success.next(this.msg);
       this.usrRole = {"id":"0","id_user":"0","id_role":"0","code_role":"????","descr":"????",
       "date_from":"1901-01-01 07:23:33+0100","date_to":"1900-01-01 12:35:00+0100"};

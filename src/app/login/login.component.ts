@@ -3,6 +3,7 @@ import { NgModel } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/services/auth.service';
 import { TokenStorageService } from 'src/services/token-storage.service';
+import {User} from "../../models";
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,8 @@ import { TokenStorageService } from 'src/services/token-storage.service';
 })
 export class LoginComponent implements OnInit {
   isLoggedIn = false;
-  username: String = 'andy24';
-  password: String = 'warszawa';
+  username: String = 'ewapit';
+  password: String = 'szczecin';
   loginError: string = '';
   bodyElement = document.body;
 
@@ -43,15 +44,20 @@ export class LoginComponent implements OnInit {
         if (this.bodyElement) {
           this.bodyElement.classList.remove("loading");
         }
-        console.log(data);
+        console.log("LoginComponent onSubmit data:",data);
+
+        const user: User = data.body;
+        console.log("LoginComponent onSubmit user:",user);
         if (data.status == 200) {
-          console.log('Authorization' + data.headers.get('X-Authorization'));
           this.tokenStorage.saveToken(data.headers.get('X-Authorization') as string);
           this.tokenStorage.saveUser(data);
-          this.router.navigate(['']);
         }
-        if (data.status == 400) {
-          this.router.navigate(['passwdChg']);
+
+        if (user.roles.includes("PASSW_EXPIRED") ) {
+          this.router.navigate(['passwdChg'],{ queryParams: { tittle: 'Wymagana zmiana hasła'}})
+        } else
+        {
+          this.router.navigate([''])
         }
       },
       error: (err) => {
@@ -60,13 +66,6 @@ export class LoginComponent implements OnInit {
         }
         console.log('error');
         console.log(err);
-        if (
-          err.status == 401 &&
-          err.error.message.includes('account expired')
-        ) {
-          console.log('account expired');
-          this.router.navigate(['passwdChg']);
-        }
         if (
           err.status == 401 &&
           err.error.message.includes('Nie ma')

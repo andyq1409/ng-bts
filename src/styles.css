@@ -166,6 +166,8 @@ body.loading .modal {
   flex-direction: column;
   flex-wrap: nowrap;
 }
+
+
 .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
   padding: 1.75rem 1rem 0.75rem;
   font-size: 0.75rem;
@@ -253,7 +255,7 @@ body.loading .modal {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
-.sb-nav-fixed #layoutSidenav #layoutSidenav_nav, .sb-nav-fixed .sb-topnav {			
+.sb-nav-fixed #layoutSidenav #layoutSidenav_nav, .sb-nav-fixed .sb-topnav {
   position: fixed;
   top: 0;
   right: 0;
@@ -275,7 +277,7 @@ body.loading .modal {
     --wr-c3: #A60A3D;
     --wr-c4: #8A1538;
     --wr-alert: #EC2F2F;
-  
+
     --wr-rgba-b1: rgba(0, 48, 87, 1);
     --wr-rgba-b2: rgba(0, 60, 113, 1);
     --wr-rgba-b3: rgba(0, 119, 200, 1);
@@ -284,7 +286,7 @@ body.loading .modal {
     --wr-rgba-c3: rgba(166, 10, 61, 1);
     --wr-rgba-c4: rgba(138, 21, 56, 1);
     --wr-rgba-alert: rgba(236, 47, 47, 1);
-  
+
     --wr-rgb-b1: 0, 48, 87;
     --wr-rgb-b2: 0, 60, 113;
     --wr-rgb-b3: 0, 119, 200;
@@ -377,4 +379,8 @@ body {
 }
 .min-vh-main {
   min-height: calc(100vh - 125px);
+}
+
+.text-center {
+  text-align: center;
 }
