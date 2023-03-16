@@ -21,6 +21,8 @@ import { authInterceptorProviders } from "./interceptors/auth.interceptors";
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { ModalInfoComponent } from "./modal-info/modal-info.component";
 import { RolesComponent } from './roles/roles.component';
+import { ProductsComponent } from './products/products.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { RolesComponent } from './roles/roles.component';
     UsersComponent,
     DateTimePickerComponent,
     ModalInfoComponent,
-    RolesComponent
+    RolesComponent,
+    ProductsComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,

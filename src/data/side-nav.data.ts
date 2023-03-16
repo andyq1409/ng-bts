@@ -8,11 +8,11 @@ export const sideNavSections: SideNavSection[] = [
     },
     {
         text: 'OPERACJE',
-        items: ['dashboard', 'pages'],
+        items: ['products', 'pages'],
         roles: ["ROLE_ADMIN","ROLE_VIEW","ROLE_WRT"]
     },
     {
-        text: 'RAPOTY',
+        text: 'RAPORTY',
         items: ['layouts'],
         roles: ["ROLE_ADMIN","ROLE_WRT"]
     },
@@ -24,10 +24,21 @@ export const sideNavSections: SideNavSection[] = [
 ];
 
 export const sideNavItems: SideNavItems = {
-    dashboard: {
+    products: {
         icon: 'tachometer-alt',
-        text: 'Dashboard',
-        link: '/dashboard',
+        text: 'Produkty',
+        submenu: [
+          {
+            text: 'Nowy produkt',
+            link: '/products/newprod',
+            roles: ["ROLE_ADMIN"]
+          },
+          {
+            text: 'Produkty',
+            link: '/products/prods',
+            roles: ["ROLE_ADMIN"]
+          },
+        ],
         roles: ["ROLE_ADMIN"]
     },
     layouts: {

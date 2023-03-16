@@ -5,12 +5,15 @@
   <nav class="sb-topnav navbar navbar-expand navbar-dark wr-dark">
     <a routerLink="">
       <img
-        src="assets/brand/aquarius_full.png"
+        src="assets/brand/warta_logo.png"
         class="aq-brand-img"
-        width="200"
-        height="40"
+        width="140"
+        height="50"
         alt="aquarius"
       />
+    </a>
+    <a class="aq-app" >
+      Magdruk
     </a>
     <!--<img src="assets/brand/WARTA LOGO RGB KON.png" class="aq-brand-img" width="140" height="53" alt="warta">-->
     <button
@@ -87,9 +90,9 @@
               <ng-container
                 *ngIf="isAccess(this.tokenStorage.user.roles, section.roles)"
               >
-                <div class="sb-sidenav-menu-heading" *ngIf="section.text">
+<!--                <div class="sb-sidenav-menu-heading" *ngIf="section.text">
                   {{ section.text }}
-                </div>
+                </div>-->
                 <ng-container *ngFor="let item of section.items">
                     <sb-side-nav-item
                       [sideNavItem]="sideNavItems[item]"

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import {MainService} from "../../services/main.service";
 import {debounceTime, Subject} from "rxjs";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
