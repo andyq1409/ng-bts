@@ -15,15 +15,15 @@
                 <th scope="col"></th>
                 <th scope="col">Nazwa</th>
                 <th scope="col">Opis</th>
-                <th scope="col" class="text-right">Cena</th>
+                <th scope="col" class="text-right">Cena [PLN]</th>
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let item of products; let i = index">
-                <td><img [src]="urls[i]" alt="xxxxx"></td>
+              <tr *ngFor="let item of productsExt; let i = index">
+                <td><img [src]="item.url" alt="item.filename"></td>
                 <td>{{ item.product_name }}</td>
                 <td>{{ item.product_description }}</td>
-                <td class="text-right">{{ item.list_price | number:'1.2-2':'pl' }} PLN</td>
+                <td class="text-right">{{ item.price_str }}</td>
               </tr>
               </tbody>
             </table>

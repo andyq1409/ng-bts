@@ -1,1 +1,97 @@
-<p>product works!</p>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <form name="form" #frm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+          <div class="card-header">
+            <p class="text-center font-weight-light aq-login-title">
+              {{tittle}}
+            </p>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-3">  <!-- ----------------------------------------------------------- -->
+                <label for="inputProdName" class="form-label">Nazwa produktu</label>
+                <input type="text" class="form-control" id="inputProdName" required minlength="6"
+                       [(ngModel)]="prod.product_name" name="prodname" #prodname="ngModel"/>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="prodname.errors">
+                  <div *ngIf="prodname.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="prodname.errors['minlength']">Login musi mieć ponad 5 znaków</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-md-3">
+                <label for="selCaterory" class="form-label">Kategoria produktów</label>
+                <select class="form-select" [(ngModel)]="prod.category"
+                        name="category" id="selCaterory" #category="ngModel" required >
+                  <option value="M">Męskie</option>
+                  <option value="K">Żeńskie</option>
+                  <option value="A">Akcesoria</option>
+                </select>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="category.errors">
+                  <div *ngIf="category.errors['required']">Pole jest wymagane</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-md-3">
+                <label class="form-label" for="Check">Produkt dostępny</label>
+                <div class="input-group">
+                  <input
+                    class="form-check-input mt-2 offset-3" type="checkbox" id="Check"
+                    (change)="changeBlok($event)" [checked]="prod.product_avail == 'Y'"
+                  />
+                </div>
+              </div> <!-- --------------------------------------------------------- -->
+              <div class="col-md-3">  <!-- ----------------------------------------------------------- -->
+                <label for="inputPrice" class="form-label">Cena produktu</label>
+                <input type="text" class="form-control" id="inputPrice" required
+                       [(ngModel)]="prod.list_price" name="prodPrice" #prodprice="ngModel" pattern="/^(\d{0,8}(\,\d{0,2})?)$/" />
+                <div class="alert alert-wr-danger" role="alert" *ngIf="prodprice.errors">
+                  <div *ngIf="prodprice.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="prodprice.errors['pattern']">Niepoprawna liczba</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div><!-- ================================================================================ -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="inputProdDescr" class="form-label">Opis produktu</label>
+                <textarea class="form-control" id="inputProdDescr" required minlength="8" rows="3"
+                          [(ngModel)]="prod.product_description" name="prodescr" #prodescr="ngModel">
+                </textarea>
+                <div class="alert alert-wr-danger" role="alert" *ngIf="prodescr.errors">
+                  <div *ngIf="prodescr.errors['required']">Pole jest wymagane</div>
+                  <div *ngIf="prodescr.errors['minlength']">Login musi mieć ponad 5 znaków</div>
+                </div>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div> <!-- =================================================================================== -->
+            <div class="row">
+              <div class="col-5">
+                <label class="form-label">Widok produktu</label>
+                <input type="file" class="form-control" (change)="onFileSelected($event)" />
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row mt-4" *ngIf="msg">
+              <div class="col-2">
+              </div>
+              <div class="col-8">
+                <ngb-alert class="text-center" #selfClosingAlert [type]="alertType" (closed)="clearMsg()">{{ msg }}</ngb-alert>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-2"> <!-- ----------------------------------------------------------- -->
+                <button type="button" class="btn btn-secondary" [routerLink]="['/tabUser']">Zaniechaj</button>
+              </div> <!-- ----------------------------------------------------------- -->
+              <div class="col-8">
+              </div>
+              <div class="col-2 d-flex-right">
+                <button type="submit" class="btn btn-primary" [disabled]="frm.invalid">Zapisz</button>
+              </div> <!-- ----------------------------------------------------------- -->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+

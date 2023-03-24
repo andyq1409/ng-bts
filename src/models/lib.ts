@@ -21,14 +21,23 @@ export function msgLoadClose(modalService: NgbModal) : void {
   modalService.dismissAll();
 }
 
+export function Date2AppDate(dt: Date) : string {
+  //let xx = dt.toISOString();
+  ///x = dt.getTimezoneOffset();
+  let xx = new Date(dt.getTime() - dt.getTimezoneOffset() * 60 * 1000);
+//  console.log(xx.toISOString());
+//console.log(xx.toTimeString().substr(12,5));
+  return xx.toISOString().substring(0,19)+ xx.toTimeString().substring(12,17);
+}
 
-  // export function formatDate(dt: Date): string {
-  //   var year = dt.toLocaleString("default", { year: "numeric" });
-  //   var month = dt.toLocaleString("default", { month: "2-digit" });
-  //   var day = dt.toLocaleString("default", { day: "2-digit" });
-  //   var formattedDate = year + "-" + month + "-" + day;
-  //   return formattedDate;
-  // }
+export function Number2NumberPL ( pval: number): string {
+  pval = Math.round(pval * 100) / 100;
+  console.log( "Number2NumberPL", pval, new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(pval).replace("$","").replace(","," ").replace(".",",")  );
+  return new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(pval).replace("$","").replace(","," ").replace(".",",") ;
+}
+export function NumberPL2Number ( pval: string): number {
+  return parseFloat(pval.replace("PLN", "").replace(/\s/g, "").replace(",","."))
+}
 
 /*   export function net2dbUser(dt: NetUser): DbUser {
     return {

@@ -8,6 +8,6 @@ echo ---------  Copy to Java project   -----------------------------------------
 @echo off
 echo ---------       copy to java static      --------------------------------------------------------------
 xcopy /q /e /y c:\Workspace\code\angular\ng-bts\dist\ng-bts c:\Workspace\code\java\jwt-sec-auth\static
-echo ---------    copy to java target\static  --------------------------------------------------------------
-xcopy /q /e /y c:\Workspace\code\angular\ng-bts\dist\ng-bts c:\Workspace\code\java\jwt-sec-auth\target\static
+rem echo ---------    copy to java target\static  --------------------------------------------------------------
+rem xcopy /q /e /y c:\Workspace\code\angular\ng-bts\dist\ng-bts c:\Workspace\code\java\jwt-sec-auth\target\static
 echo --------- End copy ------------------------------------------------------------------------------------

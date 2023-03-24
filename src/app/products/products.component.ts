@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProdService} from "../../services/prod.service";
-import {Product} from "../../models";
+import {Number2NumberPL, Product, ProductExt} from "../../models";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {I18n} from "../../language/pl";
 
@@ -14,13 +14,11 @@ import {I18n} from "../../language/pl";
 })
 export class ProductsComponent implements OnInit {
   bodyElement = document.body;
-  productsAll: Product[] = [];
-  products: Product[] = [];
-  urlsAll: SafeUrl[] = [];
-  urls: SafeUrl[] = [];
+  productsExtAll: ProductExt[] = [];
+  productsExt: ProductExt[] = [];
   total: number = 0;
   page: number = 1;
-  pageSize: number = 5;
+  pageSize: number = 4;
 
   constructor(public service: ProdService, private sanitizer: DomSanitizer) {
   }
@@ -30,26 +28,17 @@ export class ProductsComponent implements OnInit {
     this.service.getProducts(0, "").subscribe({
       next: (data: Product[]) => {
         (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
-        console.log(data);
-        this.productsAll = data;
-        this.total = this.productsAll.length;
-
+        //console.log( "data1" , data);
+        this.productsExtAll = data as ProductExt[] ;
+        this.total = this.productsExtAll.length;
         let objectURL;
-        let image;
-        for (let entry of data) {
-          objectURL = 'data:image/jpeg;base64,' + entry.product_image;
-          image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          this.urlsAll.push(image);
+        for (let index in this.productsExtAll) {
+          objectURL = 'data:image/jpeg;base64,' + this.productsExtAll[index].product_image;
+          this.productsExtAll[index].price_str = Number2NumberPL( this.productsExtAll[index].list_price );
+          this.productsExtAll[index].url = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          //console.log( "data2", this.productsExtAll);
         }
-
-        this.products = this.productsAll.slice(
-          (this.page - 1) * this.pageSize,
-          (this.page - 1) * this.pageSize + this.pageSize
-        );
-        this.urls = this.urlsAll.slice(
-          (this.page - 1) * this.pageSize,
-          (this.page - 1) * this.pageSize + this.pageSize
-        );
+        console.log( "ngOnInit" , this.productsExtAll )
       },
       error: (err) => {
         (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
@@ -57,14 +46,14 @@ export class ProductsComponent implements OnInit {
         console.log(err);
       },
     });
-  }
-
-  ngDoCheck(): void {
-    this.products = this.productsAll.slice(
+    this.productsExt = this.productsExtAll.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize
     );
-    this.urls = this.urlsAll.slice(
+  }
+
+  ngDoCheck(): void {
+    this.productsExt = this.productsExtAll.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize
     );
