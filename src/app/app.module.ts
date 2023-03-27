@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavItemComponent } from './side-nav-item/side-nav-item.component';
 import { UserService } from 'src/services/user.service';
-import { IconsModule } from 'src/icons/icons.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'src/services/auth.service';
@@ -23,6 +22,9 @@ import { ModalInfoComponent } from "./modal-info/modal-info.component";
 import { RolesComponent } from './roles/roles.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductComponent } from './product/product.component';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 @NgModule({
   declarations: [
@@ -41,11 +43,15 @@ import { ProductComponent } from './product/product.component';
   ],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     NgbModule, HttpClientModule, AppRoutingModule,
-    IconsModule,FormsModule, ReactiveFormsModule,NgbPaginationModule, NgbTypeaheadModule
+    FormsModule, ReactiveFormsModule,NgbPaginationModule, NgbTypeaheadModule
   ],
   providers: [ UserService, AuthService,TokenStorageService,authInterceptorProviders ],
   bootstrap: [AppComponent],
-  exports: [IconsModule]
+  exports: []
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(library: FaIconLibrary) {
+    library.addIconPacks(fas, far);
+  }}

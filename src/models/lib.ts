@@ -35,6 +35,7 @@ export function Number2NumberPL ( pval: number): string {
   console.log( "Number2NumberPL", pval, new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(pval).replace("$","").replace(","," ").replace(".",",")  );
   return new Intl.NumberFormat('en-US',{ style: 'currency', currency: 'USD' }).format(pval).replace("$","").replace(","," ").replace(".",",") ;
 }
+
 export function NumberPL2Number ( pval: string): number {
   return parseFloat(pval.replace("PLN", "").replace(/\s/g, "").replace(",","."))
 }

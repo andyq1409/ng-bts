@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Date2AppDate, ProductExt} from "../../models";
 import {debounceTime, Observable, ReplaySubject, Subject} from "rxjs";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
+import {NumberPL2Number} from "../../models";
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product',
@@ -10,6 +12,7 @@ import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 })
 export class ProductComponent implements OnInit {
   tittle: string = "Nowy produkt";
+  faCoffee = faCoffee;
   prod: ProductExt = {
     product_id: 0,
     product_name: "???",
@@ -21,13 +24,16 @@ export class ProductComponent implements OnInit {
     mimetype: "image/jpeg",
     filename: "???",
     image_last_update: Date2AppDate(new Date()),
-    price_str: "0.00",
+    price_str: "0,00",
     url: ""
   }
   private _success = new Subject<string>();
   alertType = "success";
   bodyElement = document.body;
   msg: string = '';
+  selectedFile?: Blob;
+  fileOk: boolean = true;
+  frmValidOk: boolean = true;
 
 
   constructor() { }
@@ -49,25 +55,27 @@ export class ProductComponent implements OnInit {
   }
 
   onFileSelected($event: any) {
-    this.convertFile($event.target.files[0]).subscribe((base64: string) => {
-      this.prod.product_image = base64;
-    });
-
+    this.prod.filename = $event.target.files[0].name;
+    if (this.validateFile($event.target.files[0])) {
+      this.convertFile($event.target.files[0]).subscribe((base64: string) => {
+        this.prod.url = base64;
+        this.prod.product_image = base64.substring(base64.indexOf("base64")+7);
+        console.log("convertFile", this.prod);
+      })
+    }
   }
 
   convertFile(file : File) : Observable<string> {
     const result = new ReplaySubject<string>(1);
     const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = (event) => {
-        // @ts-ignore
-      let data: string = event.target.result.toString();
-      let buff = new Buffer(data);
-      let base64data = buff.toString('base64');
+    reader.readAsDataURL(file);
+    reader.onloadend =  () => {
+      let base64data = reader.result as string;
       result.next( base64data );
     }
     return result;
   }
+  
 
   onSubmit() {
   }
@@ -76,5 +84,22 @@ export class ProductComponent implements OnInit {
     this.msg = "";
   }
 
+  validateFile(file: File): boolean  {
+    console.log("validateFile file: ", file)
+    if (  (  file.type === "image/jpg" || file.type === "image/jpeg"  ) && (file.size <= 12480 ) ) {
+      this.fileOk = true;
+      this.frmValidOk = true;
+      return true;
+    } else {
+      this.fileOk = false;
+      this.frmValidOk = false;
+      return false;
+    }
+  }
+  
+  onFocusOutPrice($event: any){
+    console.log($event.target.value); 
+    this.prod.list_price = NumberPL2Number($event.target.value);
+  }
 
 }

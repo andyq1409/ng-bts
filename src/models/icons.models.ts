@@ -13,8 +13,12 @@ import {
     faSearch,
     faTable,
     faTachometerAlt,
-    faUser,
+    faUser
 } from '@fortawesome/free-solid-svg-icons';
+
+import {
+    faQuestionCircle
+} from "@fortawesome/free-regular-svg-icons"
 
 export const fontAwesomeSolidIcons = {
     faAngleDown,
@@ -32,4 +36,5 @@ export const fontAwesomeSolidIcons = {
     faTable,
     faTachometerAlt,
     faUser,
+    faQuestionCircle
 };

@@ -67,8 +67,7 @@ export class LoginComponent implements OnInit {
         console.log('error');
         console.log(err);
         if (
-          err.status == 401 &&
-          err.error.message.includes('Nie ma')
+          err.status == 401
         ) {
           this.loginError = err.error.message;
         }

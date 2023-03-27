@@ -1,6 +1,7 @@
 <ng-container *ngIf="isAccess(this.tokenStorage.user.roles, sideNavItem.roles)">
   <a
     class="nav-link nav-link-aq"
+    href="#"
     [routerLink]="sideNavItem.link"
     (click)="expanded = !expanded"
     [ngClass]="{ active: isActive, collapsed: !expanded }"
