@@ -420,3 +420,7 @@ body {
   border: var(--bs-alert-border);
   border-radius: var(--bs-alert-border-radius);
 }
+
+.padd-3 {
+  padding: 0.3rem;
+}

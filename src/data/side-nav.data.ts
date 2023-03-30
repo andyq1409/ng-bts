@@ -30,7 +30,7 @@ export const sideNavItems: SideNavItems = {
         submenu: [
           {
             text: 'Nowy produkt',
-            link: '/products/newprod',
+            link: 'products/editProd/0',
             roles: ["ROLE_ADMIN"]
           },
           {

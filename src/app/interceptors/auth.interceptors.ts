@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import {TokenStorageService} from "../../services/token-storage.service";
+import {catchError, throwError} from "rxjs";
 
 
 const TOKEN_HEADER_KEY = 'Authorization';
@@ -22,7 +23,13 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     else
       console.log('nie dodajemy nagłówka');
-    return next.handle(authReq);
+    // @ts-ignore
+    return next.handle(authReq).pipe(
+      catchError((error) => {
+        console.log('error is intercept', error.message);
+        return throwError(error);
+      })
+    );
   }
 }
 

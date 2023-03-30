@@ -66,11 +66,8 @@ export class LoginComponent implements OnInit {
         }
         console.log('error');
         console.log(err);
-        if (
-          err.status == 401
-        ) {
-          this.loginError = err.error.message;
-        }
+        ( err.status == 401 ) ? this.loginError = err.error.message : null ;
+        ( err.status == 0 ) ? this.loginError = "Błąd połączenia sieciowego." : null ;
       },
     });
 

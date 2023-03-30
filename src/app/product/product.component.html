@@ -14,7 +14,7 @@
                 <label for="inputProdName" class="form-label">Nazwa produktu</label>
                 <input type="text" class="form-control" id="inputProdName" required minlength="6"
                        [(ngModel)]="prod.product_name" name="prodname" #prodname="ngModel"/>
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="prodname.errors">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="prodname.errors">
                   <div *ngIf="prodname.errors['required']">Pole jest wymagane</div>
                   <div *ngIf="prodname.errors['minlength']">Nazwa musi mieć ponad 5 znaków</div>
                 </div>
@@ -24,22 +24,22 @@
                 <select class="form-select" [(ngModel)]="prod.category"
                         name="category" id="selCaterory" #category="ngModel" required >
                   <option value="M">Męskie</option>
-                  <option value="K">Żeńskie</option>
+                  <option value="K">Damskie</option>
                   <option value="A">Akcesoria</option>
                 </select>
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="category.errors">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="category.errors">
                   <div *ngIf="category.errors['required']">Pole jest wymagane</div>
                 </div>
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="category.value == '???'">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="category.value == '???'">
                   <div>Pole jest wymagane</div>
                 </div>
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-md-3">
-                <div for="inputPrice" class="form-label text-right">Cena produktu</div>
+                <div class="form-label text-right">Cena produktu</div>
                 <input type="text" class="form-control text-right" id="inputPrice" required
                        [(ngModel)]="prod.price_str" name="prodPrice" #prodprice="ngModel"  (focusout)="onFocusOutPrice($event)"
                        pattern="^\d?\d?\d,\d\d?$|^\d?\d?\d\s?\d\d\d,\d\d$|^\d?\d?\d\s?\d\d\d\s?\d\d\d,\d\d$" />
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="prodprice.errors">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="prodprice.errors">
                   <div *ngIf="prodprice.errors['required']">Pole jest wymagane</div>
                   <div *ngIf="prodprice.errors['pattern']">Niepoprawna liczba</div>
                 </div>
@@ -50,7 +50,7 @@
                 <textarea class="form-control" id="inputProdDescr" required minlength="8" rows="3"
                           [(ngModel)]="prod.product_description" name="prodescr" #prodescr="ngModel">
                 </textarea>
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="prodescr.errors">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="prodescr.errors">
                   <div *ngIf="prodescr.errors['required']">Pole jest wymagane</div>
                   <div *ngIf="prodescr.errors['minlength']">Login musi mieć ponad 8 znaków</div>
               </div> <!-- ----------------------------------------------------------- -->
@@ -58,21 +58,21 @@
             <div class="row md-1">
               <div class="col-6">
                 <label class="form-label" style="margin-right: 1rem;">Widok produktu</label>
-                <fa-icon  [icon]="['far', 'question-circle']" placement="top" 
+                <fa-icon  [icon]="['far', 'question-circle']" placement="top"
                           ngbTooltip="Plik jpg/jpeg, format kwadratowy, max. 10kB"
                           ></fa-icon>
                 <input type="file" class="form-control" (change)="onFileSelected($event)" />
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="prod.filename == '???'">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="prod.filename == '???'">
                   <div>Pole jest wymagane</div>
                 </div>
-                <div class="alert alert-wr-danger text-center" role="alert" *ngIf="!frmValidOk">
+                <div class="alert padd-3 alert-wr-danger text-center" role="alert" *ngIf="!frmValidOk">
                   <div>Niewłaściwe typ lub rozmiar pliku</div>
                 </div>
               </div>
               <div class="col-3 mt-2">
-                <img [src]="prod.url" alt="prod.filename" 
-                  style="border: 4px solid #CCC; border-radius: 4px;" 
-                  width="120px" height="120px"/>
+                <img [src]="prod.url" alt="prod.filename"
+                  style="border: 4px solid #CCC; border-radius: 4px;"   *ngIf="prod.product_image !== '???'"
+                  width="120px" height="120px" />
               </div> <!-- ----------------------------------------------------------- -->
               <div class="col-3 mt-2">
                 <div class="col-md-2">

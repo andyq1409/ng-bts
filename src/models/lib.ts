@@ -40,18 +40,9 @@ export function NumberPL2Number ( pval: string): number {
   return parseFloat(pval.replace("PLN", "").replace(/\s/g, "").replace(",","."))
 }
 
-/*   export function net2dbUser(dt: NetUser): DbUser {
-    return {
-    id: dt.id,
-    username: dt.username,
-    password: dt.password,
-    imie: dt.imie,
-    nazwisko: dt.nazwisko,
-    email: dt.email,
-    locked: dt.locked,
-    data_od: new Date(dt.data_od),
-    data_do: (dt.data_do === null) ? null : new Date(dt.data_do),
-    data_hasla: new Date(dt.data_hasla),
-    roles: dt.roles
-    }
-  } */
+export function mapErrMsg(msg: string): string {
+  if (msg.includes("Full authentication is required to access")) {
+    return "Ważność logowania wygasła.";
+  }
+  return msg
+}
