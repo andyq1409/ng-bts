@@ -1,0 +1,53 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Wybór klienta</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="input-group">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Nazwisko, imie lub nazwa (fragment) ..."
+        />
+        <button class="btn btn-primary" type="button">
+          <fa-icon [icon]="['fas', 'search']"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div class="mb-3">
+      <select class="form-select">
+        <option value="M">Męskie</option>
+        <option value="K">Damskie</option>
+        <option value="A">Akcesoria</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.close('Save click')"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<div class="container" style="background-color: white">
+  <br />
+
+  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+    Launch demo modal
+  </button>
+
+  <hr />
+
+  <pre>{{ closeResult }}</pre>
+</div>

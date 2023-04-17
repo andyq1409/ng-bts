@@ -23,35 +23,12 @@ export class OrdersComponent implements OnInit {
   msg: string = "";
   alertType = "success";
   filtr: string = "xxx";
-  closeResult: string = "";
 
   constructor(public service: ProdService,
               private modalService: NgbModal) { }
 
   @ViewChild('selfClosingAlert', { static: false })
   selfClosingAlert!: NgbAlert;
-
-  open(content: any) {
-    (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, }).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${OrdersComponent.getDismissReason(reason)}`;
-      },
-    );
-  }
-
-  private static getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
   ngOnInit(): void {
     this._success.subscribe((message: string) => (this.msg = message));

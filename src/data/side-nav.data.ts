@@ -75,6 +75,11 @@ export const sideNavItems: SideNavItems = {
         text: 'Pages',
         submenu: [
             {
+                        text: 'Test',
+                        link: '/test/test',
+                        roles: ["ROLE_ADMIN"]
+            },
+            {
                 text: 'Authentication',
                 submenu: [
                     {

@@ -28,6 +28,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { OrdersComponent } from './orders/orders.component';
 import { PricestrPipe } from "../models/price.pipe";
 import { OrderComponent } from './order/order.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { OrderComponent } from './order/order.component';
     ProductComponent,
     OrdersComponent,
     PricestrPipe,
-    OrderComponent
+    OrderComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
