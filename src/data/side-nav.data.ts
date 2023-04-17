@@ -2,13 +2,8 @@ import { SideNavItems, SideNavSection } from '../models';
 
 export const sideNavSections: SideNavSection[] = [
     {
-        text: 'PRZEGLĄDANIE',
-        items: ['tables'],
-        roles: ["ROLE_WRT"]
-    },
-    {
         text: 'OPERACJE',
-        items: ['products', 'pages'],
+        items: ['products', 'orders', 'pages'],
         roles: ["ROLE_ADMIN","ROLE_VIEW","ROLE_WRT"]
     },
     {
@@ -41,6 +36,23 @@ export const sideNavItems: SideNavItems = {
         ],
         roles: ["ROLE_ADMIN"]
     },
+  orders: {
+    icon: 'tachometer-alt',
+    text: 'Zamówienia',
+    submenu: [
+      {
+        text: 'Lista zamówień',
+        link: '/orders/orders',
+        roles: ["ROLE_ADMIN"]
+      },
+      {
+        text: 'Nowe zamówienie',
+        link: 'orders/editOrder/0',
+        roles: ["ROLE_ADMIN"]
+      },
+    ],
+    roles: ["ROLE_ADMIN"]
+  },
     layouts: {
         icon: 'columns',
         text: 'Layouts',
@@ -118,11 +130,5 @@ export const sideNavItems: SideNavItems = {
         text: 'Uzytkownicy',
         link: 'tabUser',
         roles: ["ROLE_ADMIN"]
-    },
-    tables: {
-        icon: 'table',
-        text: 'Tables',
-        link: '/tables',
-        roles: ["ROLE_WRT"]
     },
 };

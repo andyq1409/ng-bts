@@ -42,6 +42,6 @@ import { RolesComponent } from './roles/roles.component';
   ],
   providers: [ UserService, AuthService,TokenStorageService,authInterceptorProviders ],
   bootstrap: [AppComponent],
-  exports: [IconsModule]
+    exports: [IconsModule, DateTimePickerComponent]
 })
 export class AppModule { }

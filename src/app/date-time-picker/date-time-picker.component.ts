@@ -46,8 +46,7 @@ export class DateTimePickerComponent
   @Input()
   dateString!: string | null;
 
-  @Input()
-  inputDatetimeFormat: string = 'yyyy-MM-dd HH:mm:ss';
+
   @Input()
   hourStep = 1;
   @Input()
@@ -63,6 +62,9 @@ export class DateTimePickerComponent
 
   @Input()
   enableTime = false;
+
+  @Input()
+  public inputDatetimeFormat: string = 'yyyy-mm-dd hh:mm:ss';
 
   public showTimePickerToggle = false;
   public autClose: string = 'outside';
@@ -90,7 +92,10 @@ export class DateTimePickerComponent
 
   ngOnInit(): void {
     console.log(this.nazwa +' ngOnInit dateString', this.dateString);
-    if (!this.enableTime) {
+    // if (!this.enableTime) {
+    //   this.inputDatetimeFormat = "yyyy-mm-dd";
+    // }
+    if (!this.enableTime && this.dateString != null && this.dateString != "") {
       this.dateString = this.dateString!.substring(0,10) + " 00:00:00+0" + this.diffTz.toString() + "00";
       console.log(this.nazwa +' ngOnInit corected dateString', this.dateString);
     }
@@ -138,7 +143,7 @@ export class DateTimePickerComponent
 
     if (changes['dateString']) {
       console.log(this.nazwa +' ngOnChanges dateString:', this.dateString);
-      if (!this.enableTime) {
+      if (!this.enableTime && this.dateString != null && this.dateString != "") {
         this.dateString = this.dateString!.substring(0,10) + " 00:00:00+0" + this.diffTz.toString() + "00";
         console.log(this.nazwa +' ngOnChanges corected dateString', this.dateString);
       }
@@ -219,7 +224,7 @@ export class DateTimePickerComponent
     let dz = new Date();
     this.ptDate = {
       year: dz.getFullYear(),
-      month: dz.getMonth(),
+      month: dz.getMonth()+1,
       day: dz.getDate(),
     };
     console.log("dtp setToday ptDate", this.ptDate);

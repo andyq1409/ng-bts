@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <p class="text-center font-weight-light my-4 aq-login-title">
+            Zamówienia
+          </p>
+          <hr>
+          <div class="row mb-3 justify-content-md-center">
+            <div class="col-4">
+              <label for="inputCustomer" class="form-label">Zamawiający</label>
+              <input type="text" class="form-control" id="inputCustomer" [(ngModel)]="customer"/>
+            </div> <!-- ----------------------------------------------------------- -->
+            <div class="col-3">
+                <label class="form-label">Data zamówienia od</label>
+                <date-time-picker [dateString]="dateFrom" (outDate)="getDateFrom($event)" [nazwa]="'dtp1'"
+                                  [enableTime]="false" [inputDatetimeFormat]="'yyyy-mm-dd'" [required]="false"></date-time-picker>
+            </div>
+            <div class="col-1" style="padding-top: 2rem;">
+              <button class="btn btn-primary" type="button">
+                <fa-icon [icon]='["fas", "search"]' (click)="doFilter()"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Zamawiający</th>
+                <th scope="col">Data zamówienia</th>
+                <th scope="col" class="text-right">Kwota</th>
+                <th scope="col">Sprzedawca</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let ord of orders">
+                <td>{{ ord.order_id }}</td>
+                <td>{{ ord.customer }}</td>
+                <td>{{ ord.order_timestamp }}</td>
+                <td class="text-right">{{ ord.order_total | pricestr}}</td>
+                <td>{{ ord.user_name}}</td>
+                <td><a [routerLink]="['/']">Szczegóły</a></td>
+              </tr>
+              </tbody>
+            </table>
+
+            <!-- TODO linkowanie do strony użytkownika - udemy lekcja 178 -->
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination
+                [collectionSize]="this.total"
+                [(page)]="this.page"
+                [pageSize]="this.pageSize"
+              ></ngb-pagination>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div class="row mt-4" >
+            <div class="col-2">
+              >{{filtr}}<
+            </div>
+            <div class="col-6">
+              <ngb-alert class="text-center" #selfClosingAlert [type]="alertType" (closed)="clearMsg()">{{ msg }}</ngb-alert>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch modal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-3">
+        <label for="filtr">Filtr</label>
+          <input
+            id="filtr"
+            class="form-control"
+            type="text"
+            [(ngModel)]="filtr"
+            [ngModelOptions]="{standalone: true}"
+          />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+

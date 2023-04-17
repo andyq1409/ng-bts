@@ -96,11 +96,10 @@
           <div class="nav" *ngIf="tokenStorage.isLoggedIn()">
             <ng-container *ngFor="let section of sideNavSections">
               <ng-container
-                *ngIf="isAccess(this.tokenStorage.user.roles, section.roles)"
-              >
-<!--                <div class="sb-sidenav-menu-heading" *ngIf="section.text">
+                *ngIf="isAccess(this.tokenStorage.user.roles, section.roles)">
+                <div class="sb-sidenav-menu-heading" *ngIf="section.text">
                   {{ section.text }}
-                </div>-->
+                </div>
                 <ng-container *ngFor="let item of section.items">
                     <sb-side-nav-item
                       [sideNavItem]="sideNavItems[item]"

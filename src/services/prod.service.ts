@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import {NetUser, Product} from "../models";
+import { Product} from "../models";
 import { Observable } from "rxjs";
+import { Order } from "../models/orders.model";
 
 const MAIN_API = 'http://localhost:8080/api/main/';
 
@@ -27,6 +28,18 @@ export class ProdService {
   saveProduct(prod: Product): Observable<string> {
     prod.image_last_update = prod.image_last_update.replace(" ","T");
     return this.http.post(MAIN_API + "saveProduct", prod, { observe: "body", responseType: 'text' } );
+  }
+
+  getOrders(orderId: number, customer: string, orderDate: string): Observable<Order[]> {
+    let parameters: HttpParams = new HttpParams()
+      .set("order_id", orderId)
+      .set("customer", customer)
+      .set("order_timestamp", orderDate);
+    console.log("ProdService getOrders parameters:", parameters);
+    // @ts-ignore
+    return this.http.get<string>(MAIN_API + "getOrders", {
+      params: parameters
+    });
   }
 
 }

@@ -25,6 +25,9 @@ import { ProductComponent } from './product/product.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { OrdersComponent } from './orders/orders.component';
+import { PricestrPipe } from "../models/price.pipe";
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { far } from '@fortawesome/free-regular-svg-icons';
     ModalInfoComponent,
     RolesComponent,
     ProductsComponent,
-    ProductComponent
+    ProductComponent,
+    OrdersComponent,
+    PricestrPipe,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +57,7 @@ import { far } from '@fortawesome/free-regular-svg-icons';
   bootstrap: [AppComponent],
   exports: []
 })
-export class AppModule { 
+export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas, far);
   }}

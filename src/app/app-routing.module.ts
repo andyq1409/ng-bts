@@ -9,6 +9,7 @@ import { UsersComponent } from './users/users.component';
 import {RolesComponent} from "./roles/roles.component";
 import {ProductsComponent} from "./products/products.component";
 import {ProductComponent} from "./product/product.component";
+import {OrdersComponent} from "./orders/orders.component";
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'products/editProd/:id',
     component: ProductComponent,
+  },
+  {
+    path: 'orders/orders',
+    component: OrdersComponent,
   }
 ];
 
