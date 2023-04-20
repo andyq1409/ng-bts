@@ -1,5 +1,3 @@
-import {SafeUrl} from "@angular/platform-browser";
-
 export interface Customer {
 
     customer_id: number;
@@ -14,4 +12,5 @@ export interface Customer {
     phone_number1: string;
     phone_number2: string;
     url: string;
+    state_descr: string;
 }

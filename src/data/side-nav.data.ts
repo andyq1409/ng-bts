@@ -3,7 +3,7 @@ import { SideNavItems, SideNavSection } from '../models';
 export const sideNavSections: SideNavSection[] = [
     {
         text: 'OPERACJE',
-        items: ['products', 'orders', 'pages'],
+        items: ['products', 'orders', 'pages', 'customers'],
         roles: ["ROLE_ADMIN","ROLE_VIEW","ROLE_WRT"]
     },
     {
@@ -36,6 +36,18 @@ export const sideNavItems: SideNavItems = {
         ],
         roles: ["ROLE_ADMIN"]
     },
+  customers: {
+    icon: 'tachometer-alt',
+    text: 'Klienci',
+    submenu: [
+      {
+        text: 'Lista klientów',
+        link: '/customers/customers',
+        roles: ["ROLE_ADMIN"]
+      },
+    ],
+    roles: ["ROLE_ADMIN"]
+  },
   orders: {
     icon: 'tachometer-alt',
     text: 'Zamówienia',

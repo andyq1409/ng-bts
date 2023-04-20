@@ -12,7 +12,7 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(255, 255, 255, .7) url('./assets/brand/loading-11.gif') 50% 50%/180px 100px no-repeat;
+  background: rgba(255, 255, 255, .7) url('./assets/brand/loading-11.gif') 50% 90%/180px 100px no-repeat;
 }
 
 body.loading {
@@ -103,7 +103,7 @@ body.loading .modalx {
   z-index: 1090;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-  width: 225px;
+  width: 235px;
   height: 100vh;
   z-index: 1080;
 }

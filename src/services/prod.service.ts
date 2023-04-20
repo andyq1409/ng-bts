@@ -32,11 +32,7 @@ export class ProdService {
     });
   }
 
-  getOrders(
-    orderId: number,
-    customer: string,
-    orderDate: string
-  ): Observable<Order[]> {
+  getOrders( orderId: number, customer: string, orderDate: string): Observable<Order[]> {
     let parameters: HttpParams = new HttpParams()
       .set('order_id', orderId)
       .set('customer', customer)
@@ -48,12 +44,9 @@ export class ProdService {
     });
   }
 
-  getCustomers(
-    customer_id: number,
-    cust_last_name: string
-  ): Observable<Customer[]> {
+  getCustomers( customer_id: number, cust_last_name: string): Observable<Customer[]> {
     let parameters: HttpParams = new HttpParams()
-      .set('customerr_id', customer_id)
+      .set('customer_id', customer_id)
       .set('cust_last_name', cust_last_name);
     console.log('ProdService getCustomers parameters:', parameters);
     // @ts-ignore
@@ -61,8 +54,5 @@ export class ProdService {
       params: parameters,
     });
   }
-
-
-
 
 }

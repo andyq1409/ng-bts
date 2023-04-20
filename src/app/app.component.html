@@ -92,7 +92,7 @@
         id="sidenavAccordion"
         class="sb-sidenav accordion sb-sidenav-dark wr-sidenav-dark"
       >
-        <div class="sb-sidenav-menu">
+        <div class="sb-sidenav-menu" style="overflow-y: unset;">
           <div class="nav" *ngIf="tokenStorage.isLoggedIn()">
             <ng-container *ngFor="let section of sideNavSections">
               <ng-container

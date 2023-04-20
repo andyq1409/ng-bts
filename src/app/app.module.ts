@@ -29,6 +29,7 @@ import { OrdersComponent } from './orders/orders.component';
 import { PricestrPipe } from "../models/price.pipe";
 import { OrderComponent } from './order/order.component';
 import { TestComponent } from './test/test.component';
+import { CustomersComponent } from './customers/customers.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { TestComponent } from './test/test.component';
     PricestrPipe,
     OrderComponent,
     TestComponent,
+    CustomersComponent,
   ],
   imports: [
     BrowserModule,

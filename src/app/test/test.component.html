@@ -15,25 +15,30 @@
           class="form-control"
           type="text"
           placeholder="Nazwisko, imie lub nazwa (fragment) ..."
+          [(ngModel)]="param"
         />
         <button class="btn btn-primary" type="button">
-          <fa-icon [icon]="['fas', 'search']"></fa-icon>
+          <fa-icon [icon]="['fas', 'search']" (click)="search()"></fa-icon>
         </button>
       </div>
     </div>
     <div class="mb-3">
-      <select class="form-select">
-        <option value="M">Męskie</option>
-        <option value="K">Damskie</option>
-        <option value="A">Akcesoria</option>
+      <select class="form-select" [(ngModel)]="customer_id">
+        <option *ngFor="let cust of customers"
+                [value]="cust.customer_id" >
+          {{cust.cust_last_name + " " + cust.cust_first_name}}</option>
+
       </select>
     </div>
   </div>
   <div class="modal-footer">
+    <ngb-alert class="text-center" [type]="alertType" *ngIf="msg"
+               style="width: 74%;">{{ msg }}</ngb-alert>
     <button
       type="button"
       class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
+      (click)="modal.close('Save click')" style="width: 20%"
+      [disabled]="customer_id == 0"
     >
       Save
     </button>
@@ -41,13 +46,13 @@
 </ng-template>
 
 <div class="container" style="background-color: white">
-  <br />
+  <br/>
 
   <button class="btn btn-lg btn-outline-primary" (click)="open(content)">
     Launch demo modal
   </button>
 
-  <hr />
+  <hr/>
 
   <pre>{{ closeResult }}</pre>
 </div>

@@ -11,6 +11,7 @@ import {ProductsComponent} from "./products/products.component";
 import {ProductComponent} from "./product/product.component";
 import {OrdersComponent} from "./orders/orders.component";
 import { TestComponent } from './test/test.component';
+import {CustomersComponent} from "./customers/customers.component";
 
 const routes: Routes = [
   {
@@ -52,6 +53,10 @@ const routes: Routes = [
   {
     path: 'test/test',
     component: TestComponent,
+  },
+  {
+    path: 'customers/customers',
+    component: CustomersComponent,
   }
 ];
 

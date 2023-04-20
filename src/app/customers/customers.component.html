@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header">
+          <p class="text-center font-weight-light my-4 aq-login-title">
+            Klienci
+          </p>
+          <hr>
+          <div class="row mb-3 justify-content-md-center">
+            <div class="col-4">
+              <label for="inputCustomer" class="form-label">Klient</label>
+              <input type="text" class="form-control" id="inputCustomer" [(ngModel)]="custParam"/>
+            </div> <!-- ----------------------------------------------------------- -->
+            <div class="col-1" style="padding-top: 2rem;">
+              <button class="btn btn-primary" type="button">
+                <fa-icon [icon]='["fas", "search"]' (click)="doFilter()"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form>
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Imię i nazwisko/Nazwa</th>
+                <th scope="col">Adres1</th>
+                <th scope="col">Adres2</th>
+                <th scope="col">Miasto</th>
+                <th scope="col">Kod pocztowy</th>
+                <th scope="col">Województwo</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefon1</th>
+                <th scope="col">Telefon2</th>
+                <th scope="col">Url</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let cust of customers">
+                <td>{{ cust.customer_id }}</td>
+                <td>{{  cust.cust_first_name}} {{cust.cust_last_name }}</td>
+                <td>{{ cust.cust_street_address1 }}</td>
+                <td>{{ cust.cust_street_address2 }}</td>
+                <td>{{ cust.cust_city }}</td>
+                <td>{{ cust.cust_postal_code }}</td>
+                <td>{{ cust.state_descr }}</td>
+                <td>{{ cust.cust_email }}</td>
+                <td>{{ cust.phone_number1 }}</td>
+                <td>{{ cust.phone_number2 }}</td>
+                <td>{{ cust.url }}</td>
+              </tr>
+              </tbody>
+            </table>
+
+            <!-- TODO linkowanie do strony użytkownika - udemy lekcja 178 -->
+
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination
+                [collectionSize]="this.total"
+                [(page)]="this.page"
+                [pageSize]="this.pageSize"
+              ></ngb-pagination>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div class="row mt-4" *ngIf="msg">
+            <div class="col-3">
+            </div>
+            <div class="col-6">
+              <ngb-alert class="text-center" #selfClosingAlert [type]="alertType" (closed)="clearMsg()">{{ msg }}</ngb-alert>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
