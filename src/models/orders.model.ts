@@ -22,16 +22,13 @@ export interface OrderExt {
 }
 
 export interface OrderItem {
-  order_id: number;
-  order_timestamp: string;
-  order_total: number;
   order_item_id: number;
+  order_id: number;
   product_id: number;
+  unit_price: number;
+  quantity: number;
   product_name: string;
   product_description: string;
-  product_price: number;
-  item_price: number;
-  quantity: number;
-  item_total: number;
-  customer: string;
+  list_price: number;
+  item_value: number;
 }

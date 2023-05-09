@@ -44,7 +44,7 @@
                 <td>{{ ord.order_timestamp }}</td>
                 <td class="text-right">{{ ord.order_total | pricestr}}</td>
                 <td>{{ ord.user_name}}</td>
-                <td><a [routerLink]="['/']">Szczegóły</a></td>
+                <td><a [routerLink]="['/orders/orderItems', ord.order_id]">Szczegóły</a> </td>
               </tr>
               </tbody>
             </table>

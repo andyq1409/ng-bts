@@ -30,6 +30,8 @@ import { PricestrPipe } from "../models/price.pipe";
 import { OrderComponent } from './order/order.component';
 import { TestComponent } from './test/test.component';
 import { CustomersComponent } from './customers/customers.component';
+import { NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { OrderItemsComponent } from './order-items/order-items.component';
 
 @NgModule({
   declarations: [
@@ -50,12 +52,13 @@ import { CustomersComponent } from './customers/customers.component';
     OrderComponent,
     TestComponent,
     CustomersComponent,
+    OrderItemsComponent,
   ],
   imports: [
     BrowserModule,
     FontAwesomeModule,
     NgbModule, HttpClientModule, AppRoutingModule,
-    FormsModule, ReactiveFormsModule,NgbPaginationModule, NgbTypeaheadModule
+    FormsModule, ReactiveFormsModule,NgbPaginationModule, NgbTypeaheadModule,NgbAlertModule
   ],
   providers: [ UserService, AuthService,TokenStorageService,authInterceptorProviders ],
   bootstrap: [AppComponent],

@@ -3,7 +3,6 @@ import {Customer} from "../../models/customer.model";
 import {debounceTime, Subject} from "rxjs";
 import {ProdService} from "../../services/prod.service";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
-import {Order} from "../../models/orders.model";
 import {mapErrMsg} from "../../models";
 
 @Component({

@@ -24,6 +24,8 @@ export class TestComponent implements OnInit {
 	constructor(public service: ProdService,
               private modalService: NgbModal) {}
 
+
+
 	open(content: any) {
     this.param = "";
     this.customers = [];
@@ -34,12 +36,12 @@ export class TestComponent implements OnInit {
 				this.closeResult = "Wybrany klient id: " + this.customer_id;
 			},
 			(reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				this.closeResult = `Dismissed ${TestComponent.getDismissReason(reason)}`;
 			},
 		);
 	}
 
-	private getDismissReason(reason: any): string {
+	private static getDismissReason(reason: any): string {
 		if (reason === ModalDismissReasons.ESC) {
 			return 'by pressing ESC';
 		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -51,7 +53,7 @@ export class TestComponent implements OnInit {
 
   ngOnInit(): void {
     this._success.subscribe((message) => (this.msg = message));
-    this._success.pipe(debounceTime(5000)).subscribe(() => {
+    this._success.pipe(debounceTime(7000)).subscribe(() => {
         this.msg = "";
     });
   }
@@ -65,6 +67,9 @@ export class TestComponent implements OnInit {
           //console.log( "data1" , data);
           this.customers = data;
           this.customer_id = this.customers[0].customer_id;
+          let cnt = this.customers.length;
+          this.alertType = "info";
+          this._success.next("Ilość znalezionych klientów: " + cnt);
         },
         error: (err) => {
           (this.bodyElement) ? this.bodyElement.classList.remove("loading") : null;
@@ -74,6 +79,9 @@ export class TestComponent implements OnInit {
           this._success.next(mapErrMsg(err.error.message));
         },
       });
+    } else {
+      this.alertType = "warning";
+      this._success.next("Wpisz kryteria wyszukiwania.");
     }
   }
 

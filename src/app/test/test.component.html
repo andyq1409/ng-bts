@@ -33,6 +33,7 @@
   </div>
   <div class="modal-footer">
     <ngb-alert class="text-center" [type]="alertType" *ngIf="msg"
+               (closed)="clearMsg()"
                style="width: 74%;">{{ msg }}</ngb-alert>
     <button
       type="button"

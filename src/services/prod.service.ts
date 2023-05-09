@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Product } from '../models';
 import { Observable } from 'rxjs';
-import { Order } from '../models/orders.model';
+import {Order, OrderItem} from '../models/orders.model';
 import { Customer } from '../models/customer.model';
 
 const MAIN_API = 'http://localhost:8080/api/main/';
@@ -51,6 +51,16 @@ export class ProdService {
     console.log('ProdService getCustomers parameters:', parameters);
     // @ts-ignore
     return this.http.get<string>(MAIN_API + 'getCustomers', {
+      params: parameters,
+    });
+  }
+
+  getOrderItems(id: number): Observable<OrderItem[]> {
+    let parameters: HttpParams = new HttpParams()
+      .set('order_id', id);
+    console.log('ProdService getOrderItems parameters:', parameters);
+    // @ts-ignore
+    return this.http.get<string>(MAIN_API + 'getOrderItems', {
       params: parameters,
     });
   }
