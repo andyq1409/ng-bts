@@ -4,6 +4,7 @@ import { ProdService } from "../../services/prod.service";
 import { mapErrMsg  } from "../../models";
 import {debounceTime, Subject} from "rxjs";
 import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-orders',
@@ -24,7 +25,8 @@ export class OrdersComponent implements OnInit {
   alertType = "success";
   filtr: string = "xxx";
 
-  constructor(public service: ProdService) { }
+  constructor(public service: ProdService,
+              public sesService: TokenStorageService ) { }
 
   @ViewChild('selfClosingAlert', { static: false })
   selfClosingAlert!: NgbAlert;
@@ -36,7 +38,13 @@ export class OrdersComponent implements OnInit {
         this.selfClosingAlert.close();
       }
     });
-  }
+    this.customer = this.sesService.getOrdersCustomer();
+    this.dateFrom = this.sesService.getOrdersDateFrom();
+    if (this.customer != "" || this.dateFrom != "")
+    {
+      this.doFilter();
+      console.log("Init do Filter");
+    }  }
 
 
   getDateFrom($event: string) {
@@ -86,6 +94,10 @@ export class OrdersComponent implements OnInit {
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize
     );
+    console.log("dataFrom", this.dateFrom);
+    console.log("customer", this.customer);
+    this.sesService.saveOrdersDateFrom(this.dateFrom);
+    this.sesService.saveOrdersCustomer(this.customer);
   }
 
 }

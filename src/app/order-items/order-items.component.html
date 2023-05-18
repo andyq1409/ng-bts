@@ -7,8 +7,19 @@
             Szczegóły zamówienia
           </p>
           <hr>
-          <div class="row mb-3 justify-content-md-center">
-            <a>Zamówienie nr {{orders[0].order_id}} z dnia {{orders[0].order_timestamp}} Klient: {{orders[0].customer}}</a>
+          <div class="row mb-2 justify-content-md-center">
+            <div class="col-2">
+              <label class="form-label ps-3">Zamówienie nr</label>
+              <p class="form-control ps-3">{{order.order_id}}</p>
+            </div> <!-- ----------------------------------------------------------- -->
+            <div class="col-2">
+              <label class="form-label ps-3">z dnia:</label>
+              <p class="form-control ps-3">{{order.order_timestamp}}</p>
+            </div><!-- ----------------------------------------------------------- -->
+            <div class="col-3">
+              <label class="form-label ps-3">Klient:</label>
+              <p class="form-control ps-3">{{order.customer}}</p>
+            </div>
           </div>
         </div>
         <div class="card-body">
@@ -46,6 +57,13 @@
               ></ngb-pagination>
             </div>
           </form>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-2"> <!-- ----------------------------------------------------------- -->
+              <button type="button" class="btn btn-secondary" [routerLink]="['/orders/orders']">Wróć</button>
+            </div> <!-- ----------------------------------------------------------- -->
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,8 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {I18n} from "../../language/pl";
 import {NgbAlert} from "@ng-bootstrap/ng-bootstrap";
 import {debounceTime, Subject} from "rxjs";
+import {Router, RouterState, RouterStateSnapshot} from "@angular/router";
+import {TokenStorageService} from "../../services/token-storage.service";
 
 @Component({
   selector: 'app-products',
@@ -26,7 +28,8 @@ export class ProductsComponent implements OnInit {
   private _success = new Subject<string>();
   alertType = "success";
 
-  constructor(public service: ProdService, private sanitizer: DomSanitizer) {
+  constructor(public service: ProdService, private sanitizer: DomSanitizer,
+              public sesService: TokenStorageService) {
   }
 
   @ViewChild('selfClosingAlert', { static: false })
@@ -39,7 +42,8 @@ export class ProductsComponent implements OnInit {
         this.selfClosingAlert.close();
       }
     });
-    ( this.xfiltr != "???" ) ? this.start() : null ;
+    this.xfiltr = this.sesService.getKey("product-key");
+    ( this.xfiltr != "???" && this.xfiltr != "") ? this.start() : this.xfiltr = "???" ;
   }
 
   start(): void {
@@ -82,6 +86,8 @@ export class ProductsComponent implements OnInit {
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize
     );
+    this.sesService.saveKey("product-key", this.xfiltr);
+
   }
 
   clearMsg() {

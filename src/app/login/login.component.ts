@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   password: String = 'szczecin';
   loginError: string = '';
   bodyElement = document.body;
+  tittle: string = "Logowanie do aplikacji";
 
   constructor(
     private authService: AuthService,
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
     }
     //this.operation = this.route.snapshot.data['oper'];
     console.log(this.route.snapshot);
+    this.tittle = this.route.snapshot.queryParams['tittle'] || 'Logowanie do aplikacji';
   }
 
   onSubmit() {
@@ -57,7 +59,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['passwdChg'],{ queryParams: { tittle: 'Wymagana zmiana hasła'}})
         } else
         {
-          this.router.navigate([''])
+          //this.router.navigate(['']);
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigateByUrl(returnUrl);
         }
       },
       error: (err) => {

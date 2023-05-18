@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { User } from 'src/models';
-import { UserService } from './user.service';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
 const USER_NAME = 'auth-username';
-const USER_MAIL = 'auth-mail';
 
 @Injectable({
   providedIn: 'root'
@@ -31,13 +28,60 @@ export class TokenStorageService {
     this.user = this.userNn;
   }
 
+  public saveKey(key: string, value: string): void {
+    window.sessionStorage.removeItem(key);
+    window.sessionStorage.setItem(key, value);
+  }
+
+  public getKey(key: string): string {
+    const x2 = window.sessionStorage.getItem(key);
+    if (x2) {
+      return x2;
+    }
+    return "";
+  }
+
+
   public saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.clear();
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
   public getToken(): string | null {
     return window.sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  public saveOrdersDateFrom(data: string) {
+    window.sessionStorage.removeItem("orders-date-from");
+    window.sessionStorage.setItem("orders-date-from", data);
+  }
+
+  public getOrdersDateFrom(): string {
+    const x1 = window.sessionStorage.getItem("orders-date-from");
+    if (x1) {
+      return x1;
+    }
+    return "";
+  }
+
+  public saveOrdersCustomer(data: string) {
+    window.sessionStorage.removeItem("orders-customer");
+    window.sessionStorage.setItem("orders-customer", data);
+  }
+
+  public getOrdersCustomer(): string {
+    const x3 = window.sessionStorage.getItem("orders-customer");
+    if (x3) {
+      return x3;
+    }
+    return "";
+  }
+
+  public clearUser(): void {
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.removeItem(USER_KEY);
+    this.user = this.userNn;
   }
 
   public saveUser(data: any): void {
@@ -72,9 +116,9 @@ export class TokenStorageService {
   }
 
   public isLoggedIn(): boolean {
-    const vuser = window.sessionStorage.getItem(USER_KEY);
     // console.log("vuser:",vuser);
-    if (this.user.username != "nn" ) {
+    const usr = window.sessionStorage.getItem(USER_KEY);
+    if (usr ) {
       //console.log(user +vuser.username <> " zalogowany");
       return true;
     }
